@@ -7,12 +7,12 @@ public class OrcamentoVO {
 	private double valor;
 	private Date dt_orcamento;
 	private int status_orcamento;
-	private VendedorVO vendedor;
+	private FuncionarioVO vendedor;
 	private ClienteVO cliente;
 	private ProdutoVO[] produtos;
 	private ServicoVO[] servicos;
 	
-	public OrcamentoVO(double valor, Date dt_orcamento, int status_orcamento, VendedorVO vendedor, ClienteVO cliente,
+	public OrcamentoVO(double valor, Date dt_orcamento, int status_orcamento, FuncionarioVO vendedor, ClienteVO cliente,
 			ProdutoVO[] produtos, ServicoVO[] servicos) {
 		super();
 		this.valor = valor;
@@ -42,10 +42,10 @@ public class OrcamentoVO {
 	public void setStatus_orcamento(int status_orcamento) {
 		this.status_orcamento = status_orcamento;
 	}
-	public VendedorVO getVendedor() {
+	public FuncionarioVO getVendedor() {
 		return vendedor;
 	}
-	public void setVendedor(VendedorVO vendedor) {
+	public void setVendedor(FuncionarioVO vendedor) {
 		this.vendedor = vendedor;
 	}
 	public ClienteVO getCliente() {
