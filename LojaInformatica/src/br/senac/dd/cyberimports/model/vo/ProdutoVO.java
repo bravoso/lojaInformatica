@@ -1,4 +1,4 @@
-package Sistema.model.VO;
+package br.senac.dd.cyberimports.model.vo;
 
 public class ProdutoVO {
 

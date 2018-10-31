@@ -1,4 +1,4 @@
-package Sistema.view;
+package br.senac.dd.cyberimports.view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
