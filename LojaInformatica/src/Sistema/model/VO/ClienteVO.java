@@ -1,6 +1,7 @@
 package Sistema.model.VO;
 
 public class ClienteVO {
+	
 	private int id;
 	private String nome;
 	private long telefone;
