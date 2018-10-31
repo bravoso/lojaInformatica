@@ -15,6 +15,7 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import javax.swing.JTabbedPane;
 
 public class Principal extends JFrame {
 
@@ -142,8 +143,17 @@ public class Principal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(12, 13, 464, 292);
-		contentPane.add(panel);
+		JTabbedPane tpAbas = new JTabbedPane(JTabbedPane.TOP);
+		tpAbas.setBounds(10, 11, 470, 335);
+		contentPane.add(tpAbas);
+		
+		JPanel pnClientes = new JPanel();
+		ImageIcon icone1 = new ImageIcon(Principal.class.getResource("/icons/icons8-client-management-48.png"));
+		tpAbas.addTab("Clientes", icone1, pnClientes, null);
+		
+		JPanel pnServico = new JPanel();
+		ImageIcon icone2 = new ImageIcon(Principal.class.getResource("/icons/icons8-support-50.png"));
+		tpAbas.addTab("Serviços", icone2, pnServico, null);
+		
 	}
 }
