@@ -324,6 +324,14 @@ public class Principal extends JFrame {
 		lblVendedor.setBounds(333, 11, 115, 14);
 		pnOrcamento.add(lblVendedor);
 		
+		JButton btnNovoOramento = new JButton("NOVO OR\u00C7AMENTO");
+		btnNovoOramento.setBounds(10, 147, 135, 23);
+		pnOrcamento.add(btnNovoOramento);
+		
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.setBounds(751, 147, 89, 23);
+		pnOrcamento.add(btnEditar);
+		
 				JPanel pnServico = new JPanel();
 				tpAbas.addTab("Serviços", iconeServicos, pnServico, null);
 				pnServico.setLayout(null);
