@@ -28,6 +28,8 @@ import java.awt.Font;
 import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class Principal extends JFrame {
 
@@ -47,6 +49,11 @@ public class Principal extends JFrame {
 	private JTextField txtPrecoVenda;
 	private JTextField txtQuantidade;
 	private JTable table_1;
+	private JTable tableOrcamento;
+	private JTextField txtIdOrcamento;
+	private JTextField txtNomeClienteOrcamento;
+	private JTextField textField_3;
+	private JTextField textField_4;
 
 	/**
 	 * Launch the application.
@@ -78,8 +85,6 @@ public class Principal extends JFrame {
 		setJMenuBar(menuBar);
 
 		JMenu mnProdutos = new JMenu("Produtos");
-		mnProdutos.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-produto-50.png"));
 		menuBar.add(mnProdutos);
 
 		JMenuItem mnCadastrar = new JMenuItem("Cadastrar");
@@ -88,25 +93,17 @@ public class Principal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		mnCadastrar.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-adicionar-o-carrinho-de-compras-50.png"));
 		mnProdutos.add(mnCadastrar);
 
 		JMenuItem mnListar = new JMenuItem("Listar");
 		mnListar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
-		mnListar.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-no-invent\u00E1rio-50.png"));
 		mnProdutos.add(mnListar);
 
 		JMenuItem mnRelatrio = new JMenuItem("Relat\u00F3rio");
 		mnRelatrio.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0));
-		mnRelatrio.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-contabilidade-50.png"));
 		mnProdutos.add(mnRelatrio);
 
 		JMenu mnClientes = new JMenu("Clientes");
-		mnClientes.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-grupo-de-usu\u00E1rio-homem-homem-50.png"));
 		menuBar.add(mnClientes);
 
 		JMenuItem mnCadastrar_1 = new JMenuItem("Cadastrar");
@@ -119,54 +116,36 @@ public class Principal extends JFrame {
 			}
 		});
 		mnCadastrar_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, InputEvent.CTRL_MASK));
-		mnCadastrar_1.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-adicionar-usu\u00E1rio-masculino-50.png"));
 		mnClientes.add(mnCadastrar_1);
 
 		JMenuItem mnListar_1 = new JMenuItem("Listar");
 		mnListar_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, InputEvent.CTRL_MASK));
-		mnListar_1.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-procurar-usu\u00E1rio-masculino-50.png.png"));
 		mnClientes.add(mnListar_1);
 
 		JMenuItem mnRelatrio_1 = new JMenuItem("Relat\u00F3rio");
 		mnRelatrio_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, InputEvent.CTRL_MASK));
-		mnRelatrio_1.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-boletim-50.png"));
 		mnClientes.add(mnRelatrio_1);
 
 		JMenu mnFuncionrios = new JMenu("Funcion\u00E1rios");
-		mnFuncionrios.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-funcion\u00E1rio-homem-50.png"));
 		menuBar.add(mnFuncionrios);
 
 		JMenuItem mnCadastrar_2 = new JMenuItem("Cadastrar");
 		mnCadastrar_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, InputEvent.SHIFT_MASK));
-		mnCadastrar_2.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-adicionar-usu\u00E1rio-masculino-50.png"));
 		mnFuncionrios.add(mnCadastrar_2);
 
 		JMenuItem mnListar_2 = new JMenuItem("Listar");
 		mnListar_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, InputEvent.SHIFT_MASK));
-		mnListar_2.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-procurar-usu\u00E1rio-masculino-50.png.png"));
 		mnFuncionrios.add(mnListar_2);
 
 		JMenuItem mnRelatrio_2 = new JMenuItem("Relat\u00F3rio");
 		mnRelatrio_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, InputEvent.SHIFT_MASK));
-		mnRelatrio_2.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-boletim-50.png"));
 		mnFuncionrios.add(mnRelatrio_2);
 
 		JMenu mnSobre = new JMenu("Sobre");
-		mnSobre.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-informa\u00E7\u00F5es-50.png"));
 		menuBar.add(mnSobre);
 
 		JMenuItem mnAjuda = new JMenuItem("Ajuda");
 		mnAjuda.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
-		mnAjuda.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-ajuda-50.png"));
 		mnSobre.add(mnAjuda);
 
 		JMenuItem mnVerso = new JMenuItem("Vers\u00E3o");
@@ -178,8 +157,6 @@ public class Principal extends JFrame {
 			}
 		});
 		mnVerso.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0));
-		mnVerso.setIcon(new ImageIcon(
-				"C:\\Users\\Guilherme Corr\u00EAa\\git\\senac-dd-20182-atividades-guilhermecorrea\\src\\br\\sc\\senac\\dd\\aula10\\icones\\icons8-vers\u00F5es-50.png"));
 		mnSobre.add(mnVerso);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -282,8 +259,70 @@ public class Principal extends JFrame {
 				chckbxAdicionar.setBounds(10, 170, 123, 23);
 				pnProdutos.add(chckbxAdicionar);
 
-		JPanel servico = new JPanel();
-		tpAbas.addTab("Orçamentos", iconeOrcamento, servico, null);
+		JPanel pnOrcamento = new JPanel();
+		tpAbas.addTab("Orçamentos", iconeOrcamento, pnOrcamento, null);
+		pnOrcamento.setLayout(null);
+		
+		JLabel lblIdOrcamento = new JLabel("ID Or\u00E7amento:");
+		lblIdOrcamento.setBounds(10, 11, 115, 14);
+		pnOrcamento.add(lblIdOrcamento);
+		
+		tableOrcamento = new JTable();
+		tableOrcamento.setBounds(10, 181, 830, 354);
+		pnOrcamento.add(tableOrcamento);
+		
+		txtIdOrcamento = new JTextField();
+		txtIdOrcamento.setBounds(10, 36, 115, 20);
+		pnOrcamento.add(txtIdOrcamento);
+		txtIdOrcamento.setColumns(10);
+		
+		txtNomeClienteOrcamento = new JTextField();
+		txtNomeClienteOrcamento.setColumns(10);
+		txtNomeClienteOrcamento.setBounds(10, 92, 115, 20);
+		pnOrcamento.add(txtNomeClienteOrcamento);
+		
+		JLabel lblNomeClienteOrcamento = new JLabel("Nome do Cliente:");
+		lblNomeClienteOrcamento.setBounds(10, 67, 115, 14);
+		pnOrcamento.add(lblNomeClienteOrcamento);
+		
+		JComboBox comboBoxStatus = new JComboBox();
+		comboBoxStatus.setModel(new DefaultComboBoxModel(new String[] {"", "Aguardando", "Em Andamento", "Aguardando Pe\u00E7as", "Or\u00E7amento conclu\u00EDdo", "Finalizado"}));
+		comboBoxStatus.setBounds(172, 36, 135, 20);
+		pnOrcamento.add(comboBoxStatus);
+		
+		JLabel lblStatusDoOramento = new JLabel("Status do Or\u00E7amento:");
+		lblStatusDoOramento.setBounds(172, 11, 123, 14);
+		pnOrcamento.add(lblStatusDoOramento);
+		
+		JButton btnProcurar_1 = new JButton("Procurar");
+		btnProcurar_1.setBounds(333, 147, 89, 23);
+		pnOrcamento.add(btnProcurar_1);
+		
+		textField_3 = new JTextField();
+		textField_3.setBounds(172, 92, 56, 20);
+		pnOrcamento.add(textField_3);
+		textField_3.setColumns(10);
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		textField_4.setBounds(251, 92, 56, 20);
+		pnOrcamento.add(textField_4);
+		
+		JLabel lblIntervaloDeValores = new JLabel("Intervalo de valores:");
+		lblIntervaloDeValores.setBounds(172, 67, 135, 14);
+		pnOrcamento.add(lblIntervaloDeValores);
+		
+		JLabel label_1 = new JLabel("-");
+		label_1.setBounds(238, 95, 7, 14);
+		pnOrcamento.add(label_1);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(333, 36, 115, 20);
+		pnOrcamento.add(comboBox);
+		
+		JLabel lblVendedor = new JLabel("Vendedor:");
+		lblVendedor.setBounds(333, 11, 115, 14);
+		pnOrcamento.add(lblVendedor);
 		
 				JPanel pnServico = new JPanel();
 				tpAbas.addTab("Serviços", iconeServicos, pnServico, null);
