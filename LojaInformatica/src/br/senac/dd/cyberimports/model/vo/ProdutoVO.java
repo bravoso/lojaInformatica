@@ -6,15 +6,19 @@ public class ProdutoVO {
 	private String nome;
 	private double custo;
 	private double preco;
-	private int quatidade;
+	private int quantidade;
 
-	public ProdutoVO(int id, String nome, double custo, double preco, int quatidade) {
+	public ProdutoVO() {
+		super();
+	}
+
+	public ProdutoVO(int id, String nome, double custo, double preco, int quantidade) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.custo = custo;
 		this.preco = preco;
-		this.quatidade = quatidade;
+		this.quantidade = quantidade;
 	}
 
 	public int getId() {
@@ -49,12 +53,12 @@ public class ProdutoVO {
 		this.preco = preco;
 	}
 
-	public int getQuatidade() {
-		return quatidade;
+	public int getQuantidade() {
+		return quantidade;
 	}
 
-	public void setQuatidade(int quatidade) {
-		this.quatidade = quatidade;
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
 	}
 
 }
