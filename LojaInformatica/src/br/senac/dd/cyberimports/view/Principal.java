@@ -19,6 +19,8 @@ import javax.swing.JTabbedPane;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.SpringLayout;
+import javax.swing.UIManager;
+
 import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -59,6 +61,11 @@ public class Principal extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		 try {
+		        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		    } catch(Exception e) {
+		        System.out.println("Error setting native LAF: " + e);
+		    }
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -213,7 +220,7 @@ public class Principal extends JFrame {
 				pnProdutos.add(lblQuantidade);
 				
 				txtIdProduto = new JTextField();
-				txtIdProduto.setBounds(132, 8, 86, 20);
+				txtIdProduto.setBounds(132, 8, 175, 20);
 				pnProdutos.add(txtIdProduto);
 				txtIdProduto.setColumns(10);
 				
@@ -224,29 +231,31 @@ public class Principal extends JFrame {
 				
 				txtPrecoCusto = new JTextField();
 				txtPrecoCusto.setColumns(10);
-				txtPrecoCusto.setBounds(132, 78, 86, 20);
+				txtPrecoCusto.setBounds(132, 78, 175, 20);
 				pnProdutos.add(txtPrecoCusto);
 				
 				txtPrecoVenda = new JTextField();
 				txtPrecoVenda.setColumns(10);
-				txtPrecoVenda.setBounds(132, 113, 86, 20);
+				txtPrecoVenda.setBounds(132, 113, 175, 20);
 				pnProdutos.add(txtPrecoVenda);
 				
 				txtQuantidade = new JTextField();
 				txtQuantidade.setColumns(10);
-				txtQuantidade.setBounds(132, 146, 86, 20);
+				txtQuantidade.setBounds(132, 146, 175, 20);
 				pnProdutos.add(txtQuantidade);
 				
 				table_1 = new JTable();
 				table_1.setBounds(320, 11, 522, 524);
 				pnProdutos.add(table_1);
 				
-				JButton btnSalvarProduto = new JButton("Salvar");
-				btnSalvarProduto.setBounds(10, 223, 89, 23);
+				JButton btnSalvarProduto = new JButton("");
+				btnSalvarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
+				btnSalvarProduto.setBounds(57, 223, 37, 35);
 				pnProdutos.add(btnSalvarProduto);
 				
-				JButton btnExcluirProduto = new JButton("Excluir");
-				btnExcluirProduto.setBounds(218, 223, 89, 23);
+				JButton btnExcluirProduto = new JButton("");
+				btnExcluirProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
+				btnExcluirProduto.setBounds(104, 223, 37, 35);
 				pnProdutos.add(btnExcluirProduto);
 				
 				JCheckBox chckbxRemover = new JCheckBox("Remover");
@@ -258,6 +267,11 @@ public class Principal extends JFrame {
 				chckbxAdicionar.setFont(new Font("Tahoma", Font.BOLD, 11));
 				chckbxAdicionar.setBounds(10, 170, 123, 23);
 				pnProdutos.add(chckbxAdicionar);
+				
+				JButton btnAdicionarProduto = new JButton("");
+				btnAdicionarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
+				btnAdicionarProduto.setBounds(10, 223, 37, 35);
+				pnProdutos.add(btnAdicionarProduto);
 
 		JPanel pnOrcamento = new JPanel();
 		tpAbas.addTab("Orçamentos", iconeOrcamento, pnOrcamento, null);
@@ -294,8 +308,9 @@ public class Principal extends JFrame {
 		lblStatusDoOramento.setBounds(172, 11, 123, 14);
 		pnOrcamento.add(lblStatusDoOramento);
 		
-		JButton btnProcurar_1 = new JButton("Procurar");
-		btnProcurar_1.setBounds(333, 147, 89, 23);
+		JButton btnProcurar_1 = new JButton("");
+		btnProcurar_1.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
+		btnProcurar_1.setBounds(59, 135, 39, 35);
 		pnOrcamento.add(btnProcurar_1);
 		
 		textField_3 = new JTextField();
@@ -324,12 +339,18 @@ public class Principal extends JFrame {
 		lblVendedor.setBounds(333, 11, 115, 14);
 		pnOrcamento.add(lblVendedor);
 		
-		JButton btnNovoOramento = new JButton("NOVO OR\u00C7AMENTO");
-		btnNovoOramento.setBounds(10, 147, 135, 23);
+		JButton btnNovoOramento = new JButton("");
+		btnNovoOramento.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
+		btnNovoOramento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnNovoOramento.setBounds(10, 135, 39, 35);
 		pnOrcamento.add(btnNovoOramento);
 		
-		JButton btnEditar = new JButton("Editar");
-		btnEditar.setBounds(751, 147, 89, 23);
+		JButton btnEditar = new JButton("");
+		btnEditar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-compose-24.png")));
+		btnEditar.setBounds(108, 135, 39, 35);
 		pnOrcamento.add(btnEditar);
 		
 				JPanel pnServico = new JPanel();
@@ -338,48 +359,51 @@ public class Principal extends JFrame {
 				
 				JLabel lblNomeDoServio = new JLabel("Nome do Servi\u00E7o:");
 				lblNomeDoServio.setFont(new Font("Tahoma", Font.BOLD, 11));
-				lblNomeDoServio.setBounds(25, 54, 130, 14);
+				lblNomeDoServio.setBounds(10, 54, 130, 14);
 				pnServico.add(lblNomeDoServio);
 				
 				textField = new JTextField();
-				textField.setBounds(155, 51, 226, 20);
+				textField.setBounds(140, 51, 226, 20);
 				pnServico.add(textField);
 				textField.setColumns(10);
 				
 				table = new JTable();
-				table.setBounds(25, 171, 818, 364);
+				table.setBounds(10, 171, 818, 364);
 				pnServico.add(table);
 				
-				JButton btnAdicionar = new JButton("Adicionar");
-				btnAdicionar.setBounds(25, 126, 89, 23);
+				JButton btnAdicionar = new JButton("");
+				btnAdicionar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
+				btnAdicionar.setBounds(10, 126, 38, 34);
 				pnServico.add(btnAdicionar);
 				
-				JButton btnSalvar_1 = new JButton("Salvar");
-				btnSalvar_1.setBounds(155, 126, 89, 23);
+				JButton btnSalvar_1 = new JButton("");
+				btnSalvar_1.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
+				btnSalvar_1.setBounds(58, 126, 38, 34);
 				pnServico.add(btnSalvar_1);
 				
-				JButton btnExcluir_1 = new JButton("Excluir");
-				btnExcluir_1.setBounds(279, 126, 89, 23);
+				JButton btnExcluir_1 = new JButton("");
+				btnExcluir_1.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
+				btnExcluir_1.setBounds(106, 126, 38, 34);
 				pnServico.add(btnExcluir_1);
 				
 				textField_1 = new JTextField();
 				textField_1.setColumns(10);
-				textField_1.setBounds(155, 80, 114, 20);
+				textField_1.setBounds(140, 80, 114, 20);
 				pnServico.add(textField_1);
 				
 				JLabel label = new JLabel("Valor do Servi\u00E7o:");
 				label.setFont(new Font("Tahoma", Font.BOLD, 11));
-				label.setBounds(25, 83, 130, 14);
+				label.setBounds(10, 83, 130, 14);
 				pnServico.add(label);
 				
 				textField_2 = new JTextField();
 				textField_2.setColumns(10);
-				textField_2.setBounds(155, 23, 114, 20);
+				textField_2.setBounds(140, 23, 114, 20);
 				pnServico.add(textField_2);
 				
 				JLabel lblIdDoServio = new JLabel("ID do Servi\u00E7o:");
 				lblIdDoServio.setFont(new Font("Tahoma", Font.BOLD, 11));
-				lblIdDoServio.setBounds(25, 26, 130, 14);
+				lblIdDoServio.setBounds(10, 26, 130, 14);
 				pnServico.add(lblIdDoServio);
 		tpAbas.addTab("Clientes", iconeClientes, pnClientes, null);
 		pnClientes.setLayout(null);
@@ -391,58 +415,61 @@ public class Principal extends JFrame {
 		
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNome.setBounds(22, 93, 83, 14);
+		lblNome.setBounds(10, 37, 83, 14);
 		panel.add(lblNome);
 		
 		txtNome = new JTextField();
-		txtNome.setBounds(115, 93, 277, 20);
+		txtNome.setBounds(103, 37, 277, 20);
 		panel.add(txtNome);
 		txtNome.setColumns(10);
 		
 		JLabel lblCpf = new JLabel("CPF:");
 		lblCpf.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblCpf.setBounds(22, 124, 83, 14);
+		lblCpf.setBounds(10, 68, 83, 14);
 		panel.add(lblCpf);
 		
 		txtCPF = new JTextField();
 		txtCPF.setColumns(10);
-		txtCPF.setBounds(115, 124, 277, 20);
+		txtCPF.setBounds(103, 68, 277, 20);
 		panel.add(txtCPF);
 		
 		JLabel lblEndereo = new JLabel("Endere\u00E7o:");
 		lblEndereo.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblEndereo.setBounds(22, 161, 83, 14);
+		lblEndereo.setBounds(10, 105, 83, 14);
 		panel.add(lblEndereo);
 		
 		txtEndereco = new JTextField();
 		txtEndereco.setColumns(10);
-		txtEndereco.setBounds(115, 161, 277, 20);
+		txtEndereco.setBounds(103, 105, 277, 20);
 		panel.add(txtEndereco);
 		
 		JLabel lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblTelefone.setBounds(22, 197, 83, 14);
+		lblTelefone.setBounds(10, 141, 83, 14);
 		panel.add(lblTelefone);
 		
 		txtTelefone = new JTextField();
 		txtTelefone.setColumns(10);
-		txtTelefone.setBounds(115, 197, 277, 20);
+		txtTelefone.setBounds(103, 141, 277, 20);
 		panel.add(txtTelefone);
 		
 		tableClientes = new JTable();
 		tableClientes.setBounds(402, 37, 435, 487);
 		panel.add(tableClientes);
 		
-		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(22, 299, 107, 23);
+		JButton btnSalvar = new JButton("");
+		btnSalvar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
+		btnSalvar.setBounds(10, 190, 41, 35);
 		panel.add(btnSalvar);
 		
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(303, 299, 89, 23);
+		JButton btnExcluir = new JButton("");
+		btnExcluir.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
+		btnExcluir.setBounds(112, 190, 41, 35);
 		panel.add(btnExcluir);
 		
-		JButton btnProcurar = new JButton("Procurar");
-		btnProcurar.setBounds(170, 299, 89, 23);
+		JButton btnProcurar = new JButton("");
+		btnProcurar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
+		btnProcurar.setBounds(61, 190, 41, 35);
 		panel.add(btnProcurar);
 		ImageIcon iconeAddCliente = new ImageIcon(Principal.class.getResource("/icons/icons8-add-48.png"));
 
