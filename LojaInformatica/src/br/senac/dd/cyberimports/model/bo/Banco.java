@@ -10,8 +10,8 @@ import java.sql.Statement;
 public class Banco {
 
 	private static final String DRIVER_MYSQL = "com.mysql.jdbc.Driver";
-	private static final String NOME_ESQUEMA = "dbcyberimports";
-	private static final String URL_CONEXAO = "jdbc:mysql://localhost:3306/" + NOME_ESQUEMA;
+	private static final String NOME_ESQUEMA = "cyberimports";
+	private static final String URL_CONEXAO = "jdbc:mysql://localhost:3306/" + NOME_ESQUEMA+ "?useSSL=false&useTimezone=true&serverTimezone=UTC";;
 	private static final String USUARIO = "root";
 	private static final String SENHA = "";
 

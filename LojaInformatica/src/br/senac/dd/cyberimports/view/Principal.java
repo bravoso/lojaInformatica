@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
@@ -35,7 +36,14 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
+import br.senac.dd.cyberimports.controller.ProdutoController;
+import br.senac.dd.cyberimports.model.dao.ProdutoDAO;
+import br.senac.dd.cyberimports.model.vo.ProdutoVO;
+
 import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
 
 public class Principal extends JFrame {
 
@@ -54,12 +62,15 @@ public class Principal extends JFrame {
 	private JTextField txtPrecoCusto;
 	private JTextField txtPrecoVenda;
 	private JTextField txtQuantidade;
-	private JTable tableProdutos;
+	private JTable tblProdutos;
 	private JTable tableOrcamento;
 	private JTextField txtIdOrcamento;
 	private JTextField txtNomeClienteOrcamento;
 	private JTextField textField_3;
 	private JTextField textField_4;
+
+	private ProdutoVO produto = new ProdutoVO();
+	private ProdutoController controlador = new ProdutoController();		
 
 	/**
 	 * Launch the application.
@@ -81,6 +92,57 @@ public class Principal extends JFrame {
 				}
 			}
 		});
+	}
+
+	protected void limparTela() {
+		produto = new ProdutoVO();
+		txtIdProduto.setText("");
+		txtNomeProduto.setText("");
+		txtPrecoCusto.setText("");
+		txtPrecoVenda.setText("");
+		txtQuantidade.setText("");
+	}
+
+
+	public ProdutoVO construirProduto(){
+		produto.setNome(txtNomeProduto.getText());
+		produto.setCusto(Double.parseDouble(txtPrecoCusto.getText()));
+		produto.setPreco(Double.parseDouble(txtPrecoVenda.getText()));
+		produto.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
+
+		return produto;
+	} 
+
+	public void ViewJTable() {
+		DefaultTableModel modelo = (DefaultTableModel) tblProdutos.getModel();
+		tblProdutos.setRowSorter(new TableRowSorter(modelo));	
+	}
+
+	public void readJTable() {
+
+		DefaultTableModel modelo = (DefaultTableModel) tblProdutos.getModel();
+		modelo.setNumRows(0);
+		ProdutoDAO pdao = new ProdutoDAO();
+
+		modelo.addRow(new Object[]{
+				"#",
+				"Nome",
+				"Custo",
+				"Preco",
+				"Quantidade"
+		});
+
+		for (ProdutoVO p : pdao.listarTodos()) {
+
+			modelo.addRow(new Object[]{
+
+					p.getId(),
+					p.getNome(),
+					p.getCusto(),
+					p.getPreco(),
+					p.getQuantidade()
+			});
+		}
 	}
 
 	/**
@@ -224,6 +286,7 @@ public class Principal extends JFrame {
 		pnProdutos.add(lblQuantidade);
 
 		txtIdProduto = new JTextField();
+		txtIdProduto.setEditable(false);
 		txtIdProduto.setBounds(132, 8, 175, 20);
 		pnProdutos.add(txtIdProduto);
 		txtIdProduto.setColumns(10);
@@ -248,19 +311,6 @@ public class Principal extends JFrame {
 		txtQuantidade.setBounds(132, 146, 175, 20);
 		pnProdutos.add(txtQuantidade);
 
-		tableProdutos = new JTable();
-		tableProdutos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tableProdutos.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"ID", "Nome", "Pre\u00E7o", "Quantidade", "Custo"}
-			},
-			new String[] {
-				"ID", "Nome", "Pre\u00E7o", "Quantidade", "Custo"
-			}
-		));
-		tableProdutos.setBounds(317, 22, 460, 349);
-		pnProdutos.add(tableProdutos);
-
 		JButton btnSalvarProduto = new JButton("");
 		btnSalvarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
 		btnSalvarProduto.setBounds(57, 223, 37, 35);
@@ -282,9 +332,34 @@ public class Principal extends JFrame {
 		pnProdutos.add(chckbxAdicionar);
 
 		JButton btnAdicionarProduto = new JButton("");
+		btnAdicionarProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ProdutoVO produto = construirProduto();
+				String mensagem = controlador.salvar(produto);
+				JOptionPane.showMessageDialog(null, mensagem);
+				limparTela();
+				readJTable();
+			}
+		});
 		btnAdicionarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
 		btnAdicionarProduto.setBounds(10, 223, 37, 35);
 		pnProdutos.add(btnAdicionarProduto);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(334, 15, 451, 361);
+		pnProdutos.add(scrollPane);
+
+		tblProdutos = new JTable();
+		scrollPane.setRowHeaderView(tblProdutos);
+		tblProdutos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tblProdutos.setModel(new DefaultTableModel(
+				new Object[][] {
+					{"ID", "Nome", "Custo", "Pre\u00E7o", "Quantidade", },
+				},
+				new String[] {
+						"ID", "Nome", "Custo", "Pre\u00E7o", "Quantidade", 
+				}
+				));
 
 		JPanel pnOrcamento = new JPanel();
 		tpAbas.addTab("Orçamentos", iconeOrcamento, pnOrcamento, null);
