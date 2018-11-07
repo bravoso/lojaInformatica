@@ -35,6 +35,10 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.table.DefaultTableModel;
+
+import br.senac.dd.cyberimports.controller.ClienteController;
+import br.senac.dd.cyberimports.model.vo.ClienteVO;
+
 import javax.swing.ListSelectionModel;
 
 public class Principal extends JFrame {
@@ -60,7 +64,13 @@ public class Principal extends JFrame {
 	private JTextField txtNomeClienteOrcamento;
 	private JTextField textField_3;
 	private JTextField textField_4;
-
+	
+	
+	//DECLARAÇÃO DE VARIÁVEIS
+	ClienteVO cliente = new ClienteVO();
+	
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -95,52 +105,16 @@ public class Principal extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
-		JMenu mnProdutos = new JMenu("Produtos");
-		menuBar.add(mnProdutos);
-
-		JMenuItem mnCadastrar = new JMenuItem("Cadastrar");
-		mnCadastrar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
-		mnCadastrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		mnProdutos.add(mnCadastrar);
-
-		JMenuItem mnListar = new JMenuItem("Listar");
-		mnListar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
-		mnProdutos.add(mnListar);
-
-		JMenuItem mnRelatrio = new JMenuItem("Relat\u00F3rio");
-		mnRelatrio.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0));
-		mnProdutos.add(mnRelatrio);
-
-		JMenu mnClientes = new JMenu("Clientes");
-		menuBar.add(mnClientes);
-
-		JMenuItem mnCadastrar_1 = new JMenuItem("Cadastrar");
-		mnCadastrar_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				contentPane = new CadastroCliente();
-				setContentPane(contentPane);
-				revalidate();
-
-			}
-		});
-		mnCadastrar_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, InputEvent.CTRL_MASK));
-		mnClientes.add(mnCadastrar_1);
-
-		JMenuItem mnListar_1 = new JMenuItem("Listar");
-		mnListar_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, InputEvent.CTRL_MASK));
-		mnClientes.add(mnListar_1);
-
-		JMenuItem mnRelatrio_1 = new JMenuItem("Relat\u00F3rio");
-		mnRelatrio_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, InputEvent.CTRL_MASK));
-		mnClientes.add(mnRelatrio_1);
-
 		JMenu mnFuncionrios = new JMenu("Funcion\u00E1rios");
 		menuBar.add(mnFuncionrios);
 
 		JMenuItem mnCadastrar_2 = new JMenuItem("Cadastrar");
+		mnCadastrar_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CadastroFuncionario cadastroFunc = new CadastroFuncionario();
+				cadastroFunc.getFrame().setVisible(true);
+			}
+		});
 		mnCadastrar_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, InputEvent.SHIFT_MASK));
 		mnFuncionrios.add(mnCadastrar_2);
 
@@ -477,6 +451,13 @@ public class Principal extends JFrame {
 		panel.add(tableClientes);
 
 		JButton btnSalvar = new JButton("");
+		btnSalvar.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				construirCliente();
+				ClienteController controladoraCliente = new ClienteController();
+				controladoraCliente.salvar(cliente);
+			}
+		});
 		btnSalvar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
 		btnSalvar.setBounds(10, 190, 41, 35);
 		panel.add(btnSalvar);
@@ -490,7 +471,24 @@ public class Principal extends JFrame {
 		btnProcurar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
 		btnProcurar.setBounds(61, 190, 41, 35);
 		panel.add(btnProcurar);
+		
+		JLabel lblId = new JLabel("ID:");
+		lblId.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblId.setBounds(10, 12, 46, 14);
+		panel.add(lblId);
+		
+		JLabel lblID = new JLabel("");
+		lblID.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblID.setBounds(103, 12, 46, 14);
+		panel.add(lblID);
 		ImageIcon iconeAddCliente = new ImageIcon(Principal.class.getResource("/icons/icons8-add-48.png"));
 
+	}
+
+	protected void construirCliente() {
+		cliente.setNome(txtNome.getText());
+		cliente.setCpf(txtCPF.getText());
+		cliente.setEndereço(txtEndereco.getText());
+		cliente.setTelefone(txtTelefone.getText());
 	}
 }

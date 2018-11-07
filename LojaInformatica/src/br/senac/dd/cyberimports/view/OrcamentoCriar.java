@@ -52,7 +52,7 @@ public class OrcamentoCriar {
 		frmNovoOramento.getContentPane().setLayout(null);
 		
 		table = new JTable();
-		table.setBorder(UIManager.getBorder("ComboBox.border"));
+		table.setBorder(UIManager.getBorder("ComboBox.Aborder"));
 		table.setBounds(10, 167, 639, 158);
 		frmNovoOramento.getContentPane().add(table);
 		
