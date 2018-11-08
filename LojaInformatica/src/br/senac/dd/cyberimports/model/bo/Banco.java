@@ -11,13 +11,9 @@ public class Banco {
 
 	private static final String DRIVER_MYSQL = "com.mysql.jdbc.Driver";
 	private static final String NOME_ESQUEMA = "cyberimports";
-<<<<<<< HEAD
-	private static final String URL_CONEXAO = "jdbc:mysql://localhost:3306/" + NOME_ESQUEMA+ "?useSSL=false&useTimezone=true&serverTimezone=UTC";;
-=======
 	private static final String URL_CONEXAO = "jdbc:mysql://localhost:3306/" + NOME_ESQUEMA+ "?useSSL=false&useTimezone=true&serverTimezone=UTC";
->>>>>>> branch 'master' of https://github.com/bravoso/lojaInformatica.git
 	private static final String USUARIO = "root";
-	private static final String SENHA = "root";
+	private static final String SENHA = "";
 
 	public static Connection getConnection() {
 

@@ -74,20 +74,16 @@ public class Principal extends JFrame {
 	private JTextField txtNomeClienteOrcamento;
 	private JTextField textField_3;
 	private JTextField textField_4;
-<<<<<<< HEAD
 
 	private ProdutoVO produto = new ProdutoVO();
 	private ProdutoController controlador = new ProdutoController();		
 
-=======
-	
-	
+
 	//DECLARAÇÃO DE VARIÁVEIS
 	ClienteVO cliente = new ClienteVO();
 	
 	
-	
->>>>>>> branch 'master' of https://github.com/bravoso/lojaInformatica.git
+
 	/**
 	 * Launch the application.
 	 */

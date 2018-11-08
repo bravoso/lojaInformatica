@@ -2,39 +2,38 @@ package br.senac.dd.cyberimports.model.vo;
 
 public class ServicoVO {
 
-	private String Nome;
-	private int ID;
-	private double Valor;
-
-	public String getNome() {
-		return Nome;
-	}
-
-	public void setNome(String nome) {
-		Nome = nome;
-	}
-
-	public int getID() {
-		return ID;
-	}
-
-	public void setID(int iD) {
-		ID = iD;
-	}
-
-	public double getValor() {
-		return Valor;
-	}
-
-	public void setValor(double valor) {
-		Valor = valor;
-	}
-
-	public ServicoVO(String nome, int iD, double valor) {
+	private String nome;
+	private double valor;
+	private String descricao;
+	
+	public ServicoVO(String nome, double valor, String descricao) {
 		super();
-		Nome = nome;
-		ID = iD;
-		Valor = valor;
+		this.nome = nome;
+		this.valor = valor;
+		this.descricao = descricao;
 	}
-
+	public ServicoVO() {
+		super();
+	}
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public double getValor() {
+		return valor;
+	}
+	public void setValor(double valor) {
+		this.valor = valor;
+	}
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	
+	
+	
 }
