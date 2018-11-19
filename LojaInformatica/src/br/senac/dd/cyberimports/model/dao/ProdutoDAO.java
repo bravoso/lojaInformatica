@@ -64,7 +64,7 @@ public int inserir(ProdutoVO f) {
 				}
 				
 		} catch (SQLException e) {
-			System.out.println("Erro ao atualizar o produto");
+			System.out.println("Erro ao atualizar o produto" + e.getMessage());
 		} finally {
 			Banco.closePreparedStatement(prepStmt);
 			Banco.closeConnection(conexao);
