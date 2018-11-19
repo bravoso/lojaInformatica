@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import br.senac.dd.cyberimports.model.bo.Banco;
 import br.senac.dd.cyberimports.model.vo.ClienteVO;
 
@@ -32,6 +34,7 @@ public int inserir(ClienteVO f) {
 				ResultSet generatedKeys = prepStmt.getGeneratedKeys();
 				if (generatedKeys.next()) {
 					novoId = generatedKeys.getInt(1);
+					JOptionPane.showMessageDialog(null, "Cliente inserido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 				}
 		} catch (SQLException e) {
 			System.out.println("Erro ao inserir o cliente. Causa: \n: " + e.getMessage());
