@@ -40,6 +40,7 @@ import br.senac.dd.cyberimports.controller.ClienteController;
 import br.senac.dd.cyberimports.model.vo.ClienteVO;
 
 import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
 
 public class Principal extends JFrame {
 
@@ -48,9 +49,7 @@ public class Principal extends JFrame {
 	private JTextField txtCPF;
 	private JTextField txtEndereco;
 	private JTextField txtTelefone;
-	private JTable tableClientes;
 	private JTextField textField;
-	private JTable table;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField txtIdProduto;
@@ -58,8 +57,6 @@ public class Principal extends JFrame {
 	private JTextField txtPrecoCusto;
 	private JTextField txtPrecoVenda;
 	private JTextField txtQuantidade;
-	private JTable tableProdutos;
-	private JTable tableOrcamento;
 	private JTextField txtIdOrcamento;
 	private JTextField txtNomeClienteOrcamento;
 	private JTextField textField_3;
@@ -68,6 +65,10 @@ public class Principal extends JFrame {
 	
 	//DECLARAÇÃO DE VARIÁVEIS
 	ClienteVO cliente = new ClienteVO();
+	private JTable table_1;
+	private JTable table_2;
+	private JTable table;
+	private JTable tableClientes;
 	
 	
 	
@@ -222,19 +223,6 @@ public class Principal extends JFrame {
 		txtQuantidade.setBounds(132, 146, 175, 20);
 		pnProdutos.add(txtQuantidade);
 
-		tableProdutos = new JTable();
-		tableProdutos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tableProdutos.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"ID", "Nome", "Pre\u00E7o", "Quantidade", "Custo"}
-			},
-			new String[] {
-				"ID", "Nome", "Pre\u00E7o", "Quantidade", "Custo"
-			}
-		));
-		tableProdutos.setBounds(317, 22, 460, 349);
-		pnProdutos.add(tableProdutos);
-
 		JButton btnSalvarProduto = new JButton("");
 		btnSalvarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
 		btnSalvarProduto.setBounds(57, 223, 37, 35);
@@ -259,6 +247,21 @@ public class Principal extends JFrame {
 		btnAdicionarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
 		btnAdicionarProduto.setBounds(10, 223, 37, 35);
 		pnProdutos.add(btnAdicionarProduto);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(315, 11, 529, 524);
+		pnProdutos.add(scrollPane);
+	
+		
+		table_1 = new JTable();
+		table_1.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Nome", "New column", "New column", "New column", "New column"
+			}
+		));
+		scrollPane.setViewportView(table_1);
 
 		JPanel pnOrcamento = new JPanel();
 		tpAbas.addTab("Orçamentos", iconeOrcamento, pnOrcamento, null);
@@ -267,10 +270,6 @@ public class Principal extends JFrame {
 		JLabel lblIdOrcamento = new JLabel("ID Or\u00E7amento:");
 		lblIdOrcamento.setBounds(10, 11, 115, 14);
 		pnOrcamento.add(lblIdOrcamento);
-
-		tableOrcamento = new JTable();
-		tableOrcamento.setBounds(10, 181, 830, 354);
-		pnOrcamento.add(tableOrcamento);
 
 		txtIdOrcamento = new JTextField();
 		txtIdOrcamento.setBounds(10, 36, 115, 20);
@@ -345,6 +344,20 @@ public class Principal extends JFrame {
 		btnEditar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-compose-24.png")));
 		btnEditar.setBounds(108, 135, 39, 35);
 		pnOrcamento.add(btnEditar);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 181, 762, 354);
+		pnOrcamento.add(scrollPane_1);
+		
+		table_2 = new JTable();
+		table_2.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column"
+			}
+		));
+		scrollPane_1.setViewportView(table_2);
 
 		JPanel pnServico = new JPanel();
 		tpAbas.addTab("Serviços", iconeServicos, pnServico, null);
@@ -359,10 +372,6 @@ public class Principal extends JFrame {
 		textField.setBounds(140, 51, 226, 20);
 		pnServico.add(textField);
 		textField.setColumns(10);
-
-		table = new JTable();
-		table.setBounds(10, 171, 818, 364);
-		pnServico.add(table);
 
 		JButton btnAdicionar = new JButton("");
 		btnAdicionar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
@@ -389,15 +398,25 @@ public class Principal extends JFrame {
 		label.setBounds(10, 83, 130, 14);
 		pnServico.add(label);
 
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(140, 23, 114, 20);
-		pnServico.add(textField_2);
 
 		JLabel lblIdDoServio = new JLabel("ID do Servi\u00E7o:");
 		lblIdDoServio.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblIdDoServio.setBounds(10, 26, 130, 14);
 		pnServico.add(lblIdDoServio);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(10, 171, 830, 364);
+		pnServico.add(scrollPane_2);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		scrollPane_2.setViewportView(table);
 		tpAbas.addTab("Clientes", iconeClientes, pnClientes, null);
 		pnClientes.setLayout(null);
 
@@ -405,6 +424,20 @@ public class Principal extends JFrame {
 		panel.setBounds(0, 0, 1154, 535);
 		pnClientes.add(panel);
 		panel.setLayout(null);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(390, 12, 450, 512);
+		panel.add(scrollPane_3);
+		
+		tableClientes = new JTable();
+		tableClientes.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column"
+			}
+		));
+		scrollPane_3.setColumnHeaderView(tableClientes);
 
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -446,10 +479,6 @@ public class Principal extends JFrame {
 		txtTelefone.setBounds(103, 141, 277, 20);
 		panel.add(txtTelefone);
 
-		tableClientes = new JTable();
-		tableClientes.setBounds(402, 37, 435, 487);
-		panel.add(tableClientes);
-
 		JButton btnSalvar = new JButton("");
 		btnSalvar.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
@@ -481,6 +510,9 @@ public class Principal extends JFrame {
 		lblID.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblID.setBounds(103, 12, 46, 14);
 		panel.add(lblID);
+		
+
+		
 		ImageIcon iconeAddCliente = new ImageIcon(Principal.class.getResource("/icons/icons8-add-48.png"));
 
 	}
