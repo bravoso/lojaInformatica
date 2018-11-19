@@ -36,7 +36,10 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.table.DefaultTableModel;
-
+import javax.swing.table.TableRowSorter;
+import br.senac.dd.cyberimports.controller.ProdutoController;
+import br.senac.dd.cyberimports.model.dao.ProdutoDAO;
+import br.senac.dd.cyberimports.model.vo.ProdutoVO;
 import br.senac.dd.cyberimports.controller.ClienteController;
 import br.senac.dd.cyberimports.model.vo.ClienteVO;
 
@@ -63,14 +66,15 @@ public class Principal extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	
-	
 	//DECLARAÇÃO DE VARIÁVEIS
 	ClienteVO cliente = new ClienteVO();
 	private JTable table_1;
 	private JTable table_2;
 	private JTable table;
 	private JTable tableClientes;
-	
+	private JTable tblProdutos;
+	private ProdutoVO produto = new ProdutoVO();
+	private JTable tableOrcamento;
 	
 	
 	/**
@@ -95,7 +99,61 @@ public class Principal extends JFrame {
 		});
 	}
 
+	protected void limparTela() {
+		produto = new ProdutoVO();
+		txtIdProduto.setText("");
+		txtNomeProduto.setText("");
+		txtPrecoCusto.setText("");
+		txtPrecoVenda.setText("");
+		txtQuantidade.setText("");
+	}
+  
+	//
 
+	public ProdutoVO construirProduto(){
+		produto.setNome(txtNomeProduto.getText());
+		produto.setCusto(Double.parseDouble(txtPrecoCusto.getText()));
+		produto.setPreco(Double.parseDouble(txtPrecoVenda.getText()));
+		produto.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
+
+		return produto;
+	} 
+
+	public void ViewJTable() {
+		DefaultTableModel modelo = (DefaultTableModel) tblProdutos.getModel();
+		tblProdutos.setRowSorter(new TableRowSorter(modelo));	
+	}
+
+	public void readJTable() {
+
+		DefaultTableModel modelo = (DefaultTableModel) tblProdutos.getModel();
+		modelo.setNumRows(0);
+		ProdutoDAO pdao = new ProdutoDAO();
+
+		modelo.addRow(new Object[]{
+				"#",
+				"Nome",
+				"Custo",
+				"Preco",
+				"Quantidade"
+		});
+
+		for (ProdutoVO p : pdao.listarTodos()) {
+
+			modelo.addRow(new Object[]{
+
+					p.getId(),
+					p.getNome(),
+					p.getCusto(),
+					p.getPreco(),
+					p.getQuantidade()
+			});
+		}
+	}
+
+	/**
+	 * Create the frame.
+	 */
 	public Principal() {
 		setResizable(false);
 
@@ -224,27 +282,17 @@ public class Principal extends JFrame {
 
 		JButton btnSalvarProduto = new JButton("");
 		btnSalvarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
-		btnSalvarProduto.setBounds(57, 223, 37, 35);
+		btnSalvarProduto.setBounds(132, 195, 37, 35);
 		pnProdutos.add(btnSalvarProduto);
 
 		JButton btnExcluirProduto = new JButton("");
 		btnExcluirProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
-		btnExcluirProduto.setBounds(104, 223, 37, 35);
+		btnExcluirProduto.setBounds(215, 195, 37, 35);
 		pnProdutos.add(btnExcluirProduto);
-
-		JCheckBox chckbxRemover = new JCheckBox("Remover");
-		chckbxRemover.setFont(new Font("Tahoma", Font.BOLD, 11));
-		chckbxRemover.setBounds(10, 193, 89, 23);
-		pnProdutos.add(chckbxRemover);
-
-		JCheckBox chckbxAdicionar = new JCheckBox("Adicionar");
-		chckbxAdicionar.setFont(new Font("Tahoma", Font.BOLD, 11));
-		chckbxAdicionar.setBounds(10, 170, 123, 23);
-		pnProdutos.add(chckbxAdicionar);
 
 		JButton btnAdicionarProduto = new JButton("");
 		btnAdicionarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
-		btnAdicionarProduto.setBounds(10, 223, 37, 35);
+		btnAdicionarProduto.setBounds(42, 195, 37, 35);
 		pnProdutos.add(btnAdicionarProduto);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -270,6 +318,9 @@ public class Principal extends JFrame {
 		lblIdOrcamento.setBounds(10, 11, 115, 14);
 		pnOrcamento.add(lblIdOrcamento);
 
+		tableOrcamento = new JTable();
+		tableOrcamento.setBounds(20, 183, 820, 352);
+		pnOrcamento.add(tableOrcamento);
 		txtIdOrcamento = new JTextField();
 		txtIdOrcamento.setBounds(10, 36, 115, 20);
 		pnOrcamento.add(txtIdOrcamento);
@@ -371,6 +422,19 @@ public class Principal extends JFrame {
 		textField.setBounds(140, 51, 226, 20);
 		pnServico.add(textField);
 		textField.setColumns(10);
+
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"ID", "Nome do Servi\u00E7o", "Valor do Servi\u00E7o"
+			}
+		));
+		table.getColumnModel().getColumn(1).setPreferredWidth(113);
+		table.getColumnModel().getColumn(2).setPreferredWidth(110);
+		table.setBounds(20, 173, 808, 362);
+		pnServico.add(table);
 
 		JButton btnAdicionar = new JButton("");
 		btnAdicionar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
