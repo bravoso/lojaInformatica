@@ -36,17 +36,14 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.table.DefaultTableModel;
-<<<<<<< HEAD
 import javax.swing.table.TableRowSorter;
 
 import br.senac.dd.cyberimports.controller.ProdutoController;
 import br.senac.dd.cyberimports.model.dao.ProdutoDAO;
 import br.senac.dd.cyberimports.model.vo.ProdutoVO;
-=======
 
 import br.senac.dd.cyberimports.controller.ClienteController;
 import br.senac.dd.cyberimports.model.vo.ClienteVO;
->>>>>>> branch 'master' of https://github.com/bravoso/lojaInformatica.git
 
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
@@ -114,7 +111,8 @@ public class Principal extends JFrame {
 		txtPrecoVenda.setText("");
 		txtQuantidade.setText("");
 	}
-
+  
+	//
 
 	public ProdutoVO construirProduto(){
 		produto.setNome(txtNomeProduto.getText());
@@ -289,23 +287,13 @@ public class Principal extends JFrame {
 
 		JButton btnSalvarProduto = new JButton("");
 		btnSalvarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
-		btnSalvarProduto.setBounds(57, 223, 37, 35);
+		btnSalvarProduto.setBounds(132, 195, 37, 35);
 		pnProdutos.add(btnSalvarProduto);
 
 		JButton btnExcluirProduto = new JButton("");
 		btnExcluirProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
-		btnExcluirProduto.setBounds(104, 223, 37, 35);
+		btnExcluirProduto.setBounds(215, 195, 37, 35);
 		pnProdutos.add(btnExcluirProduto);
-
-		JCheckBox chckbxRemover = new JCheckBox("Remover");
-		chckbxRemover.setFont(new Font("Tahoma", Font.BOLD, 11));
-		chckbxRemover.setBounds(10, 193, 89, 23);
-		pnProdutos.add(chckbxRemover);
-
-		JCheckBox chckbxAdicionar = new JCheckBox("Adicionar");
-		chckbxAdicionar.setFont(new Font("Tahoma", Font.BOLD, 11));
-		chckbxAdicionar.setBounds(10, 170, 123, 23);
-		pnProdutos.add(chckbxAdicionar);
 
 		JButton btnAdicionarProduto = new JButton("");
 		btnAdicionarProduto.addActionListener(new ActionListener() {
@@ -318,7 +306,7 @@ public class Principal extends JFrame {
 			}
 		});
 		btnAdicionarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
-		btnAdicionarProduto.setBounds(10, 223, 37, 35);
+		btnAdicionarProduto.setBounds(42, 195, 37, 35);
 		pnProdutos.add(btnAdicionarProduto);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -346,7 +334,7 @@ public class Principal extends JFrame {
 		pnOrcamento.add(lblIdOrcamento);
 
 		tableOrcamento = new JTable();
-		tableOrcamento.setBounds(10, 181, 830, 354);
+		tableOrcamento.setBounds(20, 183, 820, 352);
 		pnOrcamento.add(tableOrcamento);
 
 		txtIdOrcamento = new JTextField();
@@ -438,7 +426,16 @@ public class Principal extends JFrame {
 		textField.setColumns(10);
 
 		table = new JTable();
-		table.setBounds(10, 171, 818, 364);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"ID", "Nome do Servi\u00E7o", "Valor do Servi\u00E7o"
+			}
+		));
+		table.getColumnModel().getColumn(1).setPreferredWidth(113);
+		table.getColumnModel().getColumn(2).setPreferredWidth(110);
+		table.setBounds(20, 173, 808, 362);
 		pnServico.add(table);
 
 		JButton btnAdicionar = new JButton("");
