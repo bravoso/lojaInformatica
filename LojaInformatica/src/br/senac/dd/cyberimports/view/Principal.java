@@ -359,6 +359,7 @@ public class Principal extends JFrame {
 		));
 		scrollPane_1.setViewportView(table_2);
 
+		JPanel pnServico = new JPanel();
 		tpAbas.addTab("Serviços", iconeServicos, pnServico, null);
 		pnServico.setLayout(null);
 
