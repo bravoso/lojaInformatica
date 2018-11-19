@@ -16,7 +16,7 @@ public int inserir(ProdutoVO f) {
 		
 		int novoId = -1;
 		
-		String sql = " INSERT INTO PRODUTO (NOME, PREÇO, CUSTO, QUANTIDADE) VALUES (?,?,?,?) ";
+		String sql = " INSERT INTO PRODUTO (NOME, CUSTO, PREÇO, QUANTIDADE) VALUES (?,?,?,?) ";
 		
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql, Statement.RETURN_GENERATED_KEYS);

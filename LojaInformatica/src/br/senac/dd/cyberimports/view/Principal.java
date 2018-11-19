@@ -37,9 +37,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+
 import br.senac.dd.cyberimports.controller.ProdutoController;
 import br.senac.dd.cyberimports.model.dao.ProdutoDAO;
 import br.senac.dd.cyberimports.model.vo.ProdutoVO;
+
 import br.senac.dd.cyberimports.controller.ClienteController;
 import br.senac.dd.cyberimports.model.vo.ClienteVO;
 
@@ -53,7 +55,9 @@ public class Principal extends JFrame {
 	private JTextField txtCPF;
 	private JTextField txtEndereco;
 	private JTextField txtTelefone;
+	private JTable tableClientes;
 	private JTextField textField;
+	private JTable table;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField txtIdProduto;
@@ -61,22 +65,22 @@ public class Principal extends JFrame {
 	private JTextField txtPrecoCusto;
 	private JTextField txtPrecoVenda;
 	private JTextField txtQuantidade;
+	private JTable tblProdutos;
+	private JTable tableOrcamento;
 	private JTextField txtIdOrcamento;
 	private JTextField txtNomeClienteOrcamento;
 	private JTextField textField_3;
 	private JTextField textField_4;
-	
+
+	private ProdutoVO produto = new ProdutoVO();
+	private ProdutoController controlador = new ProdutoController();		
+
+
 	//DECLARAÇÃO DE VARIÁVEIS
 	ClienteVO cliente = new ClienteVO();
-	private JTable table_1;
-	private JTable table_2;
-	private JTable table;
-	private JTable tableClientes;
-	private JTable tblProdutos;
-	private ProdutoVO produto = new ProdutoVO();
-	private JTable tableOrcamento;
 	
 	
+
 	/**
 	 * Launch the application.
 	 */
@@ -256,6 +260,7 @@ public class Principal extends JFrame {
 		pnProdutos.add(lblQuantidade);
 
 		txtIdProduto = new JTextField();
+		txtIdProduto.setEditable(false);
 		txtIdProduto.setBounds(132, 8, 175, 20);
 		pnProdutos.add(txtIdProduto);
 		txtIdProduto.setColumns(10);
@@ -291,24 +296,34 @@ public class Principal extends JFrame {
 		pnProdutos.add(btnExcluirProduto);
 
 		JButton btnAdicionarProduto = new JButton("");
+		btnAdicionarProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ProdutoVO produto = construirProduto();
+				String mensagem = controlador.salvar(produto);
+				JOptionPane.showMessageDialog(null, mensagem);
+				limparTela();
+				readJTable();
+			}
+		});
 		btnAdicionarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
 		btnAdicionarProduto.setBounds(42, 195, 37, 35);
 		pnProdutos.add(btnAdicionarProduto);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(315, 11, 529, 524);
+		scrollPane.setBounds(334, 15, 451, 361);
 		pnProdutos.add(scrollPane);
-	
-		
-		table_1 = new JTable();
-		table_1.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Nome", "New column", "New column", "New column", "New column"
-			}
-		));
-		scrollPane.setViewportView(table_1);
+
+		tblProdutos = new JTable();
+		scrollPane.setRowHeaderView(tblProdutos);
+		tblProdutos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tblProdutos.setModel(new DefaultTableModel(
+				new Object[][] {
+					{"ID", "Nome", "Custo", "Pre\u00E7o", "Quantidade", },
+				},
+				new String[] {
+						"ID", "Nome", "Custo", "Pre\u00E7o", "Quantidade", 
+				}
+				));
 
 		JPanel pnOrcamento = new JPanel();
 		tpAbas.addTab("Orçamentos", iconeOrcamento, pnOrcamento, null);
@@ -321,6 +336,7 @@ public class Principal extends JFrame {
 		tableOrcamento = new JTable();
 		tableOrcamento.setBounds(20, 183, 820, 352);
 		pnOrcamento.add(tableOrcamento);
+
 		txtIdOrcamento = new JTextField();
 		txtIdOrcamento.setBounds(10, 36, 115, 20);
 		pnOrcamento.add(txtIdOrcamento);
@@ -394,20 +410,6 @@ public class Principal extends JFrame {
 		btnEditar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-compose-24.png")));
 		btnEditar.setBounds(108, 135, 39, 35);
 		pnOrcamento.add(btnEditar);
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 181, 762, 354);
-		pnOrcamento.add(scrollPane_1);
-		
-		table_2 = new JTable();
-		table_2.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"New column", "New column", "New column", "New column"
-			}
-		));
-		scrollPane_1.setViewportView(table_2);
 
 		JPanel pnServico = new JPanel();
 		tpAbas.addTab("Serviços", iconeServicos, pnServico, null);
@@ -461,25 +463,15 @@ public class Principal extends JFrame {
 		label.setBounds(10, 83, 130, 14);
 		pnServico.add(label);
 
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(140, 23, 114, 20);
+		pnServico.add(textField_2);
 
 		JLabel lblIdDoServio = new JLabel("ID do Servi\u00E7o:");
 		lblIdDoServio.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblIdDoServio.setBounds(10, 26, 130, 14);
 		pnServico.add(lblIdDoServio);
-		
-		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(10, 171, 830, 364);
-		pnServico.add(scrollPane_2);
-		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"New column", "New column", "New column", "New column", "New column"
-			}
-		));
-		scrollPane_2.setViewportView(table);
 		tpAbas.addTab("Clientes", iconeClientes, pnClientes, null);
 		pnClientes.setLayout(null);
 
@@ -487,20 +479,6 @@ public class Principal extends JFrame {
 		panel.setBounds(0, 0, 1154, 535);
 		pnClientes.add(panel);
 		panel.setLayout(null);
-		
-		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(390, 12, 450, 512);
-		panel.add(scrollPane_3);
-		
-		tableClientes = new JTable();
-		tableClientes.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"New column", "New column", "New column", "New column"
-			}
-		));
-		scrollPane_3.setColumnHeaderView(tableClientes);
 
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -542,6 +520,10 @@ public class Principal extends JFrame {
 		txtTelefone.setBounds(103, 141, 277, 20);
 		panel.add(txtTelefone);
 
+		tableClientes = new JTable();
+		tableClientes.setBounds(402, 37, 435, 487);
+		panel.add(tableClientes);
+
 		JButton btnSalvar = new JButton("");
 		btnSalvar.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
@@ -573,9 +555,6 @@ public class Principal extends JFrame {
 		lblID.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblID.setBounds(103, 12, 46, 14);
 		panel.add(lblID);
-		
-
-		
 		ImageIcon iconeAddCliente = new ImageIcon(Principal.class.getResource("/icons/icons8-add-48.png"));
 
 	}
