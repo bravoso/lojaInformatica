@@ -5,7 +5,21 @@ public class ServicoVO {
 	private String nome;
 	private double valor;
 	private String descricao;
+	private int id;
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public ServicoVO(String nome, double valor, String descricao, int id) {
+		super();
+		this.nome = nome;
+		this.valor = valor;
+		this.descricao = descricao;
+		this.id = id;
+	}
 	public ServicoVO(String nome, double valor, String descricao) {
 		super();
 		this.nome = nome;

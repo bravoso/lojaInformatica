@@ -39,9 +39,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import br.senac.dd.cyberimports.controller.ProdutoController;
+import br.senac.dd.cyberimports.controller.ServicoController;
 import br.senac.dd.cyberimports.model.dao.ProdutoDAO;
 import br.senac.dd.cyberimports.model.vo.ProdutoVO;
-
+import br.senac.dd.cyberimports.model.vo.ServicoVO;
 import br.senac.dd.cyberimports.controller.ClienteController;
 import br.senac.dd.cyberimports.model.vo.ClienteVO;
 
@@ -55,10 +56,9 @@ public class Principal extends JFrame {
 	private JTextField txtCPF;
 	private JTextField txtEndereco;
 	private JTextField txtTelefone;
-	private JTable tableClientes;
-	private JTextField textField;
+	private JTextField txtNmeServico;
 	private JTable table;
-	private JTextField textField_1;
+	private JTextField txtValorServico;
 	private JTextField textField_2;
 	private JTextField txtIdProduto;
 	private JTextField txtNomeProduto;
@@ -78,6 +78,9 @@ public class Principal extends JFrame {
 
 	//DECLARAÇÃO DE VARIÁVEIS
 	ClienteVO cliente = new ClienteVO();
+	ServicoVO servico = new ServicoVO();
+	private JTextField txtIdCliente;
+	private JTable tblClientes;
 	
 	
 
@@ -286,7 +289,7 @@ public class Principal extends JFrame {
 		pnProdutos.add(txtQuantidade);
 
 		JButton btnSalvarProduto = new JButton("");
-		btnSalvarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
+		btnSalvarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
 		btnSalvarProduto.setBounds(132, 195, 37, 35);
 		pnProdutos.add(btnSalvarProduto);
 
@@ -420,10 +423,10 @@ public class Principal extends JFrame {
 		lblNomeDoServio.setBounds(10, 54, 130, 14);
 		pnServico.add(lblNomeDoServio);
 
-		textField = new JTextField();
-		textField.setBounds(140, 51, 226, 20);
-		pnServico.add(textField);
-		textField.setColumns(10);
+		txtNmeServico = new JTextField();
+		txtNmeServico.setBounds(140, 51, 226, 20);
+		pnServico.add(txtNmeServico);
+		txtNmeServico.setColumns(10);
 
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
@@ -439,12 +442,19 @@ public class Principal extends JFrame {
 		pnServico.add(table);
 
 		JButton btnAdicionar = new JButton("");
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				construirServico();
+				ServicoController controladora = new ServicoController();
+				controladora.salvar(servico);
+			}
+		});
 		btnAdicionar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
 		btnAdicionar.setBounds(10, 126, 38, 34);
 		pnServico.add(btnAdicionar);
 
 		JButton btnSalvar_1 = new JButton("");
-		btnSalvar_1.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
+		btnSalvar_1.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
 		btnSalvar_1.setBounds(58, 126, 38, 34);
 		pnServico.add(btnSalvar_1);
 
@@ -453,10 +463,10 @@ public class Principal extends JFrame {
 		btnExcluir_1.setBounds(106, 126, 38, 34);
 		pnServico.add(btnExcluir_1);
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(140, 80, 114, 20);
-		pnServico.add(textField_1);
+		txtValorServico = new JTextField();
+		txtValorServico.setColumns(10);
+		txtValorServico.setBounds(140, 80, 114, 20);
+		pnServico.add(txtValorServico);
 
 		JLabel label = new JLabel("Valor do Servi\u00E7o:");
 		label.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -464,6 +474,7 @@ public class Principal extends JFrame {
 		pnServico.add(label);
 
 		textField_2 = new JTextField();
+		textField_2.setEditable(false);
 		textField_2.setColumns(10);
 		textField_2.setBounds(140, 23, 114, 20);
 		pnServico.add(textField_2);
@@ -520,10 +531,6 @@ public class Principal extends JFrame {
 		txtTelefone.setBounds(103, 141, 277, 20);
 		panel.add(txtTelefone);
 
-		tableClientes = new JTable();
-		tableClientes.setBounds(402, 37, 435, 487);
-		panel.add(tableClientes);
-
 		JButton btnSalvar = new JButton("");
 		btnSalvar.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
@@ -551,12 +558,32 @@ public class Principal extends JFrame {
 		lblId.setBounds(10, 12, 46, 14);
 		panel.add(lblId);
 		
-		JLabel lblID = new JLabel("");
-		lblID.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblID.setBounds(103, 12, 46, 14);
-		panel.add(lblID);
+		txtIdCliente = new JTextField();
+		txtIdCliente.setEditable(false);
+		txtIdCliente.setColumns(10);
+		txtIdCliente.setBounds(103, 6, 277, 20);
+		panel.add(txtIdCliente);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(407, 12, 425, 512);
+		panel.add(scrollPane_1);
+		
+		tblClientes = new JTable();
+		tblClientes.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column"
+			}
+		));
+		scrollPane_1.setColumnHeaderView(tblClientes);
 		ImageIcon iconeAddCliente = new ImageIcon(Principal.class.getResource("/icons/icons8-add-48.png"));
 
+	}
+
+	protected void construirServico() {
+		servico.setNome(txtNmeServico.getText());
+		servico.setValor(Double.parseDouble(txtValorServico.getText()));
 	}
 
 	protected void construirCliente() {
