@@ -1,6 +1,5 @@
 package br.senac.dd.cyberimports.view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -17,20 +16,14 @@ import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import javax.swing.JTabbedPane;
-import java.awt.Component;
-import javax.swing.Box;
 import javax.swing.SpringLayout;
 import javax.swing.UIManager;
 
-import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import java.awt.Font;
-import javax.swing.JRadioButton;
-import javax.swing.JToggleButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
