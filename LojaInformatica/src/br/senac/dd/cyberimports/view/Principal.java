@@ -60,7 +60,6 @@ public class Principal extends JFrame {
 	private JTextField txtPrecoVenda;
 	private JTextField txtQuantidade;
 	private JTable tblProdutos;
-	private JTable tableOrcamento;
 	private JTextField txtIdOrcamento;
 	private JTextField txtNomeClienteOrcamento;
 	private JTextField textField_3;
@@ -76,6 +75,7 @@ public class Principal extends JFrame {
 	private JTextField txtIdCliente;
 	private JTable tblClientes;
 	private JTable tableServico;
+	private JTable table;
 	
 	
 
@@ -384,10 +384,6 @@ public class Principal extends JFrame {
 		lblIdOrcamento.setBounds(10, 11, 115, 14);
 		pnOrcamento.add(lblIdOrcamento);
 
-		tableOrcamento = new JTable();
-		tableOrcamento.setBounds(20, 183, 820, 352);
-		pnOrcamento.add(tableOrcamento);
-
 		txtIdOrcamento = new JTextField();
 		txtIdOrcamento.setBounds(10, 36, 115, 20);
 		pnOrcamento.add(txtIdOrcamento);
@@ -461,6 +457,21 @@ public class Principal extends JFrame {
 		btnEditar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-compose-24.png")));
 		btnEditar.setBounds(108, 135, 39, 35);
 		pnOrcamento.add(btnEditar);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(10, 181, 831, 354);
+		pnOrcamento.add(scrollPane_3);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"New column", "New column", "New column", "New column", "New column"}
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		scrollPane_3.setColumnHeaderView(table);
 
 		JPanel pnServico = new JPanel();
 		tpAbas.addTab("Serviços", iconeServicos, pnServico, null);
