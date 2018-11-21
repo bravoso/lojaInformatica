@@ -40,6 +40,7 @@ import javax.swing.table.TableRowSorter;
 
 import br.senac.dd.cyberimports.controller.ProdutoController;
 import br.senac.dd.cyberimports.controller.ServicoController;
+import br.senac.dd.cyberimports.model.dao.ClienteDAO;
 import br.senac.dd.cyberimports.model.dao.ProdutoDAO;
 import br.senac.dd.cyberimports.model.dao.ServicoDAO;
 import br.senac.dd.cyberimports.model.vo.ProdutoVO;
@@ -106,6 +107,7 @@ public class Principal extends JFrame {
 			}
 		});
 	}
+	 
 
 	protected void limparTela() {
 		produto = new ProdutoVO();
@@ -179,6 +181,33 @@ public class Principal extends JFrame {
 					p.getId(),
 					p.getNome(),
 					p.getValor(),
+			});
+		}
+	}
+	
+	public void readJTableClientes() {
+
+		DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
+		modelo.setNumRows(0);
+		ClienteDAO cdao = new ClienteDAO();
+
+		modelo.addRow(new Object[]{
+				"#",
+				"Nome",
+				"CPF",
+				"Endereço",
+				"Telefone"
+		});
+
+		for (ClienteVO p : cdao.listarTodos()) {
+
+			modelo.addRow(new Object[]{
+
+					p.getId(),
+					p.getNome(),
+					p.getCpf(),
+					p.getTelefone(),
+					p.getEndereço(),
 			});
 		}
 	}
@@ -323,6 +352,7 @@ public class Principal extends JFrame {
 		btnExcluirProduto.setBounds(215, 195, 37, 35);
 		pnProdutos.add(btnExcluirProduto);
 
+		
 		JButton btnAdicionarProduto = new JButton("");
 		btnAdicionarProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -565,6 +595,7 @@ public class Principal extends JFrame {
 				construirCliente();
 				ClienteController controladoraCliente = new ClienteController();
 				controladoraCliente.salvar(cliente);
+				readJTableClientes();
 			}
 		});
 		btnSalvar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
@@ -599,14 +630,20 @@ public class Principal extends JFrame {
 		tblClientes = new JTable();
 		tblClientes.setModel(new DefaultTableModel(
 			new Object[][] {
+				{"ID","Nome", "CPF", "Telefone", "Endereço"}
 			},
 			new String[] {
-				"New column", "New column", "New column", "New column"
+					"ID","Nome", "CPF", "Telefone", "Endereço"
 			}
 		));
 		scrollPane_1.setColumnHeaderView(tblClientes);
 		ImageIcon iconeAddCliente = new ImageIcon(Principal.class.getResource("/icons/icons8-add-48.png"));
 
+		//MÉTODOS DE ATUALIZAÇÃO DE UI
+		
+		readJTableProdutos();
+		readJTableServico();
+		readJTableClientes();
 	}
 
 	protected void construirServico() {
