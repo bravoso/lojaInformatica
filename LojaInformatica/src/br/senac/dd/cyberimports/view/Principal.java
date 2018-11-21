@@ -41,6 +41,7 @@ import javax.swing.table.TableRowSorter;
 import br.senac.dd.cyberimports.controller.ProdutoController;
 import br.senac.dd.cyberimports.controller.ServicoController;
 import br.senac.dd.cyberimports.model.dao.ProdutoDAO;
+import br.senac.dd.cyberimports.model.dao.ServicoDAO;
 import br.senac.dd.cyberimports.model.vo.ProdutoVO;
 import br.senac.dd.cyberimports.model.vo.ServicoVO;
 import br.senac.dd.cyberimports.controller.ClienteController;
@@ -57,7 +58,6 @@ public class Principal extends JFrame {
 	private JTextField txtEndereco;
 	private JTextField txtTelefone;
 	private JTextField txtNmeServico;
-	private JTable table;
 	private JTextField txtValorServico;
 	private JTextField textField_2;
 	private JTextField txtIdProduto;
@@ -81,6 +81,7 @@ public class Principal extends JFrame {
 	ServicoVO servico = new ServicoVO();
 	private JTextField txtIdCliente;
 	private JTable tblClientes;
+	private JTable tableServico;
 	
 	
 
@@ -126,12 +127,12 @@ public class Principal extends JFrame {
 		return produto;
 	} 
 
-	public void ViewJTable() {
+	public void viewJTableProdutos() {
 		DefaultTableModel modelo = (DefaultTableModel) tblProdutos.getModel();
 		tblProdutos.setRowSorter(new TableRowSorter(modelo));	
 	}
 
-	public void readJTable() {
+	public void readJTableProdutos() {
 
 		DefaultTableModel modelo = (DefaultTableModel) tblProdutos.getModel();
 		modelo.setNumRows(0);
@@ -154,6 +155,30 @@ public class Principal extends JFrame {
 					p.getCusto(),
 					p.getPreco(),
 					p.getQuantidade()
+			});
+		}
+	}
+	
+	public void readJTableServico() {
+
+		DefaultTableModel modelo = (DefaultTableModel) tableServico.getModel();
+		modelo.setNumRows(0);
+		ServicoDAO sdao = new ServicoDAO();
+
+		modelo.addRow(new Object[]{
+				"#",
+				"Nome",
+				"Valor",
+				
+		});
+
+		for (ServicoVO p : sdao.listarTodos()) {
+
+			modelo.addRow(new Object[]{
+
+					p.getId(),
+					p.getNome(),
+					p.getValor(),
 			});
 		}
 	}
@@ -305,7 +330,7 @@ public class Principal extends JFrame {
 				String mensagem = controlador.salvar(produto);
 				JOptionPane.showMessageDialog(null, mensagem);
 				limparTela();
-				readJTable();
+				readJTableProdutos();
 			}
 		});
 		btnAdicionarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
@@ -428,25 +453,13 @@ public class Principal extends JFrame {
 		pnServico.add(txtNmeServico);
 		txtNmeServico.setColumns(10);
 
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"ID", "Nome do Servi\u00E7o", "Valor do Servi\u00E7o"
-			}
-		));
-		table.getColumnModel().getColumn(1).setPreferredWidth(113);
-		table.getColumnModel().getColumn(2).setPreferredWidth(110);
-		table.setBounds(20, 173, 808, 362);
-		pnServico.add(table);
-
 		JButton btnAdicionar = new JButton("");
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				construirServico();
 				ServicoController controladora = new ServicoController();
 				controladora.salvar(servico);
+				readJTableServico();
 			}
 		});
 		btnAdicionar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
@@ -483,6 +496,21 @@ public class Principal extends JFrame {
 		lblIdDoServio.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblIdDoServio.setBounds(10, 26, 130, 14);
 		pnServico.add(lblIdDoServio);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(10, 171, 826, 364);
+		pnServico.add(scrollPane_2);
+		
+		tableServico = new JTable();
+		tableServico.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"ID", "Nome", "Valor"},
+			},
+			new String[] {
+				"ID", "Nome", "Valor"
+			}
+		));
+		scrollPane_2.setColumnHeaderView(tableServico);
 		tpAbas.addTab("Clientes", iconeClientes, pnClientes, null);
 		pnClientes.setLayout(null);
 
