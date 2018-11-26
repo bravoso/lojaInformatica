@@ -388,17 +388,18 @@ public class Principal extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (tblProdutos.getSelectedRow() != -1) {
 
-					ProdutoVO p = new ProdutoVO();
-					ProdutoDAO dao = new ProdutoDAO();
-
-					p.setNome(txtNomeProduto.getText());
-					p.setCusto(Double.parseDouble(txtPrecoCusto.getText()));
-					p.setPreco(Double.parseDouble(txtPrecoVenda.getText()));
-					p.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
+					ProdutoVO produto = construirProduto();
+										
+					produto.setNome(txtNomeProduto.getText());
+					produto.setCusto(Double.parseDouble(txtPrecoCusto.getText()));
+					produto.setPreco(Double.parseDouble(txtPrecoVenda.getText()));
+					produto.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
 					
-					p.setId((int) tblProdutos.getValueAt(tblProdutos.getSelectedRow(), 0));
-					dao.atualizar(p);
-
+					produto.setId((int) tblProdutos.getValueAt(tblProdutos.getSelectedRow(), 0));
+					
+					String mensagem = controlador.atualizar(produto);
+				
+					JOptionPane.showMessageDialog(null, mensagem);
 					limparTela();
 
 					readJTableProdutos();
