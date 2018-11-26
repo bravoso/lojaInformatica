@@ -136,7 +136,7 @@ public class Principal extends JFrame {
 		ProdutoDAO pdao = new ProdutoDAO();
 
 		modelo.addRow(new Object[]{
-				"#",
+				"ID",
 				"Nome",
 				"Custo",
 				"Preco",
@@ -163,7 +163,7 @@ public class Principal extends JFrame {
 		ServicoDAO sdao = new ServicoDAO();
 
 		modelo.addRow(new Object[]{
-				"#",
+				"ID",
 				"Nome",
 				"Valor",
 				
@@ -187,7 +187,7 @@ public class Principal extends JFrame {
 		ClienteDAO cdao = new ClienteDAO();
 
 		modelo.addRow(new Object[]{
-				"#",
+				"ID",
 				"Nome",
 				"CPF",
 				"Endereço",
