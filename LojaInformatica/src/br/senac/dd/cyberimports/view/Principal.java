@@ -361,10 +361,10 @@ public class Principal extends JFrame {
 			}
 		});
 
-		JButton btnSalvarProduto = new JButton("");
-		btnSalvarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
-		btnSalvarProduto.setBounds(132, 195, 37, 35);
-		pnProdutos.add(btnSalvarProduto);
+		JButton btnProcurarProduto = new JButton("");
+		btnProcurarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
+		btnProcurarProduto.setBounds(104, 195, 37, 35);
+		pnProdutos.add(btnProcurarProduto);
 
 		JButton btnExcluirProduto = new JButton("");
 		btnExcluirProduto.addActionListener(new ActionListener() {
@@ -386,7 +386,7 @@ public class Principal extends JFrame {
 			}
 		});
 		btnExcluirProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
-		btnExcluirProduto.setBounds(215, 195, 37, 35);
+		btnExcluirProduto.setBounds(151, 195, 37, 35);
 		pnProdutos.add(btnExcluirProduto);
 
 		
@@ -401,7 +401,7 @@ public class Principal extends JFrame {
 			}
 		});
 		btnAdicionarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
-		btnAdicionarProduto.setBounds(42, 195, 37, 35);
+		btnAdicionarProduto.setBounds(10, 195, 37, 35);
 		pnProdutos.add(btnAdicionarProduto);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -419,6 +419,11 @@ public class Principal extends JFrame {
 						"ID", "Nome", "Custo", "Pre\u00E7o", "Quantidade", 
 				}
 				));
+		
+		JButton btnAlterarProduto = new JButton("");
+		btnAlterarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
+		btnAlterarProduto.setBounds(57, 195, 37, 35);
+		pnProdutos.add(btnAlterarProduto);
 
 		JPanel pnOrcamento = new JPanel();
 		tpAbas.addTab("Orçamentos", iconeOrcamento, pnOrcamento, null);
@@ -661,8 +666,8 @@ public class Principal extends JFrame {
 			}
 		});
 
-		JButton btnSalvar = new JButton("");
-		btnSalvar.addMouseListener(new MouseAdapter() {
+		JButton btnAdicionarCliente = new JButton("");
+		btnAdicionarCliente.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
 				construirCliente();
 				ClienteController controladoraCliente = new ClienteController();
@@ -670,19 +675,19 @@ public class Principal extends JFrame {
 				readJTableClientes();
 			}
 		});
-		btnSalvar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
-		btnSalvar.setBounds(10, 190, 41, 35);
-		panel.add(btnSalvar);
+		btnAdicionarCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
+		btnAdicionarCliente.setBounds(10, 190, 41, 35);
+		panel.add(btnAdicionarCliente);
 
-		JButton btnExcluir = new JButton("");
-		btnExcluir.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
-		btnExcluir.setBounds(154, 190, 41, 35);
-		panel.add(btnExcluir);
+		JButton btnExcluirCliente = new JButton("");
+		btnExcluirCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
+		btnExcluirCliente.setBounds(154, 190, 41, 35);
+		panel.add(btnExcluirCliente);
 
-		JButton btnProcurar = new JButton("");
-		btnProcurar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
-		btnProcurar.setBounds(103, 190, 41, 35);
-		panel.add(btnProcurar);
+		JButton btnProcurarCliente = new JButton("");
+		btnProcurarCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
+		btnProcurarCliente.setBounds(103, 190, 41, 35);
+		panel.add(btnProcurarCliente);
 		
 		JLabel lblId = new JLabel("ID:");
 		lblId.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -710,10 +715,10 @@ public class Principal extends JFrame {
 		));
 		scrollPane_1.setColumnHeaderView(tblClientes);
 		
-		JButton button = new JButton("");
-		button.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
-		button.setBounds(61, 190, 37, 35);
-		panel.add(button);
+		JButton btnAlterarCliente = new JButton("");
+		btnAlterarCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
+		btnAlterarCliente.setBounds(61, 190, 37, 35);
+		panel.add(btnAlterarCliente);
 		ImageIcon iconeAddCliente = new ImageIcon(Principal.class.getResource("/icons/icons8-add-48.png"));
 
 		//MÉTODOS DE ATUALIZAÇÃO DE UI
