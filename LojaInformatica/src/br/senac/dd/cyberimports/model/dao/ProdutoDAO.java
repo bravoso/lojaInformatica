@@ -46,16 +46,18 @@ public int inserir(ProdutoVO f) {
 	public boolean atualizar(ProdutoVO f) {
 		boolean sucessoUpdate = false;
 		
-		String sql = " UPDATE PRODUTO F SET NOME=?, CUSTO=?, PREÇO=?, QUANTIDADE=?, WHERE F.ID = ? ";
+		String sql = " UPDATE PRODUTO F SET NOME=?, CUSTO=?, PREÇO=?, QUANTIDADE=? WHERE F.IDPRODUTO = ? ";
 		
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql, Statement.RETURN_GENERATED_KEYS);
 		
 		try {
+			
 				prepStmt.setString(1, f.getNome());
 				prepStmt.setDouble(2, f.getCusto());
 				prepStmt.setDouble(3, f.getPreco());
 				prepStmt.setInt(4, f.getQuantidade());
+				prepStmt.setInt(5, f.getId());
 				
 				int codigoRetorno = prepStmt.executeUpdate();
 				

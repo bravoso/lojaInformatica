@@ -68,18 +68,15 @@ public class Principal extends JFrame {
 	private JTextField textField_4;
 
 	private ProdutoVO produto = new ProdutoVO();
-	private ProdutoController controlador = new ProdutoController();		
+	private ProdutoController controlador = new ProdutoController();
 
-
-	//DECLARAÇÃO DE VARIÁVEIS
+	// DECLARAÇÃO DE VARIÁVEIS
 	ClienteVO cliente = new ClienteVO();
 	ServicoVO servico = new ServicoVO();
 	private JTextField txtIdCliente;
 	private JTable tblClientes;
 	private JTable tableServico;
 	private JTable table;
-	
-	
 
 	/**
 	 * Launch the application.
@@ -87,7 +84,7 @@ public class Principal extends JFrame {
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println("Error setting native LAF: " + e);
 		}
 		EventQueue.invokeLater(new Runnable() {
@@ -102,7 +99,6 @@ public class Principal extends JFrame {
 			}
 		});
 	}
-	 
 
 	protected void limparTela() {
 		produto = new ProdutoVO();
@@ -112,21 +108,21 @@ public class Principal extends JFrame {
 		txtPrecoVenda.setText("");
 		txtQuantidade.setText("");
 	}
-  
+
 	//
 
-	public ProdutoVO construirProduto(){
+	public ProdutoVO construirProduto() {
 		produto.setNome(txtNomeProduto.getText());
 		produto.setCusto(Double.parseDouble(txtPrecoCusto.getText()));
 		produto.setPreco(Double.parseDouble(txtPrecoVenda.getText()));
 		produto.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
 
 		return produto;
-	} 
+	}
 
 	public void viewJTableProdutos() {
 		DefaultTableModel modelo = (DefaultTableModel) tblProdutos.getModel();
-		tblProdutos.setRowSorter(new TableRowSorter(modelo));	
+		tblProdutos.setRowSorter(new TableRowSorter(modelo));
 	}
 
 	public void readJTableProdutos() {
@@ -135,75 +131,47 @@ public class Principal extends JFrame {
 		modelo.setNumRows(0);
 		ProdutoDAO pdao = new ProdutoDAO();
 
-		modelo.addRow(new Object[]{
-				"ID",
-				"Nome",
-				"Custo",
-				"Preco",
-				"Quantidade"
-		});
+		modelo.addRow(new Object[] { "ID", "Nome", "Custo", "Preco", "Quantidade" });
 
 		for (ProdutoVO p : pdao.listarTodos()) {
 
-			modelo.addRow(new Object[]{
+			modelo.addRow(new Object[] {
 
-					p.getId(),
-					p.getNome(),
-					p.getCusto(),
-					p.getPreco(),
-					p.getQuantidade()
-			});
+					p.getId(), p.getNome(), p.getCusto(), p.getPreco(), p.getQuantidade() });
 		}
 	}
-	
+
 	public void readJTableServico() {
 
 		DefaultTableModel modelo = (DefaultTableModel) tableServico.getModel();
 		modelo.setNumRows(0);
 		ServicoDAO sdao = new ServicoDAO();
 
-		modelo.addRow(new Object[]{
-				"ID",
-				"Nome",
-				"Valor",
-				
+		modelo.addRow(new Object[] { "ID", "Nome", "Valor",
+
 		});
 
 		for (ServicoVO p : sdao.listarTodos()) {
 
-			modelo.addRow(new Object[]{
+			modelo.addRow(new Object[] {
 
-					p.getId(),
-					p.getNome(),
-					p.getValor(),
-			});
+					p.getId(), p.getNome(), p.getValor(), });
 		}
 	}
-	
+
 	public void readJTableClientes() {
 
 		DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
 		modelo.setNumRows(0);
 		ClienteDAO cdao = new ClienteDAO();
 
-		modelo.addRow(new Object[]{
-				"ID",
-				"Nome",
-				"CPF",
-				"Endereço",
-				"Telefone"
-		});
+		modelo.addRow(new Object[] { "ID", "Nome", "CPF", "Endereço", "Telefone" });
 
 		for (ClienteVO p : cdao.listarTodos()) {
 
-			modelo.addRow(new Object[]{
+			modelo.addRow(new Object[] {
 
-					p.getId(),
-					p.getNome(),
-					p.getCpf(),
-					p.getTelefone(),
-					p.getEndereço(),
-			});
+					p.getId(), p.getNome(), p.getCpf(), p.getTelefone(), p.getEndereço(), });
 		}
 	}
 
@@ -329,7 +297,7 @@ public class Principal extends JFrame {
 		txtPrecoCusto.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
 				char input = e.getKeyChar();
-				if((input <'0' || input >'9') && input != '\b') {
+				if ((input < '0' || input > '9') && input != '\b') {
 					e.consume();
 				}
 			}
@@ -342,7 +310,7 @@ public class Principal extends JFrame {
 		txtPrecoVenda.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
 				char input = e.getKeyChar();
-				if((input <'0' || input >'9') && input != '\b') {
+				if ((input < '0' || input > '9') && input != '\b') {
 					e.consume();
 				}
 			}
@@ -355,14 +323,15 @@ public class Principal extends JFrame {
 		txtQuantidade.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
 				char input = e.getKeyChar();
-				if((input <'0' || input >'9') && input != '\b') {
+				if ((input < '0' || input > '9') && input != '\b') {
 					e.consume();
 				}
 			}
 		});
 
 		JButton btnProcurarProduto = new JButton("");
-		btnProcurarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
+		btnProcurarProduto
+				.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
 		btnProcurarProduto.setBounds(104, 195, 37, 35);
 		pnProdutos.add(btnProcurarProduto);
 
@@ -371,25 +340,24 @@ public class Principal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (tblProdutos.getSelectedRow() != -1) {
 
-		            ProdutoDAO dao = new ProdutoDAO();
+					ProdutoDAO dao = new ProdutoDAO();
 
-		            int idSelecionado = (int) tblProdutos.getValueAt(tblProdutos.getSelectedRow(), 0);
-		            
-		            dao.remover(idSelecionado);
+					int idSelecionado = (int) tblProdutos.getValueAt(tblProdutos.getSelectedRow(), 0);
 
-		            limparTela();
-		            readJTableProdutos();
+					dao.remover(idSelecionado);
 
-		        } else {
-		            JOptionPane.showMessageDialog(null, "Selecione um produto para excluir.");
-		        }
+					limparTela();
+					readJTableProdutos();
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Selecione um produto para excluir.");
+				}
 			}
 		});
 		btnExcluirProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
 		btnExcluirProduto.setBounds(151, 195, 37, 35);
 		pnProdutos.add(btnExcluirProduto);
 
-		
 		JButton btnAdicionarProduto = new JButton("");
 		btnAdicionarProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -411,19 +379,31 @@ public class Principal extends JFrame {
 		tblProdutos = new JTable();
 		scrollPane.setRowHeaderView(tblProdutos);
 		tblProdutos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tblProdutos.setModel(new DefaultTableModel(
-				new Object[][] {
-					{"ID", "Nome", "Custo", "Pre\u00E7o", "Quantidade", },
-				},
-				new String[] {
-						"ID", "Nome", "Custo", "Pre\u00E7o", "Quantidade", 
-				}
-				));
-		
+		tblProdutos.setModel(
+				new DefaultTableModel(new Object[][] { { "ID", "Nome", "Custo", "Pre\u00E7o", "Quantidade", }, },
+						new String[] { "ID", "Nome", "Custo", "Pre\u00E7o", "Quantidade", }));
+
 		JButton btnAlterarProduto = new JButton("");
 		btnAlterarProduto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent arg0) {
+				if (tblProdutos.getSelectedRow() != -1) {
+
+					ProdutoVO produto = construirProduto();
+										
+					produto.setNome(txtNomeProduto.getText());
+					produto.setCusto(Double.parseDouble(txtPrecoCusto.getText()));
+					produto.setPreco(Double.parseDouble(txtPrecoVenda.getText()));
+					produto.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
+					
+					produto.setId((int) tblProdutos.getValueAt(tblProdutos.getSelectedRow(), 0));
+					
+					String mensagem = controlador.atualizar(produto);
 				
+					JOptionPane.showMessageDialog(null, mensagem);
+					limparTela();
+
+					readJTableProdutos();
+				}
 			}
 		});
 		btnAlterarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
@@ -453,7 +433,8 @@ public class Principal extends JFrame {
 		pnOrcamento.add(lblNomeClienteOrcamento);
 
 		JComboBox comboBoxStatus = new JComboBox();
-		comboBoxStatus.setModel(new DefaultComboBoxModel(new String[] {"", "Aguardando", "Em Andamento", "Aguardando Pe\u00E7as", "Or\u00E7amento conclu\u00EDdo", "Finalizado"}));
+		comboBoxStatus.setModel(new DefaultComboBoxModel(new String[] { "", "Aguardando", "Em Andamento",
+				"Aguardando Pe\u00E7as", "Or\u00E7amento conclu\u00EDdo", "Finalizado" }));
 		comboBoxStatus.setBounds(172, 36, 135, 20);
 		pnOrcamento.add(comboBoxStatus);
 
@@ -511,20 +492,15 @@ public class Principal extends JFrame {
 		btnEditar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-compose-24.png")));
 		btnEditar.setBounds(108, 135, 39, 35);
 		pnOrcamento.add(btnEditar);
-		
+
 		JScrollPane scrollPane_3 = new JScrollPane();
 		scrollPane_3.setBounds(10, 181, 831, 354);
 		pnOrcamento.add(scrollPane_3);
-		
+
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"New column", "New column", "New column", "New column", "New column"}
-			},
-			new String[] {
-				"New column", "New column", "New column", "New column", "New column"
-			}
-		));
+				new Object[][] { { "New column", "New column", "New column", "New column", "New column" } },
+				new String[] { "New column", "New column", "New column", "New column", "New column" }));
 		scrollPane_3.setColumnHeaderView(table);
 
 		JPanel pnServico = new JPanel();
@@ -571,7 +547,7 @@ public class Principal extends JFrame {
 		txtValorServico.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
 				char input = e.getKeyChar();
-				if((input <'0' || input >'9') && input != '\b') {
+				if ((input < '0' || input > '9') && input != '\b') {
 					e.consume();
 				}
 			}
@@ -592,20 +568,14 @@ public class Principal extends JFrame {
 		lblIdDoServio.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblIdDoServio.setBounds(10, 26, 130, 14);
 		pnServico.add(lblIdDoServio);
-		
+
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(10, 171, 826, 364);
 		pnServico.add(scrollPane_2);
-		
+
 		tableServico = new JTable();
-		tableServico.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"ID", "Nome", "Valor"},
-			},
-			new String[] {
-				"ID", "Nome", "Valor"
-			}
-		));
+		tableServico.setModel(new DefaultTableModel(new Object[][] { { "ID", "Nome", "Valor" }, },
+				new String[] { "ID", "Nome", "Valor" }));
 		scrollPane_2.setColumnHeaderView(tableServico);
 		tpAbas.addTab("Clientes", iconeClientes, pnClientes, null);
 		pnClientes.setLayout(null);
@@ -637,7 +607,7 @@ public class Principal extends JFrame {
 		txtCPF.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
 				char input = e.getKeyChar();
-				if((input <'0' || input >'9') && input != '\b') {
+				if ((input < '0' || input > '9') && input != '\b') {
 					e.consume();
 				}
 			}
@@ -665,7 +635,7 @@ public class Principal extends JFrame {
 		txtTelefone.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
 				char input = e.getKeyChar();
-				if((input <'0' || input >'9') && input != '\b') {
+				if ((input < '0' || input > '9') && input != '\b') {
 					e.consume();
 				}
 			}
@@ -690,44 +660,39 @@ public class Principal extends JFrame {
 		panel.add(btnExcluirCliente);
 
 		JButton btnProcurarCliente = new JButton("");
-		btnProcurarCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
+		btnProcurarCliente
+				.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
 		btnProcurarCliente.setBounds(103, 190, 41, 35);
 		panel.add(btnProcurarCliente);
-		
+
 		JLabel lblId = new JLabel("ID:");
 		lblId.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblId.setBounds(10, 12, 46, 14);
 		panel.add(lblId);
-		
+
 		txtIdCliente = new JTextField();
 		txtIdCliente.setEditable(false);
 		txtIdCliente.setColumns(10);
 		txtIdCliente.setBounds(103, 6, 277, 20);
 		panel.add(txtIdCliente);
-		
+
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(407, 12, 425, 512);
 		panel.add(scrollPane_1);
-		
+
 		tblClientes = new JTable();
-		tblClientes.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"ID","Nome", "CPF", "Telefone", "Endereço"}
-			},
-			new String[] {
-					"ID","Nome", "CPF", "Telefone", "Endereço"
-			}
-		));
+		tblClientes.setModel(new DefaultTableModel(new Object[][] { { "ID", "Nome", "CPF", "Telefone", "Endereço" } },
+				new String[] { "ID", "Nome", "CPF", "Telefone", "Endereço" }));
 		scrollPane_1.setColumnHeaderView(tblClientes);
-		
+
 		JButton btnAlterarCliente = new JButton("");
 		btnAlterarCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
 		btnAlterarCliente.setBounds(61, 190, 37, 35);
 		panel.add(btnAlterarCliente);
 		ImageIcon iconeAddCliente = new ImageIcon(Principal.class.getResource("/icons/icons8-add-48.png"));
 
-		//MÉTODOS DE ATUALIZAÇÃO DE UI
-		
+		// MÉTODOS DE ATUALIZAÇÃO DE UI
+
 		readJTableProdutos();
 		readJTableServico();
 		readJTableClientes();
