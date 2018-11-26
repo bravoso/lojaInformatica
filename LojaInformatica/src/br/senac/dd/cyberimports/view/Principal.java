@@ -136,7 +136,7 @@ public class Principal extends JFrame {
 		ProdutoDAO pdao = new ProdutoDAO();
 
 		modelo.addRow(new Object[]{
-				"#",
+				"ID",
 				"Nome",
 				"Custo",
 				"Preco",
@@ -163,7 +163,7 @@ public class Principal extends JFrame {
 		ServicoDAO sdao = new ServicoDAO();
 
 		modelo.addRow(new Object[]{
-				"#",
+				"ID",
 				"Nome",
 				"Valor",
 				
@@ -187,7 +187,7 @@ public class Principal extends JFrame {
 		ClienteDAO cdao = new ClienteDAO();
 
 		modelo.addRow(new Object[]{
-				"#",
+				"ID",
 				"Nome",
 				"CPF",
 				"Endereço",
@@ -670,18 +670,18 @@ public class Principal extends JFrame {
 				readJTableClientes();
 			}
 		});
-		btnSalvar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
+		btnSalvar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
 		btnSalvar.setBounds(10, 190, 41, 35);
 		panel.add(btnSalvar);
 
 		JButton btnExcluir = new JButton("");
 		btnExcluir.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
-		btnExcluir.setBounds(112, 190, 41, 35);
+		btnExcluir.setBounds(154, 190, 41, 35);
 		panel.add(btnExcluir);
 
 		JButton btnProcurar = new JButton("");
 		btnProcurar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
-		btnProcurar.setBounds(61, 190, 41, 35);
+		btnProcurar.setBounds(103, 190, 41, 35);
 		panel.add(btnProcurar);
 		
 		JLabel lblId = new JLabel("ID:");
@@ -709,6 +709,11 @@ public class Principal extends JFrame {
 			}
 		));
 		scrollPane_1.setColumnHeaderView(tblClientes);
+		
+		JButton button = new JButton("");
+		button.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
+		button.setBounds(61, 190, 37, 35);
+		panel.add(button);
 		ImageIcon iconeAddCliente = new ImageIcon(Principal.class.getResource("/icons/icons8-add-48.png"));
 
 		//MÉTODOS DE ATUALIZAÇÃO DE UI
