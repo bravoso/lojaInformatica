@@ -367,6 +367,24 @@ public class Principal extends JFrame {
 		pnProdutos.add(btnSalvarProduto);
 
 		JButton btnExcluirProduto = new JButton("");
+		btnExcluirProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tblProdutos.getSelectedRow() != -1) {
+
+		            ProdutoDAO dao = new ProdutoDAO();
+
+		            int idSelecionado = (int) tblProdutos.getValueAt(tblProdutos.getSelectedRow(), 0);
+		            
+		            dao.remover(idSelecionado);
+
+		            limparTela();
+		            readJTableProdutos();
+
+		        } else {
+		            JOptionPane.showMessageDialog(null, "Selecione um produto para excluir.");
+		        }
+			}
+		});
 		btnExcluirProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
 		btnExcluirProduto.setBounds(215, 195, 37, 35);
 		pnProdutos.add(btnExcluirProduto);

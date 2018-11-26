@@ -79,7 +79,7 @@ public int inserir(ProdutoVO f) {
 			boolean sucessoDelete = false;
 
 			String sql = " DELETE FROM PRODUTO "
-					+ " WHERE ID = ? ";
+					+ " WHERE IDPRODUTO = ? ";
 
 			Connection conexao = Banco.getConnection();
 			PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
@@ -94,7 +94,7 @@ public int inserir(ProdutoVO f) {
 				}
 
 			} catch (SQLException e) {
-				System.out.println("Erro ao remover produto. Id = " + id);
+				System.out.println("Erro ao remover produto. Id = " + id + ". causa: " + e.getMessage());
 			}finally{
 				Banco.closePreparedStatement(prepStmt);
 				Banco.closeConnection(conexao);
