@@ -23,7 +23,7 @@ public int inserir(FuncionarioVO f) {
 		
 		try {
 				prepStmt.setString(1, f.getNome());
-                                prepStmt.setString(2, f.getCpf());
+                prepStmt.setString(2, f.getCpf());
 				prepStmt.setDouble(3, f.getSalario());
 			
 				prepStmt.execute();
@@ -52,7 +52,7 @@ public int inserir(FuncionarioVO f) {
 		
 		try {
 				prepStmt.setString(1, f.getNome());
-                                prepStmt.setString(2, f.getCpf());
+                prepStmt.setString(2, f.getCpf());
 				prepStmt.setDouble(3, f.getSalario());
 				prepStmt.setInt(4, f.getIdFuncionario());
 				
@@ -117,7 +117,7 @@ public int inserir(FuncionarioVO f) {
 					//Obtendo valores pelo NOME DA COLUNA
 					f.setIdFuncionario(result.getInt("IDFUNCIONARIO"));
 					f.setNome(result.getString("NOME"));
-                                        f.setCpf(result.getString("CPF"));
+                    f.setCpf(result.getString("CPF"));
 					f.setSalario(result.getDouble("SALARIO"));
 					
 					//Outra forma de obter (POSICIONAL)
