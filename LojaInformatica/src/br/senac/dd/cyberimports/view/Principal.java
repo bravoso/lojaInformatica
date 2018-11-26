@@ -421,6 +421,11 @@ public class Principal extends JFrame {
 				));
 		
 		JButton btnAlterarProduto = new JButton("");
+		btnAlterarProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnAlterarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
 		btnAlterarProduto.setBounds(57, 195, 37, 35);
 		pnProdutos.add(btnAlterarProduto);
