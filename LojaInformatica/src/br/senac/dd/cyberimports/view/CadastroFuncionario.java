@@ -20,6 +20,8 @@ import br.senac.dd.cyberimports.model.vo.ClienteVO;
 import br.senac.dd.cyberimports.model.vo.FuncionarioVO;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class CadastroFuncionario {
 
@@ -97,6 +99,14 @@ public class CadastroFuncionario {
 		frmCadastrarFuncionrio.getContentPane().add(lblCpf);
 		
 		txtCpfFuncionario = new JTextField();
+		txtCpfFuncionario.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				char input = e.getKeyChar();
+				if((input <'0' || input >'9') && input != '\b') {
+					e.consume();
+				}
+			}
+		});
 		txtCpfFuncionario.setColumns(10);
 		txtCpfFuncionario.setBounds(79, 92, 199, 20);
 		frmCadastrarFuncionrio.getContentPane().add(txtCpfFuncionario);
@@ -138,6 +148,14 @@ public class CadastroFuncionario {
 		txtSalario.setColumns(10);
 		txtSalario.setBounds(79, 117, 199, 20);
 		frmCadastrarFuncionrio.getContentPane().add(txtSalario);
+		txtSalario.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				char input = e.getKeyChar();
+				if((input <'0' || input >'9') && input != '\b') {
+					e.consume();
+				}
+			}
+		});
 		
 		button = new JButton("");
 		button.setIcon(new ImageIcon(CadastroFuncionario.class.getResource("/icons/icons8-cancel-26.png")));

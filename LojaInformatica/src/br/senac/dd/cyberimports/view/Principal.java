@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
+
 import javax.swing.JTabbedPane;
 import javax.swing.SpringLayout;
 import javax.swing.UIManager;
@@ -324,16 +326,40 @@ public class Principal extends JFrame {
 		txtPrecoCusto.setColumns(10);
 		txtPrecoCusto.setBounds(132, 78, 175, 20);
 		pnProdutos.add(txtPrecoCusto);
+		txtPrecoCusto.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				char input = e.getKeyChar();
+				if((input <'0' || input >'9') && input != '\b') {
+					e.consume();
+				}
+			}
+		});
 
 		txtPrecoVenda = new JTextField();
 		txtPrecoVenda.setColumns(10);
 		txtPrecoVenda.setBounds(132, 113, 175, 20);
 		pnProdutos.add(txtPrecoVenda);
+		txtPrecoVenda.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				char input = e.getKeyChar();
+				if((input <'0' || input >'9') && input != '\b') {
+					e.consume();
+				}
+			}
+		});
 
 		txtQuantidade = new JTextField();
 		txtQuantidade.setColumns(10);
 		txtQuantidade.setBounds(132, 146, 175, 20);
 		pnProdutos.add(txtQuantidade);
+		txtQuantidade.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				char input = e.getKeyChar();
+				if((input <'0' || input >'9') && input != '\b') {
+					e.consume();
+				}
+			}
+		});
 
 		JButton btnSalvarProduto = new JButton("");
 		btnSalvarProduto.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
@@ -514,6 +540,14 @@ public class Principal extends JFrame {
 		txtValorServico.setColumns(10);
 		txtValorServico.setBounds(140, 80, 114, 20);
 		pnServico.add(txtValorServico);
+		txtValorServico.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				char input = e.getKeyChar();
+				if((input <'0' || input >'9') && input != '\b') {
+					e.consume();
+				}
+			}
+		});
 
 		JLabel label = new JLabel("Valor do Servi\u00E7o:");
 		label.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -572,6 +606,14 @@ public class Principal extends JFrame {
 		txtCPF.setColumns(10);
 		txtCPF.setBounds(103, 68, 277, 20);
 		panel.add(txtCPF);
+		txtCPF.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				char input = e.getKeyChar();
+				if((input <'0' || input >'9') && input != '\b') {
+					e.consume();
+				}
+			}
+		});
 
 		JLabel lblEndereo = new JLabel("Endere\u00E7o:");
 		lblEndereo.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -592,6 +634,14 @@ public class Principal extends JFrame {
 		txtTelefone.setColumns(10);
 		txtTelefone.setBounds(103, 141, 277, 20);
 		panel.add(txtTelefone);
+		txtTelefone.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				char input = e.getKeyChar();
+				if((input <'0' || input >'9') && input != '\b') {
+					e.consume();
+				}
+			}
+		});
 
 		JButton btnSalvar = new JButton("");
 		btnSalvar.addMouseListener(new MouseAdapter() {
