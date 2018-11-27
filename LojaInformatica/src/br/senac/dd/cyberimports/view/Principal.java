@@ -78,6 +78,12 @@ public class Principal extends JFrame {
 	private JTable tableServico;
 	private JTable table;
 
+	Integer idProduto = null;
+	String nomeProduto = "";
+	Double custoProduto = null;
+	Double precoProduto = null;
+	Integer quantidateProduto = null;
+
 	/**
 	 * Launch the application.
 	 */
@@ -377,11 +383,30 @@ public class Principal extends JFrame {
 		pnProdutos.add(scrollPane);
 
 		tblProdutos = new JTable();
+		tblProdutos.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				DefaultTableModel model = (DefaultTableModel) tblProdutos.getModel();
+				idProduto = (int) model.getValueAt(tblProdutos.getSelectedRow(), 0);
+				nomeProduto = (String) model.getValueAt(tblProdutos.getSelectedRow(), 1);
+				custoProduto = (Double) model.getValueAt(tblProdutos.getSelectedRow(), 2);
+				precoProduto = (Double) model.getValueAt(tblProdutos.getSelectedRow(), 3);
+				quantidateProduto = (int) model.getValueAt(tblProdutos.getSelectedRow(), 4);
+				
+				
+				txtNomeProduto.setText(nomeProduto);
+				txtIdProduto.setText(String.valueOf(idProduto));
+				txtPrecoCusto.setText(String.valueOf(custoProduto));
+				txtPrecoVenda.setText(String.valueOf(precoProduto));
+				txtQuantidade.setText(String.valueOf(txtQuantidade));
+			}
+		});
 		scrollPane.setRowHeaderView(tblProdutos);
 		tblProdutos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tblProdutos.setModel(
 				new DefaultTableModel(new Object[][] { { "ID", "Nome", "Custo", "Pre\u00E7o", "Quantidade", }, },
 						new String[] { "ID", "Nome", "Custo", "Pre\u00E7o", "Quantidade", }));
+
+		
 
 		JButton btnAlterarProduto = new JButton("");
 		btnAlterarProduto.addActionListener(new ActionListener() {
@@ -389,17 +414,16 @@ public class Principal extends JFrame {
 				if (tblProdutos.getSelectedRow() != -1) {
 
 					ProdutoVO produto = construirProduto();
-										
+
 					produto.setNome(txtNomeProduto.getText());
 					produto.setCusto(Double.parseDouble(txtPrecoCusto.getText()));
 					produto.setPreco(Double.parseDouble(txtPrecoVenda.getText()));
 					produto.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
-					
+
 					produto.setId((int) tblProdutos.getValueAt(tblProdutos.getSelectedRow(), 0));
-					
+
 					String mensagem = controlador.atualizar(produto);
-				
-					JOptionPane.showMessageDialog(null, mensagem);
+
 					limparTela();
 
 					readJTableProdutos();
