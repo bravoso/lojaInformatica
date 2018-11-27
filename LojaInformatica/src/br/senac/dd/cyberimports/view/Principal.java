@@ -45,6 +45,7 @@ import br.senac.dd.cyberimports.model.vo.ClienteVO;
 
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
+import java.awt.Toolkit;
 
 public class Principal extends JFrame {
 
@@ -55,7 +56,7 @@ public class Principal extends JFrame {
 	private JTextField txtTelefone;
 	private JTextField txtNmeServico;
 	private JTextField txtValorServico;
-	private JTextField textField_2;
+	private JTextField txtIdServico;
 	private JTextField txtIdProduto;
 	private JTextField txtNomeProduto;
 	private JTextField txtPrecoCusto;
@@ -83,6 +84,16 @@ public class Principal extends JFrame {
 	Double custoProduto = null;
 	Double precoProduto = null;
 	Integer quantidateProduto = null;
+	
+	Integer idCliente = null;
+	String nomeCliente = "";
+	String clienteCPF = null;
+	String telefoneCliente = null;
+	String enderecoCliente = null;
+	
+	Integer idServico = null;
+	String nomeServico = "";
+	Double valorServico = null;
 
 	/**
 	 * Launch the application.
@@ -185,6 +196,8 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/icons/icons8-ssd-48.png")));
+		setTitle("Cyber Imports SI");
 		setResizable(false);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -397,7 +410,7 @@ public class Principal extends JFrame {
 				txtIdProduto.setText(String.valueOf(idProduto));
 				txtPrecoCusto.setText(String.valueOf(custoProduto));
 				txtPrecoVenda.setText(String.valueOf(precoProduto));
-				txtQuantidade.setText(String.valueOf(txtQuantidade));
+				txtQuantidade.setText(String.valueOf(quantidateProduto));
 			}
 		});
 		scrollPane.setRowHeaderView(tblProdutos);
@@ -582,11 +595,11 @@ public class Principal extends JFrame {
 		label.setBounds(10, 83, 130, 14);
 		pnServico.add(label);
 
-		textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		textField_2.setColumns(10);
-		textField_2.setBounds(140, 23, 114, 20);
-		pnServico.add(textField_2);
+		txtIdServico = new JTextField();
+		txtIdServico.setEditable(false);
+		txtIdServico.setColumns(10);
+		txtIdServico.setBounds(140, 23, 114, 20);
+		pnServico.add(txtIdServico);
 
 		JLabel lblIdDoServio = new JLabel("ID do Servi\u00E7o:");
 		lblIdDoServio.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -598,6 +611,22 @@ public class Principal extends JFrame {
 		pnServico.add(scrollPane_2);
 
 		tableServico = new JTable();
+		tableServico.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				DefaultTableModel modelClientes = (DefaultTableModel) tableServico.getModel();
+				idServico = (int) modelClientes.getValueAt(tableServico.getSelectedRow(), 0);
+				nomeServico = (String) modelClientes.getValueAt(tableServico.getSelectedRow(), 1);
+				valorServico = (Double) modelClientes.getValueAt(tableServico.getSelectedRow(), 2);
+				
+				
+				
+				txtNmeServico.setText(nomeServico);
+				txtValorServico.setText(String.valueOf(valorServico));
+				txtIdServico.setText(String.valueOf(idServico));
+				
+				
+			}
+		});
 		tableServico.setModel(new DefaultTableModel(new Object[][] { { "ID", "Nome", "Valor" }, },
 				new String[] { "ID", "Nome", "Valor" }));
 		scrollPane_2.setColumnHeaderView(tableServico);
@@ -705,6 +734,23 @@ public class Principal extends JFrame {
 		panel.add(scrollPane_1);
 
 		tblClientes = new JTable();
+		tblClientes.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				DefaultTableModel modelClientes = (DefaultTableModel) tblClientes.getModel();
+				idCliente = (int) modelClientes.getValueAt(tblClientes.getSelectedRow(), 0);
+				nomeCliente = (String) modelClientes.getValueAt(tblClientes.getSelectedRow(), 1);
+				clienteCPF = (String) modelClientes.getValueAt(tblClientes.getSelectedRow(), 2);
+				telefoneCliente = (String) modelClientes.getValueAt(tblClientes.getSelectedRow(), 3);
+				enderecoCliente = (String) modelClientes.getValueAt(tblClientes.getSelectedRow(), 4);
+				
+				
+				txtNome.setText(nomeCliente);
+				txtIdCliente.setText(String.valueOf(idCliente));
+				txtCPF.setText(String.valueOf(clienteCPF));
+				txtTelefone.setText(String.valueOf(telefoneCliente));
+				txtEndereco.setText(String.valueOf(enderecoCliente));
+			}
+		});
 		tblClientes.setModel(new DefaultTableModel(new Object[][] { { "ID", "Nome", "CPF", "Telefone", "Endereço" } },
 				new String[] { "ID", "Nome", "CPF", "Telefone", "Endereço" }));
 		scrollPane_1.setColumnHeaderView(tblClientes);
