@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class FaturaVO {
 	
+	private int id;
 	private double valor;
 	private Date data_compra;
 	private String tipo;
@@ -11,11 +12,19 @@ public class FaturaVO {
 	public FaturaVO() {
 		super();
 	}
-	public FaturaVO(double valor, Date data_compra, String tipo) {
+	public FaturaVO(int id, double valor, Date data_compra, String tipo) {
 		super();
+		this.id = id;
 		this.valor = valor;
 		this.data_compra = data_compra;
 		this.tipo = tipo;
+	}
+
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public double getValor() {
 		return valor;

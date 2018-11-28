@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class OrcamentoVO {
 	
+	private int id;
 	private double valor;
 	private Date dt_orcamento;
 	private int status_orcamento;
@@ -12,9 +13,10 @@ public class OrcamentoVO {
 	private ProdutoVO[] produtos;
 	private ServicoVO[] servicos;
 	
-	public OrcamentoVO(double valor, Date dt_orcamento, int status_orcamento, FuncionarioVO vendedor, ClienteVO cliente,
+	public OrcamentoVO(int id, double valor, Date dt_orcamento, int status_orcamento, FuncionarioVO vendedor, ClienteVO cliente,
 			ProdutoVO[] produtos, ServicoVO[] servicos) {
 		super();
+		this.id = id;
 		this.valor = valor;
 		this.dt_orcamento = dt_orcamento;
 		this.status_orcamento = status_orcamento;
@@ -24,6 +26,18 @@ public class OrcamentoVO {
 		this.servicos = servicos;
 	}
 	
+	public OrcamentoVO() {
+		super();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public double getValor() {
 		return valor;
 	}
