@@ -70,6 +70,7 @@ public class Principal extends JFrame {
 
 	private ProdutoVO produto = new ProdutoVO();
 	private ProdutoController controlador = new ProdutoController();
+	private ClienteController controladorCliente = new ClienteController();
 
 	// DECLARAÇÃO DE VARIÁVEIS
 	ClienteVO cliente = new ClienteVO();
@@ -84,13 +85,13 @@ public class Principal extends JFrame {
 	Double custoProduto = null;
 	Double precoProduto = null;
 	Integer quantidateProduto = null;
-	
+
 	Integer idCliente = null;
 	String nomeCliente = "";
 	String clienteCPF = null;
 	String telefoneCliente = null;
 	String enderecoCliente = null;
-	
+
 	Integer idServico = null;
 	String nomeServico = "";
 	Double valorServico = null;
@@ -126,7 +127,16 @@ public class Principal extends JFrame {
 		txtQuantidade.setText("");
 	}
 
-	//
+	//METODOS
+	
+
+	public ClienteVO construirCliente() {
+		cliente.setNome(txtNome.getText());
+		cliente.setCpf(txtCPF.getText());
+		cliente.setEndereço(txtEndereco.getText());
+		cliente.setTelefone(txtTelefone.getText());
+		return cliente;
+	}
 
 	public ProdutoVO construirProduto() {
 		produto.setNome(txtNomeProduto.getText());
@@ -404,8 +414,7 @@ public class Principal extends JFrame {
 				custoProduto = (Double) model.getValueAt(tblProdutos.getSelectedRow(), 2);
 				precoProduto = (Double) model.getValueAt(tblProdutos.getSelectedRow(), 3);
 				quantidateProduto = (int) model.getValueAt(tblProdutos.getSelectedRow(), 4);
-				
-				
+
 				txtNomeProduto.setText(nomeProduto);
 				txtIdProduto.setText(String.valueOf(idProduto));
 				txtPrecoCusto.setText(String.valueOf(custoProduto));
@@ -418,8 +427,6 @@ public class Principal extends JFrame {
 		tblProdutos.setModel(
 				new DefaultTableModel(new Object[][] { { "ID", "Nome", "Custo", "Pre\u00E7o", "Quantidade", }, },
 						new String[] { "ID", "Nome", "Custo", "Pre\u00E7o", "Quantidade", }));
-
-		
 
 		JButton btnAlterarProduto = new JButton("");
 		btnAlterarProduto.addActionListener(new ActionListener() {
@@ -617,14 +624,11 @@ public class Principal extends JFrame {
 				idServico = (int) modelClientes.getValueAt(tableServico.getSelectedRow(), 0);
 				nomeServico = (String) modelClientes.getValueAt(tableServico.getSelectedRow(), 1);
 				valorServico = (Double) modelClientes.getValueAt(tableServico.getSelectedRow(), 2);
-				
-				
-				
+
 				txtNmeServico.setText(nomeServico);
 				txtValorServico.setText(String.valueOf(valorServico));
 				txtIdServico.setText(String.valueOf(idServico));
-				
-				
+
 			}
 		});
 		tableServico.setModel(new DefaultTableModel(new Object[][] { { "ID", "Nome", "Valor" }, },
@@ -740,10 +744,9 @@ public class Principal extends JFrame {
 				idCliente = (int) modelClientes.getValueAt(tblClientes.getSelectedRow(), 0);
 				nomeCliente = (String) modelClientes.getValueAt(tblClientes.getSelectedRow(), 1);
 				clienteCPF = (String) modelClientes.getValueAt(tblClientes.getSelectedRow(), 2);
-				telefoneCliente = (String) modelClientes.getValueAt(tblClientes.getSelectedRow(), 3);
-				enderecoCliente = (String) modelClientes.getValueAt(tblClientes.getSelectedRow(), 4);
-				
-				
+				telefoneCliente = (String) modelClientes.getValueAt(tblClientes.getSelectedRow(), 4);
+				enderecoCliente = (String) modelClientes.getValueAt(tblClientes.getSelectedRow(), 3);
+
 				txtNome.setText(nomeCliente);
 				txtIdCliente.setText(String.valueOf(idCliente));
 				txtCPF.setText(String.valueOf(clienteCPF));
@@ -756,6 +759,29 @@ public class Principal extends JFrame {
 		scrollPane_1.setColumnHeaderView(tblClientes);
 
 		JButton btnAlterarCliente = new JButton("");
+		btnAlterarCliente.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				if (tblClientes.getSelectedRow() != -1) {
+
+					ClienteVO c = new ClienteVO();
+					
+					c = construirCliente();
+
+					c.setNome(txtNome.getText());
+					c.setCpf(txtCPF.getText());
+					c.setEndereço(txtEndereco.getText());
+					c.setTelefone(txtTelefone.getText());
+
+					c.setId((int) tblClientes.getValueAt(tblClientes.getSelectedRow(), 0));
+
+					String mensagem = controladorCliente.atualizar(c);
+
+					limparTela();
+
+					readJTableClientes();
+				}
+			}
+		});
 		btnAlterarCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
 		btnAlterarCliente.setBounds(61, 190, 37, 35);
 		panel.add(btnAlterarCliente);
@@ -773,10 +799,5 @@ public class Principal extends JFrame {
 		servico.setValor(Double.parseDouble(txtValorServico.getText()));
 	}
 
-	protected void construirCliente() {
-		cliente.setNome(txtNome.getText());
-		cliente.setCpf(txtCPF.getText());
-		cliente.setEndereço(txtEndereco.getText());
-		cliente.setTelefone(txtTelefone.getText());
-	}
+
 }

@@ -49,7 +49,7 @@ public int inserir(ClienteVO f) {
 	public boolean atualizar(ClienteVO f) {
 		boolean sucessoUpdate = false;
 		
-		String sql = " UPDATE CLIENTE F SET NOME=?, CPF=?, TELEFONE=?, ENDEREÇO=?, WHERE F.ID = ? ";
+		String sql = " UPDATE CLIENTE F SET NOME=?, CPF=?, TELEFONE=?, ENDEREÇO=? WHERE F.IDCLIENTE = ? ";
 		
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql, Statement.RETURN_GENERATED_KEYS);
@@ -59,6 +59,7 @@ public int inserir(ClienteVO f) {
 				prepStmt.setString(2, f.getCpf());
 				prepStmt.setString(3, f.getTelefone());
 				prepStmt.setString(4, f.getEndereço());
+				prepStmt.setInt(5, f.getId());
 				
 				int codigoRetorno = prepStmt.executeUpdate();
 				
@@ -67,7 +68,7 @@ public int inserir(ClienteVO f) {
 				}
 				
 		} catch (SQLException e) {
-			System.out.println("Erro ao atualizar o cliente");
+			System.out.println("Erro ao atualizar o cliente" + e.getMessage());
 		} finally {
 			Banco.closePreparedStatement(prepStmt);
 			Banco.closeConnection(conexao);
