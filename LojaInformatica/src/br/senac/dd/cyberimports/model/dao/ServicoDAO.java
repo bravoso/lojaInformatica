@@ -47,7 +47,7 @@ public int inserir(ServicoVO f) {
 	public boolean atualizar(ServicoVO f) {
 		boolean sucessoUpdate = false;
 		
-		String sql = " UPDATE SERVICO F SET NOME=?, VALOR=?, WHERE F.ID = ? ";
+		String sql = " UPDATE SERVICO F SET NOME=?, VALOR=? WHERE F.IDSERVICO = ? ";
 		
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql, Statement.RETURN_GENERATED_KEYS);
@@ -55,6 +55,7 @@ public int inserir(ServicoVO f) {
 		try {
 				prepStmt.setString(1, f.getNome());
 				prepStmt.setLong(2, (long) f.getValor());
+				prepStmt.setInt(3, f.getId());
 		
 				int codigoRetorno = prepStmt.executeUpdate();
 				
@@ -63,7 +64,7 @@ public int inserir(ServicoVO f) {
 				}
 				
 		} catch (SQLException e) {
-			System.out.println("Erro ao atualizar o serviço");
+			System.out.println("Erro ao atualizar o serviço" + e.getMessage());
 		} finally {
 			Banco.closePreparedStatement(prepStmt);
 			Banco.closeConnection(conexao);
@@ -78,7 +79,7 @@ public int inserir(ServicoVO f) {
 			boolean sucessoDelete = false;
 
 			String sql = " DELETE FROM SERVICO "
-					+ " WHERE ID = ? ";
+					+ " WHERE IDSERVICO = ? ";
 
 			Connection conexao = Banco.getConnection();
 			PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
@@ -93,7 +94,7 @@ public int inserir(ServicoVO f) {
 				}
 
 			} catch (SQLException e) {
-				System.out.println("Erro ao remover servico. Id = " + id);
+				System.out.println("Erro ao remover servico. Id = " + id + e.getMessage());
 			}finally{
 				Banco.closePreparedStatement(prepStmt);
 				Banco.closeConnection(conexao);

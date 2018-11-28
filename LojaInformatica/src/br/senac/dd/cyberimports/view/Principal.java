@@ -54,7 +54,7 @@ public class Principal extends JFrame {
 	private JTextField txtCpfCliente;
 	private JTextField txtEnderecoCliente;
 	private JTextField txtTelefoneCliente;
-	private JTextField txtNomeServico;
+	private JTextField txtNmeServico;
 	private JTextField txtValorServico;
 	private JTextField txtIdServico;
 	private JTextField txtIdProduto;
@@ -77,7 +77,7 @@ public class Principal extends JFrame {
 	ServicoVO servico = new ServicoVO();
 	private JTextField txtIdCliente;
 	private JTable tblClientes;
-	private JTable tblServico;
+	private JTable tableServico;
 	private JTable table;
 
 	Integer idProduto = null;
@@ -121,7 +121,6 @@ public class Principal extends JFrame {
 	protected void limparTela() {
 		produto = new ProdutoVO();
 		cliente = new ClienteVO();
-		servico = new ServicoVO();
 		txtIdProduto.setText("");
 		txtNomeProduto.setText("");
 		txtPrecoCusto.setText("");
@@ -132,14 +131,17 @@ public class Principal extends JFrame {
 		txtCpfCliente.setText("");
 		txtEnderecoCliente.setText("");
 		txtTelefoneCliente.setText("");
-		txtIdServico.setText("");
-		txtNomeServico.setText("");
-		txtValorServico.setText("");
 	}
 
 	//METODOS
 	
-
+	protected ServicoVO construirServico(ServicoVO servico) {
+		servico.setNome(txtNmeServico.getText());
+		servico.setValor(Double.parseDouble(txtValorServico.getText()));
+		return servico;
+	}
+	
+	
 	public ClienteVO construirCliente() {
 		cliente.setNome(txtNomeCliente.getText());
 		cliente.setCpf(txtCpfCliente.getText());
@@ -180,7 +182,7 @@ public class Principal extends JFrame {
 
 	public void readJTableServico() {
 
-		DefaultTableModel modelo = (DefaultTableModel) tblServico.getModel();
+		DefaultTableModel modelo = (DefaultTableModel) tableServico.getModel();
 		modelo.setNumRows(0);
 		ServicoDAO sdao = new ServicoDAO();
 
@@ -566,51 +568,73 @@ public class Principal extends JFrame {
 		lblNomeDoServio.setBounds(10, 54, 130, 14);
 		pnServico.add(lblNomeDoServio);
 
-		txtNomeServico = new JTextField();
-		txtNomeServico.setBounds(140, 51, 226, 20);
-		pnServico.add(txtNomeServico);
-		txtNomeServico.setColumns(10);
+		txtNmeServico = new JTextField();
+		txtNmeServico.setBounds(140, 51, 226, 20);
+		pnServico.add(txtNmeServico);
+		txtNmeServico.setColumns(10);
 
-		JButton btnAdicionarServico = new JButton("");
-		btnAdicionarServico.addActionListener(new ActionListener() {
+		JButton btnAdicionar = new JButton("");
+		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				construirServico();
+				construirServico(servico);
 				ServicoController controladora = new ServicoController();
 				controladora.salvar(servico);
 				readJTableServico();
 			}
 		});
-		btnAdicionarServico.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
-		btnAdicionarServico.setBounds(10, 126, 38, 34);
-		pnServico.add(btnAdicionarServico);
+		btnAdicionar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
+		btnAdicionar.setBounds(10, 126, 38, 34);
+		pnServico.add(btnAdicionar);
 
-		JButton btnPesquisarServico = new JButton("");
-		btnPesquisarServico.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
-		btnPesquisarServico.setBounds(58, 126, 38, 34);
-		pnServico.add(btnPesquisarServico);
+		JButton btnSalvar_1 = new JButton("");
+		btnSalvar_1.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (tableServico.getSelectedRow() != -1) {
 
-		JButton btnExcluirServico = new JButton("");
-		btnExcluirServico.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (tblServico.getSelectedRow() != -1) {
+					ServicoVO servico = new ServicoVO();
+					construirServico(servico);
+
+					servico.setNome(txtNmeServico.getText());
+					servico.setValor(Double.parseDouble(txtValorServico.getText()));
+					
+
+					servico.setId((int) tableServico.getValueAt(tableServico.getSelectedRow(), 0));
+
+					String mensagem = "";
+					ServicoController controladora = new ServicoController();
+					controladora.atualizar(servico);
+
+					limparTela();
+
+					readJTableServico();
+				}
+				
+			}
+		});
+		btnSalvar_1.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
+		btnSalvar_1.setBounds(58, 126, 38, 34);
+		pnServico.add(btnSalvar_1);
+
+		JButton btnExcluir_1 = new JButton("");
+		btnExcluir_1.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				if (tableServico.getSelectedRow() != -1) {
 
 					ServicoDAO dao = new ServicoDAO();
 
-					int idSelecionado = (int) tblServico.getValueAt(tblServico.getSelectedRow(), 0);
+					int idSelecionado = (int) tableServico.getValueAt(tableServico.getSelectedRow(), 0);
 
 					dao.remover(idSelecionado);
 
 					limparTela();
 					readJTableServico();
 
-				} else {
-					JOptionPane.showMessageDialog(null, "Selecione um serviço para excluir.");
-				}
+					}
 			}
 		});
-		btnExcluirServico.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
-		btnExcluirServico.setBounds(106, 126, 38, 34);
-		pnServico.add(btnExcluirServico);
+		btnExcluir_1.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
+		btnExcluir_1.setBounds(106, 126, 38, 34);
+		pnServico.add(btnExcluir_1);
 
 		txtValorServico = new JTextField();
 		txtValorServico.setColumns(10);
@@ -645,23 +669,23 @@ public class Principal extends JFrame {
 		scrollPane_2.setBounds(10, 171, 826, 364);
 		pnServico.add(scrollPane_2);
 
-		tblServico = new JTable();
-		tblServico.addMouseListener(new MouseAdapter() {
+		tableServico = new JTable();
+		tableServico.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				DefaultTableModel modelClientes = (DefaultTableModel) tblServico.getModel();
-				idServico = (int) modelClientes.getValueAt(tblServico.getSelectedRow(), 0);
-				nomeServico = (String) modelClientes.getValueAt(tblServico.getSelectedRow(), 1);
-				valorServico = (Double) modelClientes.getValueAt(tblServico.getSelectedRow(), 2);
+				DefaultTableModel modelClientes = (DefaultTableModel) tableServico.getModel();
+				idServico = (int) modelClientes.getValueAt(tableServico.getSelectedRow(), 0);
+				nomeServico = (String) modelClientes.getValueAt(tableServico.getSelectedRow(), 1);
+				valorServico = (Double) modelClientes.getValueAt(tableServico.getSelectedRow(), 2);
 
-				txtNomeServico.setText(nomeServico);
+				txtNmeServico.setText(nomeServico);
 				txtValorServico.setText(String.valueOf(valorServico));
 				txtIdServico.setText(String.valueOf(idServico));
 
 			}
 		});
-		tblServico.setModel(new DefaultTableModel(new Object[][] { { "ID", "Nome", "Valor" }, },
+		tableServico.setModel(new DefaultTableModel(new Object[][] { { "ID", "Nome", "Valor" }, },
 				new String[] { "ID", "Nome", "Valor" }));
-		scrollPane_2.setColumnHeaderView(tblServico);
+		scrollPane_2.setColumnHeaderView(tableServico);
 		tpAbas.addTab("Clientes", iconeClientes, pnClientes, null);
 		pnClientes.setLayout(null);
 
@@ -762,14 +786,8 @@ public class Principal extends JFrame {
 			}
 		});
 		btnExcluirCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
-		btnExcluirCliente.setBounds(154, 190, 41, 35);
+		btnExcluirCliente.setBounds(103, 190, 41, 35);
 		panel.add(btnExcluirCliente);
-
-		JButton btnProcurarCliente = new JButton("");
-		btnProcurarCliente
-				.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
-		btnProcurarCliente.setBounds(103, 190, 41, 35);
-		panel.add(btnProcurarCliente);
 
 		JLabel lblId = new JLabel("ID:");
 		lblId.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -843,8 +861,5 @@ public class Principal extends JFrame {
 		readJTableClientes();
 	}
 
-	protected void construirServico() {
-		servico.setNome(txtNomeServico.getText());
-		servico.setValor(Double.parseDouble(txtValorServico.getText()));
-	}
+
 }
