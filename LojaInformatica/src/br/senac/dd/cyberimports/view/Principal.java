@@ -553,8 +553,8 @@ public class Principal extends JFrame {
 
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
-				new Object[][] { { "New column", "New column", "New column", "New column", "New column" } },
-				new String[] { "New column", "New column", "New column", "New column", "New column" }));
+				new Object[][] { { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" } },
+				new String[] { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" }));
 		scrollPane_3.setColumnHeaderView(table);
 
 		JPanel pnServico = new JPanel();
