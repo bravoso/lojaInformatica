@@ -30,18 +30,22 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import br.senac.dd.cyberimports.controller.ProdutoController;
 import br.senac.dd.cyberimports.controller.ServicoController;
 import br.senac.dd.cyberimports.model.dao.ClienteDAO;
+import br.senac.dd.cyberimports.model.dao.FuncionarioDAO;
 import br.senac.dd.cyberimports.model.dao.ProdutoDAO;
 import br.senac.dd.cyberimports.model.dao.ServicoDAO;
 import br.senac.dd.cyberimports.model.vo.ProdutoVO;
 import br.senac.dd.cyberimports.model.vo.ServicoVO;
 import br.senac.dd.cyberimports.controller.ClienteController;
 import br.senac.dd.cyberimports.model.vo.ClienteVO;
+import br.senac.dd.cyberimports.model.vo.FuncionarioVO;
 
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
@@ -67,7 +71,8 @@ public class Principal extends JFrame {
 	private JTextField txtNomeClienteOrcamento;
 	private JTextField textField_3;
 	private JTextField textField_4;
-
+	private ArrayList<FuncionarioVO> funcionariosConsultados = new ArrayList<>();
+	private String[] nomesFuncionarios = new String[0];
 	private ProdutoVO produto = new ProdutoVO();
 	private ProdutoController controlador = new ProdutoController();
 	private ClienteController controladorCliente = new ClienteController();
@@ -96,6 +101,20 @@ public class Principal extends JFrame {
 	String nomeServico = "";
 	Double valorServico = null;
 
+	public String[]  getNomesFuncionarios() {
+
+		FuncionarioDAO fdao = new FuncionarioDAO();
+		funcionariosConsultados = fdao.listarTodos();
+
+		nomesFuncionarios = new String[funcionariosConsultados.size()];
+
+		for (int i = 0;  i < funcionariosConsultados.size(); i++) {
+			nomesFuncionarios[i] = funcionariosConsultados.get(i).getNome() + " (" + funcionariosConsultados.get(i).getId() + ")";
+		}
+		
+		return nomesFuncionarios;
+	}
+	
 	/**
 	 * Launch the application.
 	 */
@@ -519,6 +538,7 @@ public class Principal extends JFrame {
 
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(333, 36, 115, 20);
+		comboBox.setModel(new DefaultComboBoxModel(getNomesFuncionarios()));
 		pnOrcamento.add(comboBox);
 
 		JLabel lblVendedor = new JLabel("Vendedor:");

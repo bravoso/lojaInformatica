@@ -21,17 +21,18 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Font;
+import javax.swing.JScrollPane;
 
 public class OrcamentoCriar {
 
 	private JFrame frmNovoOramento;
-	private JTable table;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField txrNomeCliente;
+	private JTextField txtDataCriacao;
+	private JTextField txtProcurar;
+	private JTextField txtProblemaDeclarado;
 	private ArrayList<FuncionarioVO> funcionariosConsultados = new ArrayList<>();
 	private String[] nomesFuncionarios = new String[0];
+	private JTable tblServicosProdutos;
 
 	public JFrame getFrame() {
 		return frmNovoOramento;
@@ -75,25 +76,20 @@ public class OrcamentoCriar {
 		frmNovoOramento.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmNovoOramento.getContentPane().setLayout(null);
 
-		table = new JTable();
-		table.setBorder(UIManager.getBorder("ComboBox.Aborder"));
-		table.setBounds(10, 167, 639, 158);
-		frmNovoOramento.getContentPane().add(table);
-
 		JLabel lblCliente = new JLabel("Cliente:");
 		lblCliente.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblCliente.setBounds(10, 11, 63, 14);
 		frmNovoOramento.getContentPane().add(lblCliente);
 
-		textField = new JTextField();
-		textField.setBounds(83, 8, 175, 20);
-		frmNovoOramento.getContentPane().add(textField);
-		textField.setColumns(10);
+		txrNomeCliente = new JTextField();
+		txrNomeCliente.setBounds(83, 8, 175, 20);
+		frmNovoOramento.getContentPane().add(txrNomeCliente);
+		txrNomeCliente.setColumns(10);
 
-		textField_1 = new JTextField();
-		textField_1.setBounds(123, 39, 135, 20);
-		frmNovoOramento.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		txtDataCriacao = new JTextField();
+		txtDataCriacao.setBounds(123, 39, 135, 20);
+		frmNovoOramento.getContentPane().add(txtDataCriacao);
+		txtDataCriacao.setColumns(10);
 
 		JLabel lblData = new JLabel("Data de Cria\u00E7\u00E3o:");
 		lblData.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -105,10 +101,10 @@ public class OrcamentoCriar {
 		lblStatus.setBounds(330, 11, 46, 14);
 		frmNovoOramento.getContentPane().add(lblStatus);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Aguardando", "Em Andamento", "Aguardando Pe\u00E7as", "Or\u00E7amento conclu\u00EDdo", "Finalizado"}));
-		comboBox.setBounds(401, 8, 185, 20);
-		frmNovoOramento.getContentPane().add(comboBox);
+		JComboBox comboBoxStatus = new JComboBox();
+		comboBoxStatus.setModel(new DefaultComboBoxModel(new String[] {"Aguardando", "Em Andamento", "Aguardando Pe\u00E7as", "Or\u00E7amento conclu\u00EDdo", "Finalizado"}));
+		comboBoxStatus.setBounds(401, 8, 185, 20);
+		frmNovoOramento.getContentPane().add(comboBoxStatus);
 
 		JLabel lblVendedoratendente = new JLabel("Vendedor:");
 		lblVendedoratendente.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -120,10 +116,10 @@ public class OrcamentoCriar {
 		lblProcurarProdutoOu.setBounds(10, 142, 175, 14);
 		frmNovoOramento.getContentPane().add(lblProcurarProdutoOu);
 
-		textField_3 = new JTextField();
-		textField_3.setBounds(172, 139, 287, 20);
-		frmNovoOramento.getContentPane().add(textField_3);
-		textField_3.setColumns(10);
+		txtProcurar = new JTextField();
+		txtProcurar.setBounds(172, 139, 287, 20);
+		frmNovoOramento.getContentPane().add(txtProcurar);
+		txtProcurar.setColumns(10);
 
 		JButton btnNewButton = new JButton("Procurar");
 		btnNewButton.setIcon(new ImageIcon(OrcamentoCriar.class.getResource("/icons/icons8-google-web-search-24.png")));
@@ -135,14 +131,21 @@ public class OrcamentoCriar {
 		lblProblemaDeclarado.setBounds(10, 93, 129, 14);
 		frmNovoOramento.getContentPane().add(lblProblemaDeclarado);
 
-		textField_4 = new JTextField();
-		textField_4.setBounds(173, 70, 413, 61);
-		frmNovoOramento.getContentPane().add(textField_4);
-		textField_4.setColumns(10);
+		txtProblemaDeclarado = new JTextField();
+		txtProblemaDeclarado.setBounds(173, 70, 413, 61);
+		frmNovoOramento.getContentPane().add(txtProblemaDeclarado);
+		txtProblemaDeclarado.setColumns(10);
 
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(getNomesFuncionarios()));
-		comboBox_1.setBounds(401, 39, 185, 20);
-		frmNovoOramento.getContentPane().add(comboBox_1);
+		JComboBox comboBoxVendedor = new JComboBox();
+		comboBoxVendedor.setModel(new DefaultComboBoxModel(getNomesFuncionarios()));
+		comboBoxVendedor.setBounds(401, 39, 185, 20);
+		frmNovoOramento.getContentPane().add(comboBoxVendedor);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 167, 639, 158);
+		frmNovoOramento.getContentPane().add(scrollPane);
+		
+		tblServicosProdutos = new JTable();
+		scrollPane.setColumnHeaderView(tblServicosProdutos);
 	}
 }
