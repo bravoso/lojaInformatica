@@ -135,7 +135,13 @@ public class Principal extends JFrame {
 
 	//METODOS
 	
-
+	protected ServicoVO construirServico(ServicoVO servico) {
+		servico.setNome(txtNmeServico.getText());
+		servico.setValor(Double.parseDouble(txtValorServico.getText()));
+		return servico;
+	}
+	
+	
 	public ClienteVO construirCliente() {
 		cliente.setNome(txtNomeCliente.getText());
 		cliente.setCpf(txtCpfCliente.getText());
@@ -570,7 +576,7 @@ public class Principal extends JFrame {
 		JButton btnAdicionar = new JButton("");
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				construirServico();
+				construirServico(servico);
 				ServicoController controladora = new ServicoController();
 				controladora.salvar(servico);
 				readJTableServico();
@@ -581,11 +587,51 @@ public class Principal extends JFrame {
 		pnServico.add(btnAdicionar);
 
 		JButton btnSalvar_1 = new JButton("");
-		btnSalvar_1.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
+		btnSalvar_1.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (tableServico.getSelectedRow() != -1) {
+
+					ServicoVO servico = new ServicoVO();
+					construirServico(servico);
+
+					servico.setNome(txtNmeServico.getText());
+					servico.setValor(Double.parseDouble(txtValorServico.getText()));
+					
+
+					servico.setId((int) tableServico.getValueAt(tableServico.getSelectedRow(), 0));
+
+					String mensagem = "";
+					ServicoController controladora = new ServicoController();
+					controladora.atualizar(servico);
+
+					limparTela();
+
+					readJTableServico();
+				}
+				
+			}
+		});
+		btnSalvar_1.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
 		btnSalvar_1.setBounds(58, 126, 38, 34);
 		pnServico.add(btnSalvar_1);
 
 		JButton btnExcluir_1 = new JButton("");
+		btnExcluir_1.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				if (tableServico.getSelectedRow() != -1) {
+
+					ServicoDAO dao = new ServicoDAO();
+
+					int idSelecionado = (int) tableServico.getValueAt(tableServico.getSelectedRow(), 0);
+
+					dao.remover(idSelecionado);
+
+					limparTela();
+					readJTableServico();
+
+					}
+			}
+		});
 		btnExcluir_1.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
 		btnExcluir_1.setBounds(106, 126, 38, 34);
 		pnServico.add(btnExcluir_1);
@@ -740,14 +786,8 @@ public class Principal extends JFrame {
 			}
 		});
 		btnExcluirCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
-		btnExcluirCliente.setBounds(154, 190, 41, 35);
+		btnExcluirCliente.setBounds(103, 190, 41, 35);
 		panel.add(btnExcluirCliente);
-
-		JButton btnProcurarCliente = new JButton("");
-		btnProcurarCliente
-				.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
-		btnProcurarCliente.setBounds(103, 190, 41, 35);
-		panel.add(btnProcurarCliente);
 
 		JLabel lblId = new JLabel("ID:");
 		lblId.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -821,8 +861,5 @@ public class Principal extends JFrame {
 		readJTableClientes();
 	}
 
-	protected void construirServico() {
-		servico.setNome(txtNmeServico.getText());
-		servico.setValor(Double.parseDouble(txtValorServico.getText()));
-	}
+
 }
