@@ -19,6 +19,7 @@ import br.senac.dd.cyberimports.controller.ClienteController;
 import br.senac.dd.cyberimports.controller.FuncionarioController;
 import br.senac.dd.cyberimports.model.dao.ClienteDAO;
 import br.senac.dd.cyberimports.model.dao.FuncionarioDAO;
+import br.senac.dd.cyberimports.model.dao.ProdutoDAO;
 import br.senac.dd.cyberimports.model.vo.ClienteVO;
 import br.senac.dd.cyberimports.model.vo.FuncionarioVO;
 import br.senac.dd.cyberimports.model.vo.ProdutoVO;
@@ -185,6 +186,24 @@ public class CadastroFuncionario {
 		});
 		
 		btnExcluirFuncionario = new JButton("");
+		btnExcluirFuncionario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tblFuncionarios.getSelectedRow() != -1) {
+
+					FuncionarioDAO dao = new FuncionarioDAO();
+
+					int idSelecionado = (int) tblFuncionarios.getValueAt(tblFuncionarios.getSelectedRow(), 0);
+
+					dao.remover(idSelecionado);
+
+					limparTela();
+					readJTableFuncionario();
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Selecione um funcionario para excluir.");
+				}
+			}
+		});
 		btnExcluirFuncionario.setIcon(new ImageIcon(CadastroFuncionario.class.getResource("/icons/icons8-cancel-26.png")));
 		btnExcluirFuncionario.setBounds(193, 150, 37, 28);
 		frmCadastrarFuncionrio.getContentPane().add(btnExcluirFuncionario);

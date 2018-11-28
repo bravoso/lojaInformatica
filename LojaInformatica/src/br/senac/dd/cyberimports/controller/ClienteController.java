@@ -15,7 +15,6 @@ private ClienteBO bo = new ClienteBO();
     	cliente.toString();
               
         String validacao = validarCliente(cliente);
-        JOptionPane.showMessageDialog(null, validacao, "Atenção!", JOptionPane.OK_OPTION);
 
         if(validacao.equals("")) {
             if(cliente.getId() > 0) {

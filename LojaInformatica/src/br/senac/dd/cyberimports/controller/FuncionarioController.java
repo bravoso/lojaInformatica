@@ -14,7 +14,6 @@ private FuncionarioBO bo = new FuncionarioBO();
     	funcionario.toString();
               
         String validacao = validarfuncionario(funcionario);
-        JOptionPane.showMessageDialog(null, validacao, "Atenção!", JOptionPane.OK_OPTION);
 
         if(validacao.equals("")) {
             if(funcionario.getId() > 0) {
