@@ -28,6 +28,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CadastroFuncionario {
 
@@ -41,7 +43,11 @@ public class CadastroFuncionario {
 	private JTable tblFuncionarios;
 	private JTextField txtIdFuncionario;
 
-
+	Integer idFuncionario = null;
+	String nomeFuncionario = "";
+	String Cpf = "";
+	Double Salario = null;
+	
 	public JFrame getFrame() {
 		return frmCadastrarFuncionrio;
 	}
@@ -213,6 +219,21 @@ public class CadastroFuncionario {
 		frmCadastrarFuncionrio.getContentPane().add(scrollPane);
 		
 		tblFuncionarios = new JTable();
+		tblFuncionarios.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				DefaultTableModel model = (DefaultTableModel) tblFuncionarios.getModel();
+				idFuncionario = (int) model.getValueAt(tblFuncionarios.getSelectedRow(), 0);
+				nomeFuncionario = (String) model.getValueAt(tblFuncionarios.getSelectedRow(), 1);
+				Cpf = (String) model.getValueAt(tblFuncionarios.getSelectedRow(), 2);
+				Salario = (Double) model.getValueAt(tblFuncionarios.getSelectedRow(), 3);
+
+				txtNomeFuncionario.setText(nomeFuncionario);
+				txtIdFuncionario.setText(String.valueOf(idFuncionario));
+				txtCpfFuncionario.setText(String.valueOf(Cpf));
+				txtSalario.setText(String.valueOf(Salario));
+			}
+		});
 		tblFuncionarios.setModel(new DefaultTableModel(
 			new Object[][] {
 				{"ID", "Nome", "CPF", "Salário"}

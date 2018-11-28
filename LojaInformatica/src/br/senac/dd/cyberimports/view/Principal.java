@@ -157,11 +157,13 @@ public class Principal extends JFrame {
 	}
 
 	//METODOS
+
 	public ServicoVO construirServico() {
 		servico.setNome(txtNomeServico.getText());
 		servico.setValor(Double.parseDouble(txtValorServico.getText()));
 		return servico;
 	}
+	
 
 	public ClienteVO construirCliente() {
 		cliente.setNome(txtNomeCliente.getText());
@@ -606,6 +608,9 @@ public class Principal extends JFrame {
 		btnPesquisarServico.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
 				if (tblServico.getSelectedRow() != -1) {
+		btnPesquisarServico.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
+		btnPesquisarServico.setBounds(58, 126, 38, 34);
+		pnServico.add(btnPesquisarServico);
 
 					ServicoVO servico = new ServicoVO();
 					construirServico();
@@ -644,7 +649,9 @@ public class Principal extends JFrame {
 					limparTela();
 					readJtblServico();
 
-					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Selecione um serviço para excluir.");
+				}
 			}
 		});
 		btnExcluirServico.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
@@ -801,7 +808,7 @@ public class Principal extends JFrame {
 			}
 		});
 		btnExcluirCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
-		btnExcluirCliente.setBounds(103, 190, 41, 35);
+		btnExcluirCliente.setBounds(154, 190, 41, 35);
 		panel.add(btnExcluirCliente);
 
 		JButton btnProcurarCliente = new JButton("");
