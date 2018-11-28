@@ -30,18 +30,22 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import br.senac.dd.cyberimports.controller.ProdutoController;
 import br.senac.dd.cyberimports.controller.ServicoController;
 import br.senac.dd.cyberimports.model.dao.ClienteDAO;
+import br.senac.dd.cyberimports.model.dao.FuncionarioDAO;
 import br.senac.dd.cyberimports.model.dao.ProdutoDAO;
 import br.senac.dd.cyberimports.model.dao.ServicoDAO;
 import br.senac.dd.cyberimports.model.vo.ProdutoVO;
 import br.senac.dd.cyberimports.model.vo.ServicoVO;
 import br.senac.dd.cyberimports.controller.ClienteController;
 import br.senac.dd.cyberimports.model.vo.ClienteVO;
+import br.senac.dd.cyberimports.model.vo.FuncionarioVO;
 
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
@@ -67,7 +71,8 @@ public class Principal extends JFrame {
 	private JTextField txtNomeClienteOrcamento;
 	private JTextField textField_3;
 	private JTextField textField_4;
-
+	private ArrayList<FuncionarioVO> funcionariosConsultados = new ArrayList<>();
+	private String[] nomesFuncionarios = new String[0];
 	private ProdutoVO produto = new ProdutoVO();
 	private ProdutoController controlador = new ProdutoController();
 	private ClienteController controladorCliente = new ClienteController();
@@ -96,6 +101,20 @@ public class Principal extends JFrame {
 	String nomeServico = "";
 	Double valorServico = null;
 
+	public String[]  getNomesFuncionarios() {
+
+		FuncionarioDAO fdao = new FuncionarioDAO();
+		funcionariosConsultados = fdao.listarTodos();
+
+		nomesFuncionarios = new String[funcionariosConsultados.size()];
+
+		for (int i = 0;  i < funcionariosConsultados.size(); i++) {
+			nomesFuncionarios[i] = funcionariosConsultados.get(i).getNome() + " (" + funcionariosConsultados.get(i).getId() + ")";
+		}
+		
+		return nomesFuncionarios;
+	}
+	
 	/**
 	 * Launch the application.
 	 */
@@ -138,6 +157,12 @@ public class Principal extends JFrame {
 	}
 
 	//METODOS
+
+	public ServicoVO construirServico() {
+		servico.setNome(txtNomeServico.getText());
+		servico.setValor(Double.parseDouble(txtValorServico.getText()));
+		return servico;
+	}
 	
 
 	public ClienteVO construirCliente() {
@@ -178,7 +203,7 @@ public class Principal extends JFrame {
 		}
 	}
 
-	public void readJTableServico() {
+	public void readJtblServico() {
 
 		DefaultTableModel modelo = (DefaultTableModel) tblServico.getModel();
 		modelo.setNumRows(0);
@@ -239,13 +264,7 @@ public class Principal extends JFrame {
 		mnCadastrar_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, InputEvent.SHIFT_MASK));
 		mnFuncionrios.add(mnCadastrar_2);
 
-		JMenuItem mnListar_2 = new JMenuItem("Listar");
-		mnListar_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, InputEvent.SHIFT_MASK));
-		mnFuncionrios.add(mnListar_2);
-
-		JMenuItem mnRelatrio_2 = new JMenuItem("Relat\u00F3rio");
-		mnRelatrio_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, InputEvent.SHIFT_MASK));
-		mnFuncionrios.add(mnRelatrio_2);
+		
 
 		JMenu mnSobre = new JMenu("Sobre");
 		menuBar.add(mnSobre);
@@ -555,6 +574,8 @@ public class Principal extends JFrame {
 		table.setModel(new DefaultTableModel(
 				new Object[][] { { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" } },
 				new String[] { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" }));
+				new Object[][] { { "ID", "Cliente", "Status", "Vendedor", "Valor" } },
+				new String[] { "ID", "Cliente", "Status", "Vendedor", "Valor" }));
 		scrollPane_3.setColumnHeaderView(table);
 
 		JPanel pnServico = new JPanel();
@@ -577,7 +598,7 @@ public class Principal extends JFrame {
 				construirServico();
 				ServicoController controladora = new ServicoController();
 				controladora.salvar(servico);
-				readJTableServico();
+				readJtblServico();
 			}
 		});
 		btnAdicionarServico.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
@@ -585,7 +606,33 @@ public class Principal extends JFrame {
 		pnServico.add(btnAdicionarServico);
 
 		JButton btnPesquisarServico = new JButton("");
+		btnPesquisarServico.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				if (tblServico.getSelectedRow() != -1) {
 		btnPesquisarServico.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
+		btnPesquisarServico.setBounds(58, 126, 38, 34);
+		pnServico.add(btnPesquisarServico);
+
+					ServicoVO servico = new ServicoVO();
+					construirServico();
+
+					servico.setNome(txtNomeServico.getText());
+					servico.setValor(Double.parseDouble(txtValorServico.getText()));
+					
+
+					servico.setId((int) tblServico.getValueAt(tblServico.getSelectedRow(), 0));
+
+					String mensagem = "";
+					ServicoController controladora = new ServicoController();
+					controladora.atualizar(servico);
+
+					limparTela();
+
+					readJtblServico();
+				}
+			}
+		});
+		btnPesquisarServico.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
 		btnPesquisarServico.setBounds(58, 126, 38, 34);
 		pnServico.add(btnPesquisarServico);
 
@@ -601,7 +648,7 @@ public class Principal extends JFrame {
 					dao.remover(idSelecionado);
 
 					limparTela();
-					readJTableServico();
+					readJtblServico();
 
 				} else {
 					JOptionPane.showMessageDialog(null, "Selecione um serviço para excluir.");
@@ -839,12 +886,9 @@ public class Principal extends JFrame {
 		// MÉTODOS DE ATUALIZAÇÃO DE UI
 
 		readJTableProdutos();
-		readJTableServico();
+		readJtblServico();
 		readJTableClientes();
 	}
 
-	protected void construirServico() {
-		servico.setNome(txtNomeServico.getText());
-		servico.setValor(Double.parseDouble(txtValorServico.getText()));
-	}
+
 }
