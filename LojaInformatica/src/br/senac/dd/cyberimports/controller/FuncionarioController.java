@@ -17,7 +17,7 @@ private FuncionarioBO bo = new FuncionarioBO();
         JOptionPane.showMessageDialog(null, validacao, "Atenção!", JOptionPane.OK_OPTION);
 
         if(validacao.equals("")) {
-            if(funcionario.getIdFuncionario() > 0) {
+            if(funcionario.getId() > 0) {
                 //UPDATE
                 if(bo.atualizar(funcionario)) {
                     validacao = "Funcionário atualizado com sucesso!";
@@ -41,7 +41,7 @@ private FuncionarioBO bo = new FuncionarioBO();
         String validacao = validarfuncionario(funcionario);
 
         if(validacao.equals("")) {
-            if(funcionario.getIdFuncionario() > 0) {
+            if(funcionario.getId() > 0) {
                
                 if(bo.atualizar(funcionario)) {
                     validacao = "Funcionário atualizado com sucesso!";

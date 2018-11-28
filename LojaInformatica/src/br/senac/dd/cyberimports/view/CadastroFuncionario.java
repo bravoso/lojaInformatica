@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -13,11 +15,14 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
+import br.senac.dd.cyberimports.controller.ClienteController;
 import br.senac.dd.cyberimports.controller.FuncionarioController;
 import br.senac.dd.cyberimports.model.dao.ClienteDAO;
 import br.senac.dd.cyberimports.model.dao.FuncionarioDAO;
 import br.senac.dd.cyberimports.model.vo.ClienteVO;
 import br.senac.dd.cyberimports.model.vo.FuncionarioVO;
+import br.senac.dd.cyberimports.model.vo.ProdutoVO;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
@@ -29,11 +34,11 @@ public class CadastroFuncionario {
 	private JTextField txtNomeFuncionario;
 	private JTextField txtCpfFuncionario;
 	private JLabel lblId;
-	private JLabel lblIdFuncionario;
 	private JLabel lblSalrio;
 	private JTextField txtSalario;
-	private JButton button;
+	private JButton btnExcluirFuncionario;
 	private JTable tblFuncionarios;
+	private JTextField txtIdFuncionario;
 
 
 	public JFrame getFrame() {
@@ -47,14 +52,32 @@ public class CadastroFuncionario {
 	public CadastroFuncionario() {
 		initialize();
 	}
-	public void readJTableClientes() {
+	
+	protected void limparTela() {
+		funcionario = new FuncionarioVO();
+		txtNomeFuncionario.setText("");
+		txtCpfFuncionario.setText("");
+		txtSalario.setText("");
+	}
+	
+	FuncionarioVO funcionario = new FuncionarioVO();
+	FuncionarioController controladorFuncionario = new FuncionarioController();
+	
+	public FuncionarioVO construirFuncionario() {
+		funcionario.setNome(txtNomeFuncionario.getText());
+		funcionario.setCpf(txtCpfFuncionario.getText());
+		funcionario.setSalario(Double.parseDouble(txtSalario.getText()));
+		return funcionario;
+	}
+	
+	public void readJTableFuncionario() {
 
 		DefaultTableModel modelo = (DefaultTableModel) tblFuncionarios.getModel();
 		modelo.setNumRows(0);
 		FuncionarioDAO fdao = new FuncionarioDAO();
 
 		modelo.addRow(new Object[]{
-				"#",
+				"ID",
 				"Nome",
 				"CPF",
 				"Salário",
@@ -64,7 +87,7 @@ public class CadastroFuncionario {
 
 			modelo.addRow(new Object[]{
 
-					p.getIdFuncionario(),
+					p.getId(),
 					p.getNome(),
 					p.getCpf(),
 					p.getSalario(),
@@ -111,33 +134,37 @@ public class CadastroFuncionario {
 		txtCpfFuncionario.setBounds(79, 92, 199, 20);
 		frmCadastrarFuncionrio.getContentPane().add(txtCpfFuncionario);
 		
-		JButton btnAdicionarFuncionario = new JButton("");
-		btnAdicionarFuncionario.addActionListener(new ActionListener() {
+		JButton btnAlterarFuncionario = new JButton("");
+		btnAlterarFuncionario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				construirFuncionario();
-				FuncionarioController funcionarioc = new FuncionarioController();
-				funcionarioc.salvar(funcionario);
-				readJTableClientes();
-			}
+				if (tblFuncionarios.getSelectedRow() != -1) {
 
-			private void construirFuncionario() {
-				funcionario.setNome(txtNomeFuncionario.getText());
-				funcionario.setCpf(txtCpfFuncionario.getText());
-				funcionario.setSalario(Double.parseDouble(txtSalario.getText()));
+					FuncionarioVO f = new FuncionarioVO();
+					
+					f = construirFuncionario();
+
+					f.setNome(txtNomeFuncionario.getText());
+					f.setCpf(txtCpfFuncionario.getText());
+					f.setSalario(Double.parseDouble(txtSalario.getText()));
+
+					f.setId((int) tblFuncionarios.getValueAt(tblFuncionarios.getSelectedRow(), 0));
+
+					String mensagem = controladorFuncionario.atualizar(f);
+
+					limparTela();
+
+					readJTableFuncionario();
+				}
 			}
 		});
-		btnAdicionarFuncionario.setIcon(new ImageIcon(CadastroFuncionario.class.getResource("/icons/icons8-save-as-26.png")));
-		btnAdicionarFuncionario.setBounds(241, 149, 37, 28);
-		frmCadastrarFuncionrio.getContentPane().add(btnAdicionarFuncionario);
+		btnAlterarFuncionario.setIcon(new ImageIcon(CadastroFuncionario.class.getResource("/icons/icons8-save-as-26.png")));
+		btnAlterarFuncionario.setBounds(131, 150, 37, 28);
+		frmCadastrarFuncionrio.getContentPane().add(btnAlterarFuncionario);
 		
 		lblId = new JLabel("ID:");
 		lblId.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblId.setBounds(10, 45, 59, 14);
 		frmCadastrarFuncionrio.getContentPane().add(lblId);
-		
-		lblIdFuncionario = new JLabel("");
-		lblIdFuncionario.setBounds(79, 45, 46, 14);
-		frmCadastrarFuncionrio.getContentPane().add(lblIdFuncionario);
 		
 		lblSalrio = new JLabel("Sal\u00E1rio:");
 		lblSalrio.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -157,10 +184,10 @@ public class CadastroFuncionario {
 			}
 		});
 		
-		button = new JButton("");
-		button.setIcon(new ImageIcon(CadastroFuncionario.class.getResource("/icons/icons8-cancel-26.png")));
-		button.setBounds(194, 149, 37, 28);
-		frmCadastrarFuncionrio.getContentPane().add(button);
+		btnExcluirFuncionario = new JButton("");
+		btnExcluirFuncionario.setIcon(new ImageIcon(CadastroFuncionario.class.getResource("/icons/icons8-cancel-26.png")));
+		btnExcluirFuncionario.setBounds(193, 150, 37, 28);
+		frmCadastrarFuncionrio.getContentPane().add(btnExcluirFuncionario);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(291, 11, 475, 394);
@@ -176,7 +203,26 @@ public class CadastroFuncionario {
 			}
 		));
 		scrollPane.setColumnHeaderView(tblFuncionarios);
-		readJTableClientes();
+		
+		txtIdFuncionario = new JTextField();
+		txtIdFuncionario.setEditable(false);
+		txtIdFuncionario.setColumns(10);
+		txtIdFuncionario.setBounds(79, 40, 199, 20);
+		frmCadastrarFuncionrio.getContentPane().add(txtIdFuncionario);
+		
+		JButton btnAdicionarFuncionario = new JButton("");
+		btnAdicionarFuncionario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FuncionarioVO funcionario = construirFuncionario();
+				String mensagem = controladorFuncionario.salvar(funcionario);
+				JOptionPane.showMessageDialog(null, mensagem);
+				limparTela();
+				readJTableFuncionario();
+			}
+		});
+		btnAdicionarFuncionario.setIcon(new ImageIcon(CadastroFuncionario.class.getResource("/icons/icons8-plus-26.png")));
+		btnAdicionarFuncionario.setBounds(64, 149, 37, 28);
+		frmCadastrarFuncionrio.getContentPane().add(btnAdicionarFuncionario);
+		readJTableFuncionario();
 	}
-
 }

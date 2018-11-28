@@ -50,10 +50,10 @@ import java.awt.Toolkit;
 public class Principal extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtNome;
-	private JTextField txtCPF;
-	private JTextField txtEndereco;
-	private JTextField txtTelefone;
+	private JTextField txtNomeCliente;
+	private JTextField txtCpfCliente;
+	private JTextField txtEnderecoCliente;
+	private JTextField txtTelefoneCliente;
 	private JTextField txtNmeServico;
 	private JTextField txtValorServico;
 	private JTextField txtIdServico;
@@ -120,21 +120,27 @@ public class Principal extends JFrame {
 
 	protected void limparTela() {
 		produto = new ProdutoVO();
+		cliente = new ClienteVO();
 		txtIdProduto.setText("");
 		txtNomeProduto.setText("");
 		txtPrecoCusto.setText("");
 		txtPrecoVenda.setText("");
 		txtQuantidade.setText("");
+		txtIdCliente.setText("");
+		txtNomeCliente.setText("");
+		txtCpfCliente.setText("");
+		txtEnderecoCliente.setText("");
+		txtTelefoneCliente.setText("");
 	}
 
 	//METODOS
 	
 
 	public ClienteVO construirCliente() {
-		cliente.setNome(txtNome.getText());
-		cliente.setCpf(txtCPF.getText());
-		cliente.setEndereço(txtEndereco.getText());
-		cliente.setTelefone(txtTelefone.getText());
+		cliente.setNome(txtNomeCliente.getText());
+		cliente.setCpf(txtCpfCliente.getText());
+		cliente.setEndereço(txtEnderecoCliente.getText());
+		cliente.setTelefone(txtTelefoneCliente.getText());
 		return cliente;
 	}
 
@@ -647,21 +653,21 @@ public class Principal extends JFrame {
 		lblNome.setBounds(10, 37, 83, 14);
 		panel.add(lblNome);
 
-		txtNome = new JTextField();
-		txtNome.setBounds(103, 37, 277, 20);
-		panel.add(txtNome);
-		txtNome.setColumns(10);
+		txtNomeCliente = new JTextField();
+		txtNomeCliente.setBounds(103, 37, 277, 20);
+		panel.add(txtNomeCliente);
+		txtNomeCliente.setColumns(10);
 
 		JLabel lblCpf = new JLabel("CPF:");
 		lblCpf.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblCpf.setBounds(10, 68, 83, 14);
 		panel.add(lblCpf);
 
-		txtCPF = new JTextField();
-		txtCPF.setColumns(10);
-		txtCPF.setBounds(103, 68, 277, 20);
-		panel.add(txtCPF);
-		txtCPF.addKeyListener(new KeyAdapter() {
+		txtCpfCliente = new JTextField();
+		txtCpfCliente.setColumns(10);
+		txtCpfCliente.setBounds(103, 68, 277, 20);
+		panel.add(txtCpfCliente);
+		txtCpfCliente.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
 				char input = e.getKeyChar();
 				if ((input < '0' || input > '9') && input != '\b') {
@@ -675,21 +681,21 @@ public class Principal extends JFrame {
 		lblEndereo.setBounds(10, 105, 83, 14);
 		panel.add(lblEndereo);
 
-		txtEndereco = new JTextField();
-		txtEndereco.setColumns(10);
-		txtEndereco.setBounds(103, 105, 277, 20);
-		panel.add(txtEndereco);
+		txtEnderecoCliente = new JTextField();
+		txtEnderecoCliente.setColumns(10);
+		txtEnderecoCliente.setBounds(103, 105, 277, 20);
+		panel.add(txtEnderecoCliente);
 
 		JLabel lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblTelefone.setBounds(10, 141, 83, 14);
 		panel.add(lblTelefone);
 
-		txtTelefone = new JTextField();
-		txtTelefone.setColumns(10);
-		txtTelefone.setBounds(103, 141, 277, 20);
-		panel.add(txtTelefone);
-		txtTelefone.addKeyListener(new KeyAdapter() {
+		txtTelefoneCliente = new JTextField();
+		txtTelefoneCliente.setColumns(10);
+		txtTelefoneCliente.setBounds(103, 141, 277, 20);
+		panel.add(txtTelefoneCliente);
+		txtTelefoneCliente.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
 				char input = e.getKeyChar();
 				if ((input < '0' || input > '9') && input != '\b') {
@@ -699,6 +705,11 @@ public class Principal extends JFrame {
 		});
 
 		JButton btnAdicionarCliente = new JButton("");
+		btnAdicionarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnAdicionarCliente.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
 				construirCliente();
@@ -712,6 +723,22 @@ public class Principal extends JFrame {
 		panel.add(btnAdicionarCliente);
 
 		JButton btnExcluirCliente = new JButton("");
+		btnExcluirCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tblClientes.getSelectedRow() != -1) {
+
+					ClienteDAO dao = new ClienteDAO();
+
+					int idSelecionado = (int) tblClientes.getValueAt(tblClientes.getSelectedRow(), 0);
+
+					dao.remover(idSelecionado);
+
+					limparTela();
+					readJTableClientes();
+
+					}
+			}
+		});
 		btnExcluirCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
 		btnExcluirCliente.setBounds(154, 190, 41, 35);
 		panel.add(btnExcluirCliente);
@@ -747,11 +774,11 @@ public class Principal extends JFrame {
 				telefoneCliente = (String) modelClientes.getValueAt(tblClientes.getSelectedRow(), 4);
 				enderecoCliente = (String) modelClientes.getValueAt(tblClientes.getSelectedRow(), 3);
 
-				txtNome.setText(nomeCliente);
+				txtNomeCliente.setText(nomeCliente);
 				txtIdCliente.setText(String.valueOf(idCliente));
-				txtCPF.setText(String.valueOf(clienteCPF));
-				txtTelefone.setText(String.valueOf(telefoneCliente));
-				txtEndereco.setText(String.valueOf(enderecoCliente));
+				txtCpfCliente.setText(String.valueOf(clienteCPF));
+				txtTelefoneCliente.setText(String.valueOf(telefoneCliente));
+				txtEnderecoCliente.setText(String.valueOf(enderecoCliente));
 			}
 		});
 		tblClientes.setModel(new DefaultTableModel(new Object[][] { { "ID", "Nome", "CPF", "Telefone", "Endereço" } },
@@ -767,10 +794,10 @@ public class Principal extends JFrame {
 					
 					c = construirCliente();
 
-					c.setNome(txtNome.getText());
-					c.setCpf(txtCPF.getText());
-					c.setEndereço(txtEndereco.getText());
-					c.setTelefone(txtTelefone.getText());
+					c.setNome(txtNomeCliente.getText());
+					c.setCpf(txtCpfCliente.getText());
+					c.setEndereço(txtEnderecoCliente.getText());
+					c.setTelefone(txtTelefoneCliente.getText());
 
 					c.setId((int) tblClientes.getValueAt(tblClientes.getSelectedRow(), 0));
 
@@ -783,7 +810,7 @@ public class Principal extends JFrame {
 			}
 		});
 		btnAlterarCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
-		btnAlterarCliente.setBounds(61, 190, 37, 35);
+		btnAlterarCliente.setBounds(56, 190, 37, 35);
 		panel.add(btnAlterarCliente);
 		ImageIcon iconeAddCliente = new ImageIcon(Principal.class.getResource("/icons/icons8-add-48.png"));
 
@@ -798,6 +825,4 @@ public class Principal extends JFrame {
 		servico.setNome(txtNmeServico.getText());
 		servico.setValor(Double.parseDouble(txtValorServico.getText()));
 	}
-
-
 }

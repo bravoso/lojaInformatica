@@ -2,14 +2,14 @@ package br.senac.dd.cyberimports.model.vo;
 
 public class FuncionarioVO {
 
-	private int idFuncionario;
+	private int id;
 	private String nome;
 	private String cpf;
 	private double salario;
 	
-	public FuncionarioVO(int idFuncionario, String nome, String cpf, double salario) {
+	public FuncionarioVO(int id, String nome, String cpf, double salario) {
 		super();
-		this.idFuncionario = idFuncionario;
+		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.salario = salario;
@@ -18,12 +18,12 @@ public class FuncionarioVO {
 	public FuncionarioVO() {
 	}
 
-	public int getIdFuncionario() {
-		return idFuncionario;
+	public int getId() {
+		return id;
 	}
 
-	public void setIdFuncionario(int idFuncionario) {
-		this.idFuncionario = idFuncionario;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public double getSalario() {

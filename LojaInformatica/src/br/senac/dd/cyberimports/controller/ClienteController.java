@@ -21,33 +21,33 @@ private ClienteBO bo = new ClienteBO();
             if(cliente.getId() > 0) {
                 //UPDATE
                 if(bo.atualizar(cliente)) {
-                    validacao = "Funcionário atualizado com sucesso!";
+                    validacao = "Cliente atualizado com sucesso!";
                 }else {
-                    validacao = "Erro ao atualizar funcionário";
+                    validacao = "Erro ao atualizar cliente";
                 }
             }else{
                 //INSERT
                 if(bo.inserir(cliente)) {
-                    validacao = "Funcionário salvo com sucesso!";
+                    validacao = "Cliente salvo com sucesso!";
                 }else {
-                    validacao = "Erro ao salvar funcionário";
+                    validacao = "Erro ao salvar cliente";
                 }
             }
         }
         return validacao;
     }
         
-        public String atualizar(ClienteVO funcionario) {
+        public String atualizar(ClienteVO cliente) {
               
-        String validacao = validarCliente(funcionario);
+        String validacao = validarCliente(cliente);
 
         if(validacao.equals("")) {
-            if(funcionario.getId() > 0) {
+            if(cliente.getId() > 0) {
                
-                if(bo.atualizar(funcionario)) {
-                    validacao = "Funcionário atualizado com sucesso!";
+                if(bo.atualizar(cliente)) {
+                    validacao = "Cliente atualizado com sucesso!";
                 }else {
-                    validacao = "Erro ao atualizar funcionário";
+                    validacao = "Erro ao atualizar cliente";
                 }
             }
         }
@@ -72,6 +72,9 @@ private ClienteBO bo = new ClienteBO();
                     }
                     if(cliente.getCpf().trim().equals("")) {
                         validacao += "- CPF é obrigatório \n";
+                    }
+                    if(cliente.getEndereço().trim().equals("")) {
+                        validacao += "- Endereço é obrigatório \n";
                     }
                     if(cliente.getTelefone().trim().equals("")) {
                     	validacao += "- Telefone é obrigatório \n";

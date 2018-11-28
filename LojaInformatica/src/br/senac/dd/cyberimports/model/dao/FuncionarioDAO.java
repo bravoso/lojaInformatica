@@ -45,7 +45,7 @@ public int inserir(FuncionarioVO f) {
 	public boolean atualizar(FuncionarioVO f) {
 		boolean sucessoUpdate = false;
 		
-		String sql = " UPDATE FUNCIONARIO F SET NOME=?, CPF=?, SALARIO=?, WHERE F.ID = ? ";
+		String sql = " UPDATE FUNCIONARIO F SET NOME=?, CPF=?, SALARIO=?, WHERE F.IDFUNCIONARIO = ? ";
 		
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql, Statement.RETURN_GENERATED_KEYS);
@@ -54,7 +54,7 @@ public int inserir(FuncionarioVO f) {
 				prepStmt.setString(1, f.getNome());
                 prepStmt.setString(2, f.getCpf());
 				prepStmt.setDouble(3, f.getSalario());
-				prepStmt.setInt(4, f.getIdFuncionario());
+				prepStmt.setInt(4, f.getId());
 				
 				int codigoRetorno = prepStmt.executeUpdate();
 				
@@ -78,7 +78,7 @@ public int inserir(FuncionarioVO f) {
 			boolean sucessoDelete = false;
 
 			String sql = " DELETE FROM FUNCIONARIO "
-					+ " WHERE ID = ? ";
+					+ " WHERE IDFUNCIONARIO = ? ";
 
 			Connection conexao = Banco.getConnection();
 			PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
@@ -115,7 +115,7 @@ public int inserir(FuncionarioVO f) {
 					FuncionarioVO f = new FuncionarioVO();
 					
 					//Obtendo valores pelo NOME DA COLUNA
-					f.setIdFuncionario(result.getInt("IDFUNCIONARIO"));
+					f.setId(result.getInt("IDFUNCIONARIO"));
 					f.setNome(result.getString("NOME"));
                     f.setCpf(result.getString("CPF"));
 					f.setSalario(result.getDouble("SALARIO"));
@@ -155,7 +155,7 @@ public int inserir(FuncionarioVO f) {
 					f = new FuncionarioVO();
 					
 					//Obtendo valores pelo NOME DA COLUNA
-					f.setIdFuncionario(result.getInt("ID"));
+					f.setId(result.getInt("ID"));
 					f.setNome(result.getString("NOME"));
                                         f.setCpf(result.getString("CPF"));
 					f.setSalario(result.getDouble("SALARIO"));

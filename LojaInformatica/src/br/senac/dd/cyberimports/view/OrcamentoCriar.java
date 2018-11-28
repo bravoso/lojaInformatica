@@ -57,7 +57,7 @@ public class OrcamentoCriar {
 		nomesFuncionarios = new String[funcionariosConsultados.size()];
 
 		for (int i = 0;  i < funcionariosConsultados.size(); i++) {
-			nomesFuncionarios[i] = funcionariosConsultados.get(i).getNome() + " (" + funcionariosConsultados.get(i).getIdFuncionario() + ")";
+			nomesFuncionarios[i] = funcionariosConsultados.get(i).getNome() + " (" + funcionariosConsultados.get(i).getId() + ")";
 		}
 		
 		return nomesFuncionarios;

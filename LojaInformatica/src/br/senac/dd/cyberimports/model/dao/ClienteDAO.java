@@ -83,7 +83,7 @@ public int inserir(ClienteVO f) {
 			boolean sucessoDelete = false;
 
 			String sql = " DELETE FROM CLIENTE "
-					+ " WHERE ID = ? ";
+					+ " WHERE IDCLIENTE = ? ";
 
 			Connection conexao = Banco.getConnection();
 			PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
