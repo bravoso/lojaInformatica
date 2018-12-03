@@ -68,10 +68,11 @@ public class Principal extends JFrame {
 	private JTextField txtQuantidade;
 	private JTable tblProdutos;
 	private JTextField txtIdOrcamento;
-	private JTextField txtNomeClienteOrcamento;
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private ArrayList<FuncionarioVO> funcionariosConsultados = new ArrayList<>();
+	private ArrayList<ClienteVO> clientesListados = new ArrayList<>();
+	private String[] nomesClientes = new String[0];
 	private String[] nomesFuncionarios = new String[0];
 	private ProdutoVO produto = new ProdutoVO();
 	private ProdutoController controlador = new ProdutoController();
@@ -101,6 +102,20 @@ public class Principal extends JFrame {
 	String nomeServico = "";
 	Double valorServico = null;
 
+	public String[]  getNomesClientes() {
+
+		ClienteDAO cdao = new ClienteDAO();
+		clientesListados = cdao.listarTodos();
+
+		nomesClientes = new String[clientesListados.size()];
+
+		for (int i = 1;  i < clientesListados.size(); i++) {
+			nomesClientes[i] = clientesListados.get(i).getNome();
+		}
+		
+		return nomesClientes;
+	}
+	
 	public String[]  getNomesFuncionarios() {
 
 		FuncionarioDAO fdao = new FuncionarioDAO();
@@ -496,11 +511,6 @@ public class Principal extends JFrame {
 		pnOrcamento.add(txtIdOrcamento);
 		txtIdOrcamento.setColumns(10);
 
-		txtNomeClienteOrcamento = new JTextField();
-		txtNomeClienteOrcamento.setColumns(10);
-		txtNomeClienteOrcamento.setBounds(10, 92, 115, 20);
-		pnOrcamento.add(txtNomeClienteOrcamento);
-
 		JLabel lblNomeClienteOrcamento = new JLabel("Nome do Cliente:");
 		lblNomeClienteOrcamento.setBounds(10, 67, 115, 14);
 		pnOrcamento.add(lblNomeClienteOrcamento);
@@ -576,6 +586,16 @@ public class Principal extends JFrame {
 				new Object[][] { { "ID", "Cliente", "Status", "Vendedor", "Valor" } },
 				new String[] { "ID", "Cliente", "Status", "Vendedor", "Valor" }));
 		scrollPane_3.setColumnHeaderView(table);
+		
+		JComboBox comboBoxNomeClientes = new JComboBox();
+		comboBoxNomeClientes.setBounds(10, 92, 115, 20);
+		pnOrcamento.add(comboBoxNomeClientes);
+		comboBoxNomeClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				getNomesClientes();
+			}
+		});
+		comboBoxNomeClientes.setModel(new DefaultComboBoxModel(getNomesClientes()));
 
 		JPanel pnServico = new JPanel();
 		tpAbas.addTab("Serviços", iconeServicos, pnServico, null);
@@ -784,6 +804,8 @@ public class Principal extends JFrame {
 				ClienteController controladoraCliente = new ClienteController();
 				controladoraCliente.salvar(cliente);
 				readJTableClientes();
+				getNomesClientes();
+				comboBoxNomeClientes.setModel(new DefaultComboBoxModel(getNomesClientes()));
 			}
 		});
 		btnAdicionarCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
@@ -887,7 +909,7 @@ public class Principal extends JFrame {
 		readJTableProdutos();
 		readJtblServico();
 		readJTableClientes();
+		getNomesClientes();
+		getNomesFuncionarios();
 	}
-
-
 }

@@ -48,6 +48,8 @@ public class CadastroFuncionario {
 	String Cpf = "";
 	Double Salario = null;
 	
+	
+	
 	public JFrame getFrame() {
 		return frmCadastrarFuncionrio;
 	}
