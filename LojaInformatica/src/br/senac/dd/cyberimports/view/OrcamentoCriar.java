@@ -27,6 +27,7 @@ import br.senac.dd.cyberimports.model.vo.FuncionarioVO;
 import br.senac.dd.cyberimports.model.vo.OrcamentoVO;
 import br.senac.dd.cyberimports.model.vo.ProdutoVO;
 import br.senac.dd.cyberimports.model.vo.ServicoVO;
+import br.senac.dd.cyberimports.view.Principal;
 
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -42,8 +43,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 
 public class OrcamentoCriar {
-
-	
 	
 	private JFrame frmNovoOramento;
 	private JTextField txtDataCriacao;
@@ -71,8 +70,7 @@ public class OrcamentoCriar {
 	public void setFrame(JFrame frame) {
 		this.frmNovoOramento = frame;
 	}
-
-	
+		
 
 	/**
 	 * Create the application.
@@ -126,7 +124,7 @@ public class OrcamentoCriar {
 		frmNovoOramento.setIconImage(
 				Toolkit.getDefaultToolkit().getImage(OrcamentoCriar.class.getResource("/icons/icons8-add-48.png")));
 		frmNovoOramento.setTitle("Novo Or\u00E7amento");
-		frmNovoOramento.setBounds(100, 100, 675, 400);
+		frmNovoOramento.setBounds(100, 100, 680, 419);
 		frmNovoOramento.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmNovoOramento.getContentPane().setLayout(null);
 
@@ -213,7 +211,6 @@ public class OrcamentoCriar {
 				
 				OrcamentoController cont = new OrcamentoController();
 				cont.salvar(construirOrcamento());
-				
 			}
 
 			private OrcamentoVO construirOrcamento() {

@@ -267,6 +267,22 @@ public class Principal extends JFrame {
 			o.getId(), o.getStatus_orcamento(), o.getVendedor(), o.getCliente(), o.getValor() });
 		}
 	}
+	
+	public void readJTableOrcamentosPorId(int id) {
+
+		DefaultTableModel modelo = (DefaultTableModel) tblOrcamentos.getModel();
+		modelo.setNumRows(0);
+		OrcamentoDAO odao = new OrcamentoDAO();
+
+		modelo.addRow(new Object[] { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" });
+
+		OrcamentoVO o = odao.obterPorId(id); {
+
+			modelo.addRow(new Object[] {
+
+			o.getId(), o.getStatus_orcamento(), o.getVendedor(), o.getCliente(), o.getValor() });
+		}
+	}
 
 	/**
 	 * Create the frame.
@@ -680,6 +696,11 @@ public class Principal extends JFrame {
 		pnOrcamento.add(lblStatusDoOramento);
 
 		JButton btnProcurar_1 = new JButton("");
+		btnProcurar_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				readJTableOrcamentosPorId(Integer.parseInt(txtIdOrcamento.getText()));
+			}
+		});
 		btnProcurar_1.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
 		btnProcurar_1.setBounds(59, 135, 39, 35);
 		pnOrcamento.add(btnProcurar_1);
