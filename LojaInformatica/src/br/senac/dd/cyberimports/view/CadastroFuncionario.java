@@ -10,10 +10,12 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import br.senac.dd.cyberimports.controller.ClienteController;
 import br.senac.dd.cyberimports.controller.FuncionarioController;
@@ -30,6 +32,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
+import java.util.regex.Pattern;
 
 public class CadastroFuncionario {
 
@@ -130,6 +134,7 @@ public class CadastroFuncionario {
 		lblCpf.setBounds(10, 95, 59, 14);
 		frmCadastrarFuncionrio.getContentPane().add(lblCpf);
 		
+		
 		txtCpfFuncionario = new JTextField();
 		txtCpfFuncionario.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
@@ -139,6 +144,15 @@ public class CadastroFuncionario {
 				}
 			}
 		});
+		MaskFormatter formatterCpf = null;
+		try {
+			formatterCpf = new MaskFormatter("###.###.###-##");
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		txtCpfFuncionario = new JFormattedTextField(formatterCpf);
+		txtCpfFuncionario.setBounds(103, 74, 277, 20);
 		txtCpfFuncionario.setColumns(10);
 		txtCpfFuncionario.setBounds(79, 92, 199, 20);
 		frmCadastrarFuncionrio.getContentPane().add(txtCpfFuncionario);
@@ -190,6 +204,72 @@ public class CadastroFuncionario {
 				if((input <'0' || input >'9') && input != '\b') {
 					e.consume();
 				}
+			}
+			@Override
+			public void keyReleased(KeyEvent evt) {
+				char tecla = evt.getKeyChar();
+				if(tecla == KeyEvent.VK_ENTER){
+				txtSalario.requestFocus();
+				}else{
+				formatJTextNumber(txtSalario);
+				}
+			}
+			private void formatJTextNumber(JTextField txtSalario) {
+				String regex = "[0-9]";
+				String valorAtual = txtSalario.getText();
+				String CaracterDigitado = "0";
+				try {
+				CaracterDigitado = txtSalario.getText().substring(txtSalario.getText().length() - 1, txtSalario.getText().length() - 0);
+				} catch (java.lang.StringIndexOutOfBoundsException e) {
+				CaracterDigitado = txtSalario.getText().substring(txtSalario.getText().length() - 0, txtSalario.getText().length() - 0);
+				}
+				
+				Pattern p = Pattern.compile(regex);
+			    java.util.regex.Matcher m = p.matcher(CaracterDigitado);
+			    boolean b = m.matches();
+			    if(b == false){
+			        try {
+			            valorAtual = txtSalario.getText().substring(0, txtSalario.getText().length() - 1);
+			        } catch (java.lang.StringIndexOutOfBoundsException e) {
+			            valorAtual = txtSalario.getText().substring(0, txtSalario.getText().length() - 0);
+			        }
+			    }
+			    String valorAtualReplaced = valorAtual.replace(".", "");
+
+			    //separe os doois ultimos digitos
+			    String centavos = "";
+			    try {
+			        centavos = valorAtualReplaced.substring(valorAtualReplaced.length() - 1, valorAtualReplaced.length()-0);
+			    } catch (java.lang.StringIndexOutOfBoundsException e) {
+			    }
+			    String decimal = "";
+			    try {
+			        decimal = valorAtualReplaced.substring(valorAtualReplaced.length() - 2, valorAtualReplaced.length() - 1);
+			    } catch (java.lang.StringIndexOutOfBoundsException e) {
+			    }
+			    //a parte restante é a parte inteira
+			    String inteira = "";
+			    try {
+			        inteira = valorAtualReplaced.substring(0, valorAtualReplaced.length() - 2);
+			    } catch (java.lang.StringIndexOutOfBoundsException e) {
+			        inteira = "0";
+			    }
+			    //reconfigure os jtext
+			    String separator = ".";
+			    String valorSaida = "";
+
+			    //configura a parte inteira
+			    if(inteira.equals("") == true){
+			        inteira = "0";
+			    }
+			    int length = inteira.length();
+			    String subInteira = inteira.substring(0,1);
+			    if(length == 2 && subInteira.equals("0") == true){
+			        inteira = inteira.substring(1);
+			    }
+			    //configura o valor de saída
+			    valorSaida = inteira + separator + decimal + centavos;
+			    txtSalario.setText(valorSaida);
 			}
 		});
 		

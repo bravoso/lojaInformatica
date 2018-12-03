@@ -30,8 +30,10 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -46,6 +48,7 @@ import br.senac.dd.cyberimports.model.dao.ProdutoDAO;
 import br.senac.dd.cyberimports.model.dao.ServicoDAO;
 import br.senac.dd.cyberimports.model.vo.ProdutoVO;
 import br.senac.dd.cyberimports.model.vo.ServicoVO;
+import ca.odell.glazedlists.matchers.Matcher;
 import br.senac.dd.cyberimports.controller.ClienteController;
 import br.senac.dd.cyberimports.model.vo.ClienteVO;
 import br.senac.dd.cyberimports.model.vo.FuncionarioVO;
@@ -390,7 +393,76 @@ public class Principal extends JFrame {
 					e.consume();
 				}
 			}
+			@Override
+			public void keyReleased(KeyEvent evt) {
+				char tecla = evt.getKeyChar();
+				if(tecla == KeyEvent.VK_ENTER){
+				txtPrecoCusto.requestFocus();
+				}else{
+				formatJTextNumber(txtPrecoCusto);
+				}
+			}
+			private void formatJTextNumber(JTextField txtPrecoCusto) {
+				String regex = "[0-9]";
+				String valorAtual = txtPrecoCusto.getText();
+				String CaracterDigitado = "0";
+				try {
+				CaracterDigitado = txtPrecoCusto.getText().substring(txtPrecoCusto.getText().length() - 1, txtPrecoCusto.getText().length() - 0);
+				} catch (java.lang.StringIndexOutOfBoundsException e) {
+				CaracterDigitado = txtPrecoCusto.getText().substring(txtPrecoCusto.getText().length() - 0, txtPrecoCusto.getText().length() - 0);
+				}
+				
+				Pattern p = Pattern.compile(regex);
+			    java.util.regex.Matcher m = p.matcher(CaracterDigitado);
+			    boolean b = m.matches();
+			    if(b == false){
+			        try {
+			            valorAtual = txtPrecoCusto.getText().substring(0, txtPrecoCusto.getText().length() - 1);
+			        } catch (java.lang.StringIndexOutOfBoundsException e) {
+			            valorAtual = txtPrecoCusto.getText().substring(0, txtPrecoCusto.getText().length() - 0);
+			        }
+			    }
+			    String valorAtualReplaced = valorAtual.replace(".", "");
+
+			    //separe os doois ultimos digitos
+			    String centavos = "";
+			    try {
+			        centavos = valorAtualReplaced.substring(valorAtualReplaced.length() - 1, valorAtualReplaced.length()-0);
+			    } catch (java.lang.StringIndexOutOfBoundsException e) {
+			    }
+			    String decimal = "";
+			    try {
+			        decimal = valorAtualReplaced.substring(valorAtualReplaced.length() - 2, valorAtualReplaced.length() - 1);
+			    } catch (java.lang.StringIndexOutOfBoundsException e) {
+			    }
+			    //a parte restante é a parte inteira
+			    String inteira = "";
+			    try {
+			        inteira = valorAtualReplaced.substring(0, valorAtualReplaced.length() - 2);
+			    } catch (java.lang.StringIndexOutOfBoundsException e) {
+			        inteira = "0";
+			    }
+			    //reconfigure os jtext
+			    String separator = ".";
+			    String valorSaida = "";
+
+			    //configura a parte inteira
+			    if(inteira.equals("") == true){
+			        inteira = "0";
+			    }
+			    int length = inteira.length();
+			    String subInteira = inteira.substring(0,1);
+			    if(length == 2 && subInteira.equals("0") == true){
+			        inteira = inteira.substring(1);
+			    }
+			    //configura o valor de saída
+			    valorSaida = inteira + separator + decimal + centavos;
+			    txtPrecoCusto.setText(valorSaida);
+
+			}
 		});
+		
+		
 
 		txtPrecoVenda = new JTextField();
 		txtPrecoVenda.setColumns(10);
@@ -402,6 +474,72 @@ public class Principal extends JFrame {
 				if ((input < '0' || input > '9') && input != '\b') {
 					e.consume();
 				}
+			}
+			@Override
+			public void keyReleased(KeyEvent evt) {
+				char tecla = evt.getKeyChar();
+				if(tecla == KeyEvent.VK_ENTER){
+				txtPrecoVenda.requestFocus();
+				}else{
+				formatJTextNumber(txtPrecoVenda);
+				}
+			}
+			private void formatJTextNumber(JTextField txtPrecoVenda) {
+				String regex = "[0-9]";
+				String valorAtual = txtPrecoVenda.getText();
+				String CaracterDigitado = "0";
+				try {
+				CaracterDigitado = txtPrecoVenda.getText().substring(txtPrecoVenda.getText().length() - 1, txtPrecoVenda.getText().length() - 0);
+				} catch (java.lang.StringIndexOutOfBoundsException e) {
+				CaracterDigitado = txtPrecoVenda.getText().substring(txtPrecoVenda.getText().length() - 0, txtPrecoVenda.getText().length() - 0);
+				}
+				
+				Pattern p = Pattern.compile(regex);
+			    java.util.regex.Matcher m = p.matcher(CaracterDigitado);
+			    boolean b = m.matches();
+			    if(b == false){
+			        try {
+			            valorAtual = txtPrecoVenda.getText().substring(0, txtPrecoVenda.getText().length() - 1);
+			        } catch (java.lang.StringIndexOutOfBoundsException e) {
+			            valorAtual = txtPrecoVenda.getText().substring(0, txtPrecoVenda.getText().length() - 0);
+			        }
+			    }
+			    String valorAtualReplaced = valorAtual.replace(".", "");
+
+			    //separe os doois ultimos digitos
+			    String centavos = "";
+			    try {
+			        centavos = valorAtualReplaced.substring(valorAtualReplaced.length() - 1, valorAtualReplaced.length()-0);
+			    } catch (java.lang.StringIndexOutOfBoundsException e) {
+			    }
+			    String decimal = "";
+			    try {
+			        decimal = valorAtualReplaced.substring(valorAtualReplaced.length() - 2, valorAtualReplaced.length() - 1);
+			    } catch (java.lang.StringIndexOutOfBoundsException e) {
+			    }
+			    //a parte restante é a parte inteira
+			    String inteira = "";
+			    try {
+			        inteira = valorAtualReplaced.substring(0, valorAtualReplaced.length() - 2);
+			    } catch (java.lang.StringIndexOutOfBoundsException e) {
+			        inteira = "0";
+			    }
+			    //reconfigure os jtext
+			    String separator = ".";
+			    String valorSaida = "";
+
+			    //configura a parte inteira
+			    if(inteira.equals("") == true){
+			        inteira = "0";
+			    }
+			    int length = inteira.length();
+			    String subInteira = inteira.substring(0,1);
+			    if(length == 2 && subInteira.equals("0") == true){
+			        inteira = inteira.substring(1);
+			    }
+			    //configura o valor de saída
+			    valorSaida = inteira + separator + decimal + centavos;
+			    txtPrecoVenda.setText(valorSaida);		
 			}
 		});
 
@@ -704,6 +842,72 @@ public class Principal extends JFrame {
 				if ((input < '0' || input > '9') && input != '\b') {
 					e.consume();
 				}
+			}
+			@Override
+			public void keyReleased(KeyEvent evt) {
+				char tecla = evt.getKeyChar();
+				if(tecla == KeyEvent.VK_ENTER){
+				txtPrecoVenda.requestFocus();
+				}else{
+				formatJTextNumber(txtValorServico);
+				}
+			}
+			private void formatJTextNumber(JTextField txtValorServico) {
+				String regex = "[0-9]";
+				String valorAtual = txtValorServico.getText();
+				String CaracterDigitado = "0";
+				try {
+				CaracterDigitado = txtValorServico.getText().substring(txtValorServico.getText().length() - 1, txtValorServico.getText().length() - 0);
+				} catch (java.lang.StringIndexOutOfBoundsException e) {
+				CaracterDigitado = txtValorServico.getText().substring(txtValorServico.getText().length() - 0, txtValorServico.getText().length() - 0);
+				}
+				
+				Pattern p = Pattern.compile(regex);
+			    java.util.regex.Matcher m = p.matcher(CaracterDigitado);
+			    boolean b = m.matches();
+			    if(b == false){
+			        try {
+			            valorAtual = txtValorServico.getText().substring(0, txtValorServico.getText().length() - 1);
+			        } catch (java.lang.StringIndexOutOfBoundsException e) {
+			            valorAtual = txtValorServico.getText().substring(0, txtValorServico.getText().length() - 0);
+			        }
+			    }
+			    String valorAtualReplaced = valorAtual.replace(".", "");
+
+			    //separe os doois ultimos digitos
+			    String centavos = "";
+			    try {
+			        centavos = valorAtualReplaced.substring(valorAtualReplaced.length() - 1, valorAtualReplaced.length()-0);
+			    } catch (java.lang.StringIndexOutOfBoundsException e) {
+			    }
+			    String decimal = "";
+			    try {
+			        decimal = valorAtualReplaced.substring(valorAtualReplaced.length() - 2, valorAtualReplaced.length() - 1);
+			    } catch (java.lang.StringIndexOutOfBoundsException e) {
+			    }
+			    //a parte restante é a parte inteira
+			    String inteira = "";
+			    try {
+			        inteira = valorAtualReplaced.substring(0, valorAtualReplaced.length() - 2);
+			    } catch (java.lang.StringIndexOutOfBoundsException e) {
+			        inteira = "0";
+			    }
+			    //reconfigure os jtext
+			    String separator = ".";
+			    String valorSaida = "";
+
+			    //configura a parte inteira
+			    if(inteira.equals("") == true){
+			        inteira = "0";
+			    }
+			    int length = inteira.length();
+			    String subInteira = inteira.substring(0,1);
+			    if(length == 2 && subInteira.equals("0") == true){
+			        inteira = inteira.substring(1);
+			    }
+			    //configura o valor de saída
+			    valorSaida = inteira + separator + decimal + centavos;
+			    txtValorServico.setText(valorSaida);		
 			}
 		});
 
