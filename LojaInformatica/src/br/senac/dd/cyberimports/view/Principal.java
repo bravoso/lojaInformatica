@@ -550,7 +550,6 @@ public class Principal extends JFrame {
 
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(333, 36, 115, 20);
-		comboBox.setModel(new DefaultComboBoxModel(getNomesFuncionarios()));
 		pnOrcamento.add(comboBox);
 
 		JLabel lblVendedor = new JLabel("Vendedor:");
@@ -583,8 +582,8 @@ public class Principal extends JFrame {
 
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
-				new Object[][] { { "ID", "Cliente", "Status", "Vendedor", "Valor" } },
-				new String[] { "ID", "Cliente", "Status", "Vendedor", "Valor" }));
+				new Object[][] { { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" } },
+				new String[] { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" }));
 		scrollPane_3.setColumnHeaderView(table);
 		
 		JComboBox comboBoxNomeClientes = new JComboBox();
