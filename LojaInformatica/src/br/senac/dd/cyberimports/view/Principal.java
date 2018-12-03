@@ -30,10 +30,12 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import javax.swing.text.MaskFormatter;
 
 import br.senac.dd.cyberimports.controller.ProdutoController;
 import br.senac.dd.cyberimports.controller.ServicoController;
@@ -50,14 +52,16 @@ import br.senac.dd.cyberimports.model.vo.FuncionarioVO;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import java.awt.Toolkit;
+import javax.swing.JFormattedTextField;
 
 public class Principal extends JFrame {
 
+	private static final String ClienteVO = null;
 	private JPanel contentPane;
 	private JTextField txtNomeCliente;
-	private JTextField txtCpfCliente;
 	private JTextField txtEnderecoCliente;
 	private JTextField txtTelefoneCliente;
+	private JFormattedTextField txtCpfCliente;
 	private JTextField txtNomeServico;
 	private JTextField txtValorServico;
 	private JTextField txtIdServico;
@@ -102,34 +106,35 @@ public class Principal extends JFrame {
 	String nomeServico = "";
 	Double valorServico = null;
 
-	public String[]  getNomesClientes() {
+	public String[] getNomesClientes() {
 
 		ClienteDAO cdao = new ClienteDAO();
 		clientesListados = cdao.listarTodos();
 
 		nomesClientes = new String[clientesListados.size()];
 
-		for (int i = 1;  i < clientesListados.size(); i++) {
+		for (int i = 1; i < clientesListados.size(); i++) {
 			nomesClientes[i] = clientesListados.get(i).getNome();
 		}
-		
+
 		return nomesClientes;
 	}
-	
-	public String[]  getNomesFuncionarios() {
+
+	public String[] getNomesFuncionarios() {
 
 		FuncionarioDAO fdao = new FuncionarioDAO();
 		funcionariosConsultados = fdao.listarTodos();
 
 		nomesFuncionarios = new String[funcionariosConsultados.size()];
 
-		for (int i = 0;  i < funcionariosConsultados.size(); i++) {
-			nomesFuncionarios[i] = funcionariosConsultados.get(i).getNome() + " (" + funcionariosConsultados.get(i).getId() + ")";
+		for (int i = 0; i < funcionariosConsultados.size(); i++) {
+			nomesFuncionarios[i] = funcionariosConsultados.get(i).getNome() + " ("
+					+ funcionariosConsultados.get(i).getId() + ")";
 		}
-		
+
 		return nomesFuncionarios;
 	}
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -163,7 +168,6 @@ public class Principal extends JFrame {
 		txtQuantidade.setText("");
 		txtIdCliente.setText("");
 		txtNomeCliente.setText("");
-		txtCpfCliente.setText("");
 		txtEnderecoCliente.setText("");
 		txtTelefoneCliente.setText("");
 		txtIdServico.setText("");
@@ -171,21 +175,12 @@ public class Principal extends JFrame {
 		txtValorServico.setText("");
 	}
 
-	//METODOS
+	// METODOS
 
 	public ServicoVO construirServico() {
 		servico.setNome(txtNomeServico.getText());
 		servico.setValor(Double.parseDouble(txtValorServico.getText()));
 		return servico;
-	}
-	
-
-	public ClienteVO construirCliente() {
-		cliente.setNome(txtNomeCliente.getText());
-		cliente.setCpf(txtCpfCliente.getText());
-		cliente.setEndereço(txtEnderecoCliente.getText());
-		cliente.setTelefone(txtTelefoneCliente.getText());
-		return cliente;
 	}
 
 	public ProdutoVO construirProduto() {
@@ -254,8 +249,11 @@ public class Principal extends JFrame {
 
 	/**
 	 * Create the frame.
+	 *
 	 */
-	public Principal() {
+	public Principal() throws ParseException {
+		
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/icons/icons8-ssd-48.png")));
 		setTitle("Cyber Imports SI");
 		setResizable(false);
@@ -750,19 +748,6 @@ public class Principal extends JFrame {
 		lblCpf.setBounds(10, 68, 83, 14);
 		panel.add(lblCpf);
 
-		txtCpfCliente = new JTextField();
-		txtCpfCliente.setColumns(10);
-		txtCpfCliente.setBounds(103, 68, 277, 20);
-		panel.add(txtCpfCliente);
-		txtCpfCliente.addKeyListener(new KeyAdapter() {
-			public void keyTyped(KeyEvent e) {
-				char input = e.getKeyChar();
-				if ((input < '0' || input > '9') && input != '\b') {
-					e.consume();
-				}
-			}
-		});
-
 		JLabel lblEndereo = new JLabel("Endere\u00E7o:");
 		lblEndereo.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblEndereo.setBounds(10, 105, 83, 14);
@@ -805,8 +790,9 @@ public class Principal extends JFrame {
 				readJTableClientes();
 				getNomesClientes();
 				comboBoxNomeClientes.setModel(new DefaultComboBoxModel(getNomesClientes()));
-			}
-		});
+			}});
+
+	
 		btnAdicionarCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-plus-26.png")));
 		btnAdicionarCliente.setBounds(10, 190, 41, 35);
 		panel.add(btnAdicionarCliente);
@@ -901,6 +887,11 @@ public class Principal extends JFrame {
 		btnAlterarCliente.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-save-as-26.png")));
 		btnAlterarCliente.setBounds(56, 190, 37, 35);
 		panel.add(btnAlterarCliente);
+		
+		MaskFormatter formatter = new MaskFormatter("###.###.###-##");
+		txtCpfCliente = new JFormattedTextField(formatter);
+		txtCpfCliente.setBounds(103, 74, 277, 20);
+		panel.add(txtCpfCliente);
 		ImageIcon iconeAddCliente = new ImageIcon(Principal.class.getResource("/icons/icons8-add-48.png"));
 
 		// MÉTODOS DE ATUALIZAÇÃO DE UI
@@ -910,5 +901,16 @@ public class Principal extends JFrame {
 		readJTableClientes();
 		getNomesClientes();
 		getNomesFuncionarios();
+		
+	
+	}
+
+	protected br.senac.dd.cyberimports.model.vo.ClienteVO construirCliente() {
+		cliente.setNome(txtNomeCliente.getText());
+		cliente.setCpf(txtCpfCliente.getText());
+		cliente.setEndereço(txtEnderecoCliente.getText());
+		cliente.setTelefone(txtTelefoneCliente.getText());
+		return cliente;
+
 	}
 }
