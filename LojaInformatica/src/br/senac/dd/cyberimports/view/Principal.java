@@ -41,6 +41,7 @@ import br.senac.dd.cyberimports.controller.ProdutoController;
 import br.senac.dd.cyberimports.controller.ServicoController;
 import br.senac.dd.cyberimports.model.dao.ClienteDAO;
 import br.senac.dd.cyberimports.model.dao.FuncionarioDAO;
+import br.senac.dd.cyberimports.model.dao.OrcamentoDAO;
 import br.senac.dd.cyberimports.model.dao.ProdutoDAO;
 import br.senac.dd.cyberimports.model.dao.ServicoDAO;
 import br.senac.dd.cyberimports.model.vo.ProdutoVO;
@@ -48,6 +49,7 @@ import br.senac.dd.cyberimports.model.vo.ServicoVO;
 import br.senac.dd.cyberimports.controller.ClienteController;
 import br.senac.dd.cyberimports.model.vo.ClienteVO;
 import br.senac.dd.cyberimports.model.vo.FuncionarioVO;
+import br.senac.dd.cyberimports.model.vo.OrcamentoVO;
 
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
@@ -88,7 +90,7 @@ public class Principal extends JFrame {
 	private JTextField txtIdCliente;
 	private JTable tblClientes;
 	private JTable tblServico;
-	private JTable table;
+	private JTable tblOrcamentos;
 
 	Integer idProduto = null;
 	String nomeProduto = "";
@@ -209,7 +211,7 @@ public class Principal extends JFrame {
 
 			modelo.addRow(new Object[] {
 
-					p.getId(), p.getNome(), p.getCusto(), p.getPreco(), p.getQuantidade() });
+			p.getId(), p.getNome(), p.getCusto(), p.getPreco(), p.getQuantidade() });
 		}
 	}
 
@@ -227,7 +229,7 @@ public class Principal extends JFrame {
 
 			modelo.addRow(new Object[] {
 
-					p.getId(), p.getNome(), p.getValor(), });
+			p.getId(), p.getNome(), p.getValor(), });
 		}
 	}
 
@@ -243,7 +245,23 @@ public class Principal extends JFrame {
 
 			modelo.addRow(new Object[] {
 
-					p.getId(), p.getNome(), p.getCpf(), p.getTelefone(), p.getEndereço(), });
+			p.getId(), p.getNome(), p.getCpf(), p.getTelefone(), p.getEndereço(), });
+		}
+	}
+	
+	public void readJTableOrcamentos() {
+
+		DefaultTableModel modelo = (DefaultTableModel) tblOrcamentos.getModel();
+		modelo.setNumRows(0);
+		OrcamentoDAO odao = new OrcamentoDAO();
+
+		modelo.addRow(new Object[] { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" });
+
+		for (OrcamentoVO o : odao.listarTodos()) {
+
+			modelo.addRow(new Object[] {
+
+			o.getId(), o.getStatus_orcamento(), o.getVendedor(), o.getCliente(), o.getValor() });
 		}
 	}
 
@@ -578,11 +596,12 @@ public class Principal extends JFrame {
 		scrollPane_3.setBounds(10, 181, 831, 354);
 		pnOrcamento.add(scrollPane_3);
 
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
+		tblOrcamentos = new JTable();
+		tblOrcamentos.setModel(new DefaultTableModel(
 				new Object[][] { { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" } },
 				new String[] { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" }));
-		scrollPane_3.setColumnHeaderView(table);
+				readJTableOrcamentos();
+		scrollPane_3.setColumnHeaderView(tblOrcamentos);
 		
 		JComboBox comboBoxNomeClientes = new JComboBox();
 		comboBoxNomeClientes.setBounds(10, 92, 115, 20);

@@ -13,20 +13,21 @@ public class OrcamentoBO {
 	public boolean inserir(OrcamentoVO orcamento) {
         int idGerado = dao.inserir(orcamento);
         return idGerado > 0;
-}
-public OrcamentoVO buscarorcamentoPorId(String textoId) {
+	}
+	
+	public OrcamentoVO buscarorcamentoPorId(String textoId) {
         OrcamentoVO orcamentoBuscado = dao.obterPorId(Integer.parseInt(textoId));
         return orcamentoBuscado;
-}
+	}
     
     public List<OrcamentoVO> listarorcamentos() {
 	ArrayList<OrcamentoVO> orcamentos = dao.listarTodos();
 	return orcamentos;
-}
+    }
     
-public boolean atualizar(OrcamentoVO orcamento) {
+    public boolean atualizar(OrcamentoVO orcamento) {
         boolean sucesso = dao.atualizar(orcamento);
         return sucesso;
-}
+    }
 	
 }
