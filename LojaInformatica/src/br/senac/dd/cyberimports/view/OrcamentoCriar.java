@@ -17,12 +17,14 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
+import br.senac.dd.cyberimports.controller.OrcamentoController;
 import br.senac.dd.cyberimports.model.dao.ClienteDAO;
 import br.senac.dd.cyberimports.model.dao.FuncionarioDAO;
 import br.senac.dd.cyberimports.model.dao.ProdutoDAO;
 import br.senac.dd.cyberimports.model.dao.ServicoDAO;
 import br.senac.dd.cyberimports.model.vo.ClienteVO;
 import br.senac.dd.cyberimports.model.vo.FuncionarioVO;
+import br.senac.dd.cyberimports.model.vo.OrcamentoVO;
 import br.senac.dd.cyberimports.model.vo.ProdutoVO;
 import br.senac.dd.cyberimports.model.vo.ServicoVO;
 
@@ -124,7 +126,7 @@ public class OrcamentoCriar {
 		frmNovoOramento.setIconImage(
 				Toolkit.getDefaultToolkit().getImage(OrcamentoCriar.class.getResource("/icons/icons8-add-48.png")));
 		frmNovoOramento.setTitle("Novo Or\u00E7amento");
-		frmNovoOramento.setBounds(100, 100, 675, 444);
+		frmNovoOramento.setBounds(100, 100, 675, 400);
 		frmNovoOramento.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmNovoOramento.getContentPane().setLayout(null);
 
@@ -204,6 +206,30 @@ public class OrcamentoCriar {
 		comboBoxClientes.setBounds(65, 8, 193, 20);
 		frmNovoOramento.getContentPane().add(comboBoxClientes);
 		comboBoxClientes.setModel(new DefaultComboBoxModel(getNomesClientes()));
+		
+		JButton btnCriar = new JButton("Criar");
+		btnCriar.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				
+				OrcamentoController cont = new OrcamentoController();
+				cont.salvar(construirOrcamento());
+				
+			}
+
+			private OrcamentoVO construirOrcamento() {
+				OrcamentoVO o = new OrcamentoVO();
+				o.setCliente((comboBoxClientes.getSelectedItem().toString()));
+				o.setDt_orcamento(txtDataCriacao.getText());
+				o.setStatus_orcamento(comboBoxStatus.getSelectedItem().toString());
+				o.setVendedor(comboBoxVendedor.getSelectedItem().toString());
+				o.setValor(Double.parseDouble((String) tblServicosProdutos.getValueAt(1, 1)));
+				o.setDescricao(txtProblemaDeclarado.getText());
+				
+				return o;
+			}
+		});
+		btnCriar.setBounds(287, 336, 89, 23);
+		frmNovoOramento.getContentPane().add(btnCriar);
 	}
 //.
 //	.

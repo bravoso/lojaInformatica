@@ -18,15 +18,18 @@ public int inserir(OrcamentoVO f) {
 		
 		int novoId = -1;
 		
-		String sql = " INSERT INTO ORCAMENTO (VALOR, DT_ORCAMENTO, STATUS_ORCAMENTO) VALUES (?,?,?) ";
+		String sql = " INSERT INTO ORCAMENTO (CLIENTE, FUNCIONARIO, STATUS_ORCAMENTO, DT_ORCAMENTO, VALOR, DESCRICAO) VALUES (?,?,?,?,?,?) ";
 		
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql, Statement.RETURN_GENERATED_KEYS);
 		
 		try {
 				prepStmt.setDouble(1, f.getValor());
-                prepStmt.setDate(2, f.getDt_orcamento());
-				prepStmt.setInt(3, f.getStatus_orcamento());
+                prepStmt.setString(2, f.getDt_orcamento());
+				prepStmt.setString(3, f.getStatus_orcamento());
+				prepStmt.setString(4, f.getDt_orcamento());
+				prepStmt.setDouble(5, f.getValor());
+				prepStmt.setString(6, f.getDescricao());
 			
 				prepStmt.execute();
 				
@@ -55,8 +58,8 @@ public int inserir(OrcamentoVO f) {
 		
 		try {
 				prepStmt.setDouble(1, f.getValor());
-				prepStmt.setDate(2, f.getDt_orcamento());
-				prepStmt.setInt(3, f.getStatus_orcamento());
+				prepStmt.setString(2, f.getDt_orcamento());
+				prepStmt.setString(3, f.getStatus_orcamento());
 				prepStmt.setInt(5, f.getId());
 				
 				int codigoRetorno = prepStmt.executeUpdate();
@@ -120,8 +123,8 @@ public int inserir(OrcamentoVO f) {
 					//Obtendo valores pelo NOME DA COLUNA
 					o.setId(result.getInt("IDORCAMENTO"));
 					o.setValor(result.getDouble("VALOR"));
-                    o.setDt_orcamento(result.getDate("DT_ORCAMENTO"));
-					o.setStatus_orcamento(result.getInt("STATUS_ORCAMENTO"));
+                    o.setDt_orcamento(result.getString("DT_ORCAMENTO"));
+					o.setStatus_orcamento(result.getString("STATUS_ORCAMENTO"));
 					
 					//Outra forma de obter (POSICIONAL)
 					// f.setNome(result.getString(4));
@@ -160,8 +163,8 @@ public int inserir(OrcamentoVO f) {
 					//Obtendo valores pelo NOME DA COLUNA
 					o.setId(result.getInt("IDORCAMENTO"));
 					o.setValor(result.getDouble("VALOR"));
-                    o.setDt_orcamento(result.getDate("DT_ORCAMENTO"));
-					o.setStatus_orcamento(result.getInt("STATUS_ORCAMENTO"));
+                    o.setDt_orcamento(result.getString("DT_ORCAMENTO"));
+					o.setStatus_orcamento(result.getString("STATUS_ORCAMENTO"));
 					
 					
 					//Outra forma de obter (POSICIONAL)
