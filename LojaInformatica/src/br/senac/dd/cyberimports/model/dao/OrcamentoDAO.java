@@ -18,14 +18,14 @@ public int inserir(OrcamentoVO f) {
 		
 		int novoId = -1;
 		
-		String sql = " INSERT INTO ORCAMENTO (CLIENTE, FUNCIONARIO, STATUS_ORCAMENTO, DT_ORCAMENTO, VALOR, DESCRICAO) VALUES (?,?,?,?,?,?) ";
+		String sql = " INSERT INTO ORCAMENTO (CLIENTE, FUNCIONARIO, STATUS_ORCAMENTO, DT_ORCAMENTO,VALOR,DESCRICAO) VALUES (?,?,?,?,?,?) ";
 		
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql, Statement.RETURN_GENERATED_KEYS);
 		
 		try {
-				prepStmt.setDouble(1, f.getValor());
-                prepStmt.setString(2, f.getDt_orcamento());
+				prepStmt.setString(1, f.getCliente());
+                prepStmt.setString(2, f.getVendedor());
 				prepStmt.setString(3, f.getStatus_orcamento());
 				prepStmt.setString(4, f.getDt_orcamento());
 				prepStmt.setDouble(5, f.getValor());
