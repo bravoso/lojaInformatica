@@ -41,6 +41,7 @@ import javax.swing.text.MaskFormatter;
 
 import br.senac.dd.cyberimports.controller.ProdutoController;
 import br.senac.dd.cyberimports.controller.ServicoController;
+import br.senac.dd.cyberimports.controller.ValidaCPF;
 import br.senac.dd.cyberimports.model.dao.ClienteDAO;
 import br.senac.dd.cyberimports.model.dao.FuncionarioDAO;
 import br.senac.dd.cyberimports.model.dao.OrcamentoDAO;
@@ -1162,11 +1163,23 @@ public class Principal extends JFrame {
 	}
 
 	protected br.senac.dd.cyberimports.model.vo.ClienteVO construirCliente() {
-		cliente.setNome(txtNomeCliente.getText());
-		cliente.setCpf(txtCpfCliente.getText());
-		cliente.setEndereço(txtEnderecoCliente.getText());
-		cliente.setTelefone(txtTelefoneCliente.getText());
-		return cliente;
+		String CPF = txtCpfCliente.getText();
+		CPF = CPF.replace(".", "");
+		CPF = CPF.replace("-", "");
+		ValidaCPF valida = new ValidaCPF();
+		if (valida.isCPF(CPF) == true) {
+			cliente.setNome(txtNomeCliente.getText());
+			cliente.setCpf(txtCpfCliente.getText());
+			cliente.setEndereço(txtEnderecoCliente.getText());
+			cliente.setTelefone(txtTelefoneCliente.getText());
+			return cliente;
+		}else {
+			 JOptionPane.showMessageDialog(null, "CPF inválido", "ERRO", JOptionPane.ERROR_MESSAGE);
+			return null;
+			
+		}
+         
+		
 
 	}
 }
