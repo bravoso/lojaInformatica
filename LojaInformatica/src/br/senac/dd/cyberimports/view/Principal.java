@@ -785,6 +785,10 @@ public class Principal extends JFrame {
 			}
 		});
 		comboBoxNomeClientes.setModel(new DefaultComboBoxModel(getNomesClientes()));
+		
+		JButton btnExportarOrcamento = new JButton("Exportar");
+		btnExportarOrcamento.setBounds(752, 147, 89, 23);
+		pnOrcamento.add(btnExportarOrcamento);
 
 		JPanel pnServico = new JPanel();
 		tpAbas.addTab("Serviços", iconeServicos, pnServico, null);
