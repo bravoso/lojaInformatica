@@ -765,8 +765,14 @@ public class Principal extends JFrame {
 
 		tblOrcamentos = new JTable();
 		tblOrcamentos.setModel(
-				new DefaultTableModel(new Object[][] { { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" } },
-						new String[] { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" }));
+				new DefaultTableModel(
+			new Object[][] {
+				{"ID", "Status Or\u00E7amento", "Vendedor", "Cliente", "Valor"},
+			},
+			new String[] {
+				"ID", "Status Or\u00E7amento", "Vendedor", "Cliente", "Valor"
+			}
+		));
 		readJTableOrcamentos();
 		scrollPane_3.setColumnHeaderView(tblOrcamentos);
 

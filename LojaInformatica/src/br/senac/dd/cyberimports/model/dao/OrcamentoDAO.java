@@ -125,6 +125,8 @@ public int inserir(OrcamentoVO f) {
 					o.setValor(result.getDouble("VALOR"));
                     o.setDt_orcamento(result.getString("DT_ORCAMENTO"));
 					o.setStatus_orcamento(result.getString("STATUS_ORCAMENTO"));
+					o.setCliente(result.getString("CLIENTE"));
+					o.setVendedor(result.getString("FUNCIONARIO"));
 					
 					//Outra forma de obter (POSICIONAL)
 					// f.setNome(result.getString(4));
