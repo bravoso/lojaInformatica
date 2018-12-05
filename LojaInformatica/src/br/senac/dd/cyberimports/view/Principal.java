@@ -278,7 +278,7 @@ public class Principal extends JFrame {
 		}
 	}
 	
-	public void readJTableOrcamentosPorDesc(String desc) {
+	public void readJTableOrcamentosPorCliente(String cliente) {
 
 		DefaultTableModel modelo = (DefaultTableModel) tblOrcamentos.getModel();
 		modelo.setNumRows(0);
@@ -286,7 +286,23 @@ public class Principal extends JFrame {
 
 		modelo.addRow(new Object[] { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" });
 
-		for (OrcamentoVO o : odao.listarTodosPorDesc(desc)) {
+		for (OrcamentoVO o : odao.listarTodosPorCliente(cliente)) {
+
+			modelo.addRow(new Object[] {
+
+			o.getId(), o.getStatus_orcamento(), o.getVendedor(), o.getCliente(), o.getValor() });
+		}
+	}
+	
+	public void readJTableOrcamentosPorVendedor(String vendedor) {
+
+		DefaultTableModel modelo = (DefaultTableModel) tblOrcamentos.getModel();
+		modelo.setNumRows(0);
+		OrcamentoDAO odao = new OrcamentoDAO();
+
+		modelo.addRow(new Object[] { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" });
+
+		for (OrcamentoVO o : odao.listarTodosPorVendedor(vendedor)) {
 
 			modelo.addRow(new Object[] {
 
@@ -731,7 +747,8 @@ public class Principal extends JFrame {
 		JButton btnProcurar_1 = new JButton("");
 		btnProcurar_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				readJTableOrcamentosPorDesc(txtNomeClienteOrcamento.getText());
+				readJTableOrcamentosPorCliente(txtNomeClienteOrcamento.getText());
+				//readJTableOrcamentosPorVendedor(txtVendedorOrcamento.getText());
 			}
 		});
 		btnProcurar_1.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
