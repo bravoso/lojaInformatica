@@ -28,16 +28,16 @@ private OrcamentoBO bo = new OrcamentoBO();
             if(orcamento.getId() > 0) {
                 //UPDATE
                 if(bo.atualizar(orcamento)) {
-                    validacao = "Funcionário atualizado com sucesso!";
+                    validacao = "Orçamento atualizado com sucesso!";
                 }else {
-                    validacao = "Erro ao atualizar funcionário";
+                    validacao = "Erro ao atualizar orçamento";
                 }
             }else{
                 //INSERT
                 if(bo.inserir(orcamento)) {
-                    validacao = "Funcionário salvo com sucesso!";
+                    validacao = "Orçamento salvo com sucesso!";
                 }else {
-                    validacao = "Erro ao salvar funcionário";
+                    validacao = "Erro ao salvar orçamento";
                 }
             }
         }
@@ -52,9 +52,9 @@ private OrcamentoBO bo = new OrcamentoBO();
             if(orcamento.getId() > 0) {
                
                 if(bo.atualizar(orcamento)) {
-                    validacao = "Funcionário atualizado com sucesso!";
+                    validacao = "Orçamento atualizado com sucesso!";
                 }else {
-                    validacao = "Erro ao atualizar funcionário";
+                    validacao = "Erro ao atualizar orçamento";
                 }
             }
         }
@@ -71,7 +71,7 @@ private OrcamentoBO bo = new OrcamentoBO();
 		String validacao = "";
 
 		if(orcamento == null) {
-                    validacao = "orcamento está NULO!";
+                    validacao = "Orçamento está NULO!";
 		        
 		}
 		return validacao;

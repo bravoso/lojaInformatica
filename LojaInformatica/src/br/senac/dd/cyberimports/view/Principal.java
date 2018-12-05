@@ -93,6 +93,7 @@ public class Principal extends JFrame {
 	// DECLARAÇÃO DE VARIÁVEIS
 	ClienteVO cliente = new ClienteVO();
 	ServicoVO servico = new ServicoVO();
+	OrcamentoVO orcamento = new OrcamentoVO();
 	private JTextField txtIdCliente;
 	private JTable tblClientes;
 	private JTable tblServico;
@@ -113,6 +114,8 @@ public class Principal extends JFrame {
 	Integer idServico = null;
 	String nomeServico = "";
 	Double valorServico = null;
+	private JTextField txtNomeClienteOrcamento;
+	private JTextField txtVendedorOrcamento;
 
 	public String[] getNomesClientes() {
 
@@ -169,6 +172,8 @@ public class Principal extends JFrame {
 		produto = new ProdutoVO();
 		cliente = new ClienteVO();
 		servico = new ServicoVO();
+		orcamento = new OrcamentoVO();
+		
 		txtIdProduto.setText("");
 		txtNomeProduto.setText("");
 		txtPrecoCusto.setText("");
@@ -181,6 +186,8 @@ public class Principal extends JFrame {
 		txtIdServico.setText("");
 		txtNomeServico.setText("");
 		txtValorServico.setText("");
+		txtIdOrcamento.setText("");
+		
 	}
 
 	// METODOS
@@ -264,6 +271,22 @@ public class Principal extends JFrame {
 		modelo.addRow(new Object[] { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" });
 
 		for (OrcamentoVO o : odao.listarTodos()) {
+
+			modelo.addRow(new Object[] {
+
+			o.getId(), o.getStatus_orcamento(), o.getVendedor(), o.getCliente(), o.getValor() });
+		}
+	}
+	
+	public void readJTableOrcamentosPorDesc(String desc) {
+
+		DefaultTableModel modelo = (DefaultTableModel) tblOrcamentos.getModel();
+		modelo.setNumRows(0);
+		OrcamentoDAO odao = new OrcamentoDAO();
+
+		modelo.addRow(new Object[] { "ID", "Status Orçamento", "Vendedor", "Cliente", "Valor" });
+
+		for (OrcamentoVO o : odao.listarTodosPorDesc(desc)) {
 
 			modelo.addRow(new Object[] {
 
@@ -708,7 +731,7 @@ public class Principal extends JFrame {
 		JButton btnProcurar_1 = new JButton("");
 		btnProcurar_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				readJTableOrcamentosPorId(Integer.parseInt(txtIdOrcamento.getText()));
+				readJTableOrcamentosPorDesc(txtNomeClienteOrcamento.getText());
 			}
 		});
 		btnProcurar_1.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-google-web-search-24.png")));
@@ -733,10 +756,6 @@ public class Principal extends JFrame {
 		label_1.setBounds(238, 95, 7, 14);
 		pnOrcamento.add(label_1);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(333, 36, 115, 20);
-		pnOrcamento.add(comboBox);
-
 		JLabel lblVendedor = new JLabel("Vendedor:");
 		lblVendedor.setBounds(333, 11, 115, 14);
 		pnOrcamento.add(lblVendedor);
@@ -759,9 +778,23 @@ public class Principal extends JFrame {
 		JButton btnEditar = new JButton("");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (tblOrcamentos.getSelectedRow() != -1) {
+
+					OrcamentoDAO dao = new OrcamentoDAO();
+
+					int idSelecionado = (int) tblOrcamentos.getValueAt(tblOrcamentos.getSelectedRow(), 0);
+
+					dao.remover(idSelecionado);
+
+					limparTela();
+					readJTableOrcamentos();
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Selecione um orçamento para excluir.");
+				}
 			}
 		});
-		btnEditar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-compose-24.png")));
+		btnEditar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-cancel-26.png")));
 		btnEditar.setBounds(108, 135, 39, 35);
 		pnOrcamento.add(btnEditar);
 
@@ -781,16 +814,6 @@ public class Principal extends JFrame {
 		));
 		readJTableOrcamentos();
 		scrollPane_3.setColumnHeaderView(tblOrcamentos);
-
-		JComboBox comboBoxNomeClientes = new JComboBox();
-		comboBoxNomeClientes.setBounds(10, 92, 115, 20);
-		pnOrcamento.add(comboBoxNomeClientes);
-		comboBoxNomeClientes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				getNomesClientes();
-			}
-		});
-		comboBoxNomeClientes.setModel(new DefaultComboBoxModel(getNomesClientes()));
 		
 		JButton btnExportarOrcamento = new JButton("Exportar");
 		btnExportarOrcamento.addActionListener(new ActionListener() {
@@ -809,6 +832,34 @@ public class Principal extends JFrame {
 		});
 		btnExportarOrcamento.setBounds(752, 147, 89, 23);
 		pnOrcamento.add(btnExportarOrcamento);
+		
+		JButton btnBuscarTodos = new JButton("Buscar todos");
+		btnBuscarTodos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				readJTableOrcamentos();
+			}
+		});
+		btnBuscarTodos.setBounds(629, 146, 115, 25);
+		pnOrcamento.add(btnBuscarTodos);
+		
+		txtNomeClienteOrcamento = new JTextField();
+		txtNomeClienteOrcamento.setColumns(10);
+		txtNomeClienteOrcamento.setBounds(10, 91, 115, 20);
+		pnOrcamento.add(txtNomeClienteOrcamento);
+		
+		txtVendedorOrcamento = new JTextField();
+		txtVendedorOrcamento.setColumns(10);
+		txtVendedorOrcamento.setBounds(333, 35, 115, 20);
+		pnOrcamento.add(txtVendedorOrcamento);
+		
+		JButton btnBuscarPorID = new JButton("Buscar por ID");
+		btnBuscarPorID.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				readJTableOrcamentosPorId(Integer.parseInt(txtIdOrcamento.getText()));
+			}
+		});
+		btnBuscarPorID.setBounds(502, 146, 115, 25);
+		pnOrcamento.add(btnBuscarPorID);
 
 		JPanel pnServico = new JPanel();
 		tpAbas.addTab("Serviços", iconeServicos, pnServico, null);
@@ -1077,7 +1128,7 @@ public class Principal extends JFrame {
 				controladoraCliente.salvar(cliente);
 				readJTableClientes();
 				getNomesClientes();
-				comboBoxNomeClientes.setModel(new DefaultComboBoxModel(getNomesClientes()));
+				//comboBoxNomeClientes.setModel(new DefaultComboBoxModel(getNomesClientes()));
 			}
 		});
 

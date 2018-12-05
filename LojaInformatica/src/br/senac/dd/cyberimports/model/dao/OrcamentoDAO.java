@@ -167,6 +167,8 @@ public int inserir(OrcamentoVO f) {
 					o.setValor(result.getDouble("VALOR"));
                     o.setDt_orcamento(result.getString("DT_ORCAMENTO"));
 					o.setStatus_orcamento(result.getString("STATUS_ORCAMENTO"));
+					o.setCliente(result.getString("CLIENTE"));
+					o.setVendedor(result.getString("FUNCIONARIO"));
 					
 					
 					//Outra forma de obter (POSICIONAL)
@@ -177,6 +179,40 @@ public int inserir(OrcamentoVO f) {
 				e.printStackTrace();
 			}
 			return o;
+		}
+		
+		public ArrayList<OrcamentoVO> listarTodosPorDesc(String desc){
+			String sql = "SELECT * FROM ORCAMENTO WHERE CLIENTE LIKE ?";
+			
+			Connection conexao = Banco.getConnection();
+			PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
+			ArrayList<OrcamentoVO> orcamentos = new ArrayList<OrcamentoVO>();
+			
+			try {
+				prepStmt.setString(1, "%" +desc+ "%");
+				ResultSet result = prepStmt.executeQuery(sql);
+			
+				while(result.next()){
+					OrcamentoVO o = new OrcamentoVO();
+					
+					//Obtendo valores pelo NOME DA COLUNA
+					o.setId(result.getInt("IDORCAMENTO"));
+					o.setValor(result.getDouble("VALOR"));
+                    o.setDt_orcamento(result.getString("DT_ORCAMENTO"));
+					o.setStatus_orcamento(result.getString("STATUS_ORCAMENTO"));
+					o.setCliente(result.getString("CLIENTE"));
+					o.setVendedor(result.getString("FUNCIONARIO"));
+					
+					//Outra forma de obter (POSICIONAL)
+					// f.setNome(result.getString(4));
+					// f.setSalario(result.getDouble(5));
+                                        
+					orcamentos.add(o);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return orcamentos;
 		}
 
 }
