@@ -27,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -51,6 +52,7 @@ import br.senac.dd.cyberimports.model.vo.ProdutoVO;
 import br.senac.dd.cyberimports.model.vo.ServicoVO;
 import ca.odell.glazedlists.matchers.Matcher;
 import br.senac.dd.cyberimports.controller.ClienteController;
+import br.senac.dd.cyberimports.controller.OrcamentoController;
 import br.senac.dd.cyberimports.model.vo.ClienteVO;
 import br.senac.dd.cyberimports.model.vo.FuncionarioVO;
 import br.senac.dd.cyberimports.model.vo.OrcamentoVO;
@@ -755,6 +757,10 @@ public class Principal extends JFrame {
 		pnOrcamento.add(btnNovoOramento);
 
 		JButton btnEditar = new JButton("");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnEditar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-compose-24.png")));
 		btnEditar.setBounds(108, 135, 39, 35);
 		pnOrcamento.add(btnEditar);
@@ -787,6 +793,20 @@ public class Principal extends JFrame {
 		comboBoxNomeClientes.setModel(new DefaultComboBoxModel(getNomesClientes()));
 		
 		JButton btnExportarOrcamento = new JButton("Exportar");
+		btnExportarOrcamento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser jfc = new JFileChooser();
+				jfc.setDialogTitle("Salvar relatório como...");
+				
+				int resultado = jfc.showSaveDialog(null);
+				if(resultado == JFileChooser.APPROVE_OPTION) {
+					String caminhoEscolhido = jfc.getSelectedFile().getAbsolutePath();
+					
+					OrcamentoController orcamentoController = new OrcamentoController();
+					orcamentoController.gerarPlanilhaOrcamentos(orcamentoController.listarTodosorcamentos(), caminhoEscolhido);
+				}
+			}
+		});
 		btnExportarOrcamento.setBounds(752, 147, 89, 23);
 		pnOrcamento.add(btnExportarOrcamento);
 

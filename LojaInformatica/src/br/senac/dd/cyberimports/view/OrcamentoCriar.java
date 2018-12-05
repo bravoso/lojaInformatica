@@ -63,25 +63,6 @@ public class OrcamentoCriar {
 
 	private ArrayList<Object> itensDoOrcamento = new ArrayList<>();
 
-	JFrame frame;
-	JTable tblProdutos;
-	JTable tblServico;
-	JFormattedTextField ftxtValorTotal;
-
-	private ArrayList<Object> itensDoOrcamento = new ArrayList<>();
-
-	JFrame frame;
-	JTable tblProdutos;
-	JTable tblServico;
-
-	JFrame frame;
-	JTable tblProdutos;
-	JTable tblServico;
-
-	private ArrayList<ProdutoVO> produtos;
-	private ArrayList<ServicoVO> servicos;
-	private ArrayList<ProdutoVO> produtos;
-	private ArrayList<ServicoVO> servicos;
 	private ArrayList<ProdutoVO> produtos;
 	private ArrayList<ServicoVO> servicos;
 
