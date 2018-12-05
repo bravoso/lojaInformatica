@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `cliente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8;
 CREATE TABLE `cliente` (
   `IDCLIENTE` int(11) NOT NULL AUTO_INCREMENT,
   `NOME` varchar(100) DEFAULT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE `cliente` (
   `ENDEREÇO` varchar(100) DEFAULT NULL,
   `TELEFONE` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`IDCLIENTE`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,13 +38,13 @@ CREATE TABLE `cliente` (
 
 DROP TABLE IF EXISTS `fatura`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8;
 CREATE TABLE `fatura` (
   `IDFATURA` int(11) NOT NULL AUTO_INCREMENT,
   `VALORES` decimal(8,2) DEFAULT NULL,
   `DATA_COMPRA` date DEFAULT NULL,
   PRIMARY KEY (`IDFATURA`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,14 +53,14 @@ CREATE TABLE `fatura` (
 
 DROP TABLE IF EXISTS `funcionario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8;
 CREATE TABLE `funcionario` (
   `IDFUNCIONARIO` int(11) NOT NULL AUTO_INCREMENT,
   `NOME` varchar(100) NOT NULL,
   `CPF` varchar(14) DEFAULT NULL,
   `SALARIO` decimal(8,2) DEFAULT NULL,
   PRIMARY KEY (`IDFUNCIONARIO`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `funcionario` (
 
 DROP TABLE IF EXISTS `orcamento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `orcamento` (
   `IDORCAMENTO` int(11) NOT NULL AUTO_INCREMENT,
   `CLIENTE` varchar(45) NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE `orcamento` (
   PRIMARY KEY (`IDORCAMENTO`),
   KEY `FK_ORCAMENTO_CLIENTE` (`CLIENTE`),
   KEY `FK_ORCAMENTO_FUNCIONARIO` (`FUNCIONARIO`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +90,7 @@ CREATE TABLE `orcamento` (
 
 DROP TABLE IF EXISTS `produto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `produto` (
   `IDPRODUTO` int(11) NOT NULL AUTO_INCREMENT,
   `NOME` varchar(100) NOT NULL,
@@ -98,7 +98,7 @@ CREATE TABLE `produto` (
   `CUSTO` decimal(8,2) DEFAULT NULL,
   `QUANTIDADE` int(11) DEFAULT NULL,
   PRIMARY KEY (`IDPRODUTO`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,13 +107,13 @@ CREATE TABLE `produto` (
 
 DROP TABLE IF EXISTS `servico`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `servico` (
   `IDSERVICO` int(11) NOT NULL AUTO_INCREMENT,
   `NOME` varchar(100) NOT NULL,
   `VALOR` decimal(8,2) DEFAULT NULL,
   PRIMARY KEY (`IDSERVICO`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
