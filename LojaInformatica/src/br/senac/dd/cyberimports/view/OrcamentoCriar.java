@@ -44,7 +44,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
 
 public class OrcamentoCriar {
-	
+
 	private JFrame frmNovoOramento;
 	private JTextField txtDataCriacao;
 	private JTextField txtProblemaDeclarado;
@@ -66,7 +66,22 @@ public class OrcamentoCriar {
 	JFrame frame;
 	JTable tblProdutos;
 	JTable tblServico;
+	JFormattedTextField ftxtValorTotal;
 
+	private ArrayList<Object> itensDoOrcamento = new ArrayList<>();
+
+	JFrame frame;
+	JTable tblProdutos;
+	JTable tblServico;
+
+	JFrame frame;
+	JTable tblProdutos;
+	JTable tblServico;
+
+	private ArrayList<ProdutoVO> produtos;
+	private ArrayList<ServicoVO> servicos;
+	private ArrayList<ProdutoVO> produtos;
+	private ArrayList<ServicoVO> servicos;
 	private ArrayList<ProdutoVO> produtos;
 	private ArrayList<ServicoVO> servicos;
 

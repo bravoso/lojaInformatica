@@ -407,15 +407,17 @@ public class Principal extends JFrame {
 					e.consume();
 				}
 			}
+
 			@Override
 			public void keyReleased(KeyEvent evt) {
 				char tecla = evt.getKeyChar();
-				if(tecla == KeyEvent.VK_ENTER){
-				txtPrecoCusto.requestFocus();
-				}else{
-				formatJTextNumber(txtPrecoCusto);
+				if (tecla == KeyEvent.VK_ENTER) {
+					txtPrecoCusto.requestFocus();
+				} else {
+					formatJTextNumber(txtPrecoCusto);
 				}
 			}
+
 			private void formatJTextNumber(JTextField txtPrecoCusto) {
 				String regex = "[0-9]";
 				String valorAtual = txtPrecoCusto.getText();
@@ -902,18 +904,18 @@ public class Principal extends JFrame {
 					CaracterDigitado = txtValorServico.getText().substring(txtValorServico.getText().length() - 0,
 							txtValorServico.getText().length() - 0);
 				}
-				
+
 				Pattern p = Pattern.compile(regex);
-			    java.util.regex.Matcher m = p.matcher(CaracterDigitado);
-			    boolean b = m.matches();
-			    if(b == false){
-			        try {
-			            valorAtual = txtValorServico.getText().substring(0, txtValorServico.getText().length() - 1);
-			        } catch (java.lang.StringIndexOutOfBoundsException e) {
-			            valorAtual = txtValorServico.getText().substring(0, txtValorServico.getText().length() - 0);
-			        }
-			    }
-			    String valorAtualReplaced = valorAtual.replace(".", "");
+				java.util.regex.Matcher m = p.matcher(CaracterDigitado);
+				boolean b = m.matches();
+				if (b == false) {
+					try {
+						valorAtual = txtValorServico.getText().substring(0, txtValorServico.getText().length() - 1);
+					} catch (java.lang.StringIndexOutOfBoundsException e) {
+						valorAtual = txtValorServico.getText().substring(0, txtValorServico.getText().length() - 0);
+					}
+				}
+				String valorAtualReplaced = valorAtual.replace(".", "");
 
 				// separe os doois ultimos digitos
 				String centavos = "";
