@@ -41,6 +41,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.JFormattedTextField;
 
 public class OrcamentoCriar {
 	
@@ -54,14 +55,20 @@ public class OrcamentoCriar {
 	private JTable tblServicosProdutos;
 	private String nome;
 	private Double valor;
+	 
 	 JFrame frame;
 	 JTable tblProdutos;
 	 JTable tblServico;
+	JFormattedTextField ftxtValorTotal;
 
-	String nome1 = "";
-	Double valor1 = null;
-	
-	Vector <String> retornoProdutos = new Vector<String>();
+	private ArrayList<Object> itensDoOrcamento = new ArrayList<>();
+
+	JFrame frame;
+	JTable tblProdutos;
+	JTable tblServico;
+
+	private ArrayList<ProdutoVO> produtos;
+	private ArrayList<ServicoVO> servicos;
 
 	public JFrame getFrame() {
 		return frmNovoOramento;
@@ -70,7 +77,6 @@ public class OrcamentoCriar {
 	public void setFrame(JFrame frame) {
 		this.frmNovoOramento = frame;
 	}
-		
 
 	/**
 	 * Create the application.
@@ -95,7 +101,7 @@ public class OrcamentoCriar {
 		nomesClientes = new String[clientesListados.size()];
 
 		for (int i = 0; i < clientesListados.size(); i++) {
-			nomesClientes[i] = clientesListados.get(i).getNome() + " (" + clientesListados.get(i).getId() + ")";
+			nomesClientes[i] = clientesListados.get(i).getNome();
 		}
 
 		return nomesClientes;
@@ -109,8 +115,7 @@ public class OrcamentoCriar {
 		nomesFuncionarios = new String[funcionariosConsultados.size()];
 
 		for (int i = 0; i < funcionariosConsultados.size(); i++) {
-			nomesFuncionarios[i] = funcionariosConsultados.get(i).getNome() + " ("
-					+ funcionariosConsultados.get(i).getId() + ")";
+			nomesFuncionarios[i] = funcionariosConsultados.get(i).getNome();
 		}
 
 		return nomesFuncionarios;
@@ -204,45 +209,59 @@ public class OrcamentoCriar {
 		comboBoxClientes.setBounds(65, 8, 193, 20);
 		frmNovoOramento.getContentPane().add(comboBoxClientes);
 		comboBoxClientes.setModel(new DefaultComboBoxModel(getNomesClientes()));
-		
+
 		JButton btnCriar = new JButton("Criar");
 		btnCriar.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				
+
 				OrcamentoController cont = new OrcamentoController();
 				cont.salvar(construirOrcamento());
 			}
 
 			private OrcamentoVO construirOrcamento() {
+				String valorTemp = ftxtValorTotal.getText();
+				valorTemp = valorTemp.replace(".", "");
 				OrcamentoVO o = new OrcamentoVO();
 				o.setCliente((comboBoxClientes.getSelectedItem().toString()));
 				o.setDt_orcamento(txtDataCriacao.getText());
 				o.setStatus_orcamento(comboBoxStatus.getSelectedItem().toString());
 				o.setVendedor(comboBoxVendedor.getSelectedItem().toString());
-				o.setValor(Double.parseDouble((String) tblServicosProdutos.getValueAt(1, 1)));
+				o.setValor(Double.parseDouble(valorTemp));
 				o.setDescricao(txtProblemaDeclarado.getText());
-				
+				o.setVendedor(comboBoxVendedor.getSelectedItem().toString());
+				o.setCliente(comboBoxClientes.getSelectedItem().toString());
+
 				return o;
 			}
 		});
 		btnCriar.setBounds(287, 336, 89, 23);
 		frmNovoOramento.getContentPane().add(btnCriar);
+		
+		JLabel lblValorTotal = new JLabel("Valor Total: ");
+		lblValorTotal.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblValorTotal.setBounds(328, 142, 81, 14);
+		frmNovoOramento.getContentPane().add(lblValorTotal);
+		
+		 ftxtValorTotal = new JFormattedTextField();
+		ftxtValorTotal.setEditable(false);
+		ftxtValorTotal.setBounds(401, 139, 81, 20);
+		frmNovoOramento.getContentPane().add(ftxtValorTotal);
 	}
-//.
-//	.
-//	.
-//	.
-//	.
-//	.
-//	.
-//	.
-//	.
-//	.
-//	.
-//	.
-//	.
-//	.
-	
+	// .
+	// .
+	// .
+	// .
+	// .
+	// .
+	// .
+	// .
+	// .
+	// .
+	// .
+	// .
+	// .
+	// .
+
 	protected void frameCriar() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1010, 518);
@@ -257,9 +276,15 @@ public class OrcamentoCriar {
 		tblProdutos = new JTable();
 		tblProdutos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
-				DefaultTableModel model = (DefaultTableModel) tblProdutos.getModel();
-				nome1 = (String) model.getValueAt(tblProdutos.getSelectedRow(), 1);
-				valor1 = (Double) model.getValueAt(tblProdutos.getSelectedRow(), 3);
+
+				int linhaSelecionada = tblProdutos.getSelectedRow();
+				if (linhaSelecionada > 0) {
+					DefaultTableModel model = (DefaultTableModel) tblProdutos.getModel();
+					ProdutoVO produtoSelecionado = produtos.get(linhaSelecionada - 1);
+					itensDoOrcamento.add(produtoSelecionado);
+
+					readJTableItens();
+				}
 
 			}
 		});
@@ -274,79 +299,87 @@ public class OrcamentoCriar {
 		scrollPaneServicos.setBounds(508, 11, 476, 403);
 		frame.getContentPane().add(scrollPaneServicos);
 
-		
 		tblServico = new JTable();
 		tblServico.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				DefaultTableModel modelClientes = (DefaultTableModel) tblServico.getModel();
-				nome1 = (String) modelClientes.getValueAt(tblServico.getSelectedRow(), 1);
-				valor1 = (Double) modelClientes.getValueAt(tblServico.getSelectedRow(), 2);
+				int linhaSelecionada = tblServico.getSelectedRow();
+				if (linhaSelecionada > 0) {
+					DefaultTableModel model = (DefaultTableModel) tblServico.getModel();
+					
+					ServicoVO servicoSelecionado = servicos.get(linhaSelecionada - 1);
+					itensDoOrcamento.add(servicoSelecionado);
 
+					readJTableItens();
+
+				}
 			}
 		});
 		tblServico.setModel(new DefaultTableModel(new Object[][] { { "ID", "Nome", "Valor" }, },
 				new String[] { "ID", "Nome", "Valor" }));
 		scrollPaneServicos.setColumnHeaderView(tblServico);
 
-		JButton btnImportarProduto = new JButton("Importar");
-		btnImportarProduto.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				preencherItemProdutos();
-				DefaultTableModel modelo = (DefaultTableModel) tblServicosProdutos.getModel();
-
-				
-				modelo.insertRow(tblServicosProdutos.getRowCount(), retornoProdutos);
-				
-				
-				
-			}
-		});
-		btnImportarProduto.setBounds(10, 425, 89, 23);
-		frame.getContentPane().add(btnImportarProduto);
-		
-		JButton brnImportarServico = new JButton("Importar");
-		brnImportarServico.setBounds(508, 425, 89, 23);
-		frame.getContentPane().add(brnImportarServico);
-		readJTableProdutos1();
+		readJtblServico();
+		readJTableProdutos();
 	}
 
-	protected Vector<String> preencherItemProdutos() {
-		retornoProdutos.clear();
+	public void readJTableItens() {
 		
-		retornoProdutos.add(nome1);
-		retornoProdutos.add(String.valueOf(valor1));
-		
-		return retornoProdutos;
-		
-	}		
-	public void readJTableProdutos1() {
+		Double valorTotalOrcamento = 0.00;
+
+		tblServicosProdutos.setModel(new DefaultTableModel(new Object[][] { { "Nome", "Pre\u00E7o" }, },
+				new String[] { "Nome", "Pre\u00E7o" }));
+
+		DefaultTableModel modelo = (DefaultTableModel) tblServicosProdutos.getModel();
+		modelo.setNumRows(0);
+		modelo.addRow(new Object[] { "Nome", "Preço" });
+
+		for (Object produtoOuServico : itensDoOrcamento) {
+
+			if (produtoOuServico instanceof ProdutoVO) {
+				modelo.addRow(new Object[] { ((ProdutoVO) produtoOuServico).getNome(),
+						((ProdutoVO) produtoOuServico).getPreco() });
+			} else if (produtoOuServico instanceof ServicoVO) {
+				modelo.addRow(new Object[] { ((ServicoVO) produtoOuServico).getNome(),
+						((ServicoVO) produtoOuServico).getValor() });
+			}
+			if (produtoOuServico instanceof ProdutoVO) {
+				valorTotalOrcamento = valorTotalOrcamento +((ProdutoVO) produtoOuServico).getPreco();
+			} else if (produtoOuServico instanceof ServicoVO) {
+				valorTotalOrcamento = valorTotalOrcamento +((ServicoVO) produtoOuServico).getValor();
+			}
+		}
+		ftxtValorTotal.setValue(valorTotalOrcamento);
+	}
+
+	public void readJTableProdutos() {
 
 		DefaultTableModel modelo = (DefaultTableModel) tblProdutos.getModel();
 		modelo.setNumRows(0);
 		ProdutoDAO pdao = new ProdutoDAO();
 
+		produtos = pdao.listarTodos();
+
 		modelo.addRow(new Object[] { "ID", "Nome", "Custo", "Preco", "Quantidade" });
 
-		for (ProdutoVO p : pdao.listarTodos()) {
+		for (ProdutoVO p : produtos) {
 
-			modelo.addRow(new Object[] {
-
-					p.getId(), p.getNome(), p.getCusto(), p.getPreco(), p.getQuantidade() });
+			modelo.addRow(new Object[] { p.getId(), p.getNome(), p.getCusto(), p.getPreco(), p.getQuantidade() });
 		}
 	}
-	
-	public void readJtblServico1() {
+
+	public void readJtblServico() {
 
 		DefaultTableModel modelo = (DefaultTableModel) tblServico.getModel();
 		modelo.setNumRows(0);
 		ServicoDAO sdao = new ServicoDAO();
+		
+		servicos = sdao.listarTodos();
 
 		modelo.addRow(new Object[] { "ID", "Nome", "Valor",
 
 		});
 
-		for (ServicoVO p : sdao.listarTodos()) {
+		for (ServicoVO p : servicos) {
 
 			modelo.addRow(new Object[] {
 
